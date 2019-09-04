@@ -4,10 +4,12 @@ import (
 	"fmt"
 )
 
+//Vertex Class
 type Vertex struct {
 	X, Y, Z, W float64
 }
 
+//GetTuple tells
 func (v Vertex) GetTuple() (x, y, z float64, typeOfTuple bool) {
 	if v.W == 1.0 {
 		return v.X, v.Y, v.Z, true
