@@ -9,7 +9,7 @@ type Vertex struct {
 	X, Y, Z, W float64
 }
 
-//GetTuple tells
+//GetTuple tells whether the input of the vector is correct or not
 func (v Vertex) GetTuple() (x, y, z float64, typeOfTuple bool) {
 	if v.W == 1.0 {
 		return v.X, v.Y, v.Z, true
