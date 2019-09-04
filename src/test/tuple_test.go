@@ -1,8 +1,8 @@
 package test
 
 import (
-	"testing"
 	"class"
+	"testing"
 )
 
 func TestTuple(t *testing.T) {
@@ -21,6 +21,8 @@ func TestTuple(t *testing.T) {
 		} else {
 			if !typeOfTuple {
 				t.Errorf("Not a point")
+			} else {
+				t.Errorf("It's a point")
 			}
 		}
 	}
