@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	vone := class.NewTuple(1, 2, 3, 0)
+	cone := class.NewColor(1.5, 2, 3)
+	ctwo := class.NewColor(1, 2, 3)
 	//vtwo := class.NewTuple(2, 3, 4, 0)
-	fmt.Println(vone.Normalize())
+	fmt.Println(cone.Add(ctwo))
 }
