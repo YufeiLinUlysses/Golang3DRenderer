@@ -43,9 +43,9 @@ func (cone *Color) Multiply(scalar float64) Color {
 	fin := *NewColor(ans.X, ans.Y, ans.Z)
 	return fin
 }
-//DotProduct calculates the dot product of two color vectors
-func (cone *Color) CrossProduct(ctwo *Color) Color {
-	ans,_ := cone.Tuple.CrossProduct(&ctwo.Tuple)
-	fin := *NewColor(ans.X, ans.Y, ans.Z)
-	return fin
+
+//ColorMultiply multiplies color from two color vectors
+func (cone *Color) ColorMultiply(ctwo *Color) Color{
+	ans := *NewColor(cone.R * ctwo.R, cone.G * ctwo.G, cone.B * ctwo.B)
+	return ans
 }
