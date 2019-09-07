@@ -34,11 +34,11 @@ func Vector(x, y, z float64) *Tuple {
 }
 
 //GetTuple tells whether the input of the vector is correct or not
-func (v *Tuple) GetTuple() (x, y, z float64, typeOfTuple bool) {
-	if v.W == 1.0 {
-		return v.X, v.Y, v.Z, true
+func (t *Tuple) GetTuple() (x, y, z float64, typeOfTuple bool) {
+	if t.W == 1.0 {
+		return t.X, t.Y, t.Z, true
 	}
-	return v.X, v.Y, v.Z, false
+	return t.X, t.Y, t.Z, false
 }
 
 //Add adds two tuple together
@@ -95,11 +95,9 @@ func (t *Tuple) Magnitude() (mag float64, vecOrNot bool) {
 	if t.W != 1 {
 		mag = math.Sqrt(t.X*t.X + t.Y*t.Y + t.Z*t.Z)
 		return mag, true
-	} else {
-		mag = 0
-		return mag, false
 	}
-
+	mag = 0
+	return mag, false
 }
 
 //Normalize normalizes the vector by dividing each element with magnitude
@@ -125,9 +123,8 @@ func (t *Tuple) Normalize() (ans Tuple, normalized bool) {
 func (tone *Tuple) DotProduct(ttwo *Tuple) (ans float64, dotted bool) {
 	if tone.W != 1 && ttwo.W != 1 {
 		return tone.X*ttwo.X + tone.Y*ttwo.Y + tone.Z*ttwo.Z, true
-	} else {
-		return 0, false
 	}
+	return 0, false
 }
 
 //CrossProduct calculates the cross product of two vectors
