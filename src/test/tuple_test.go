@@ -40,7 +40,7 @@ func TestTuple2(t *testing.T) {
 	}
 	for _, table := range tables {
 		point := class.Point(table.x, table.y, table.z)
-		if point != table.ans {
+		if *point != table.ans {
 			t.Error("You are wrong")
 		}
 	}
@@ -56,7 +56,7 @@ func TestTuple3(t *testing.T) {
 	}
 	for _, table := range tables {
 		point := class.Vector(table.x, table.y, table.z)
-		if point != table.ans {
+		if *point != table.ans {
 			t.Error("You are wrong")
 		}
 	}
@@ -72,7 +72,7 @@ func TestTuple4(t *testing.T) {
 		{class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{4.3, -4.2, 3.1, 1}, class.Tuple{8.6, -8.4, 6.2, 1}},
 	}
 	for _, table := range tables {
-		ans := table.tone.Add(table.ttwo)
+		ans := table.tone.Add(&table.ttwo)
 		if ans != table.ans {
 			t.Error("You are wrong")
 		}
@@ -96,7 +96,7 @@ func TestTuple5(t *testing.T) {
 		{class.Tuple{0, 0, 0, 0}, class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{-4.3, 4.2, -3.1, 0}, false},
 	}
 	for _, table := range tables {
-		ans, typeOfTuple := table.tone.Subtract(table.ttwo)
+		ans, typeOfTuple := table.tone.Subtract(&table.ttwo)
 		if ans != table.ans || typeOfTuple != table.typeOfTuple {
 			t.Error("You are wrong")
 		}
@@ -209,7 +209,7 @@ func TestTuple11(t *testing.T) {
 		{class.Tuple{1, 2, 3, 1}, class.Tuple{2, 3, 4, 1}, 0, false},
 	}
 	for _, table := range tables {
-		ans, dotted := table.tone.DotProduct(table.ttwo)
+		ans, dotted := table.tone.DotProduct(&table.ttwo)
 		if ans != table.ans || dotted != table.dotted {
 			t.Errorf("You are wrong, %f", ans)
 		}

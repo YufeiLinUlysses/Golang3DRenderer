@@ -10,28 +10,39 @@ type Tuple struct {
 	X, Y, Z, W float64
 }
 
+//NewTuple helps to establish a new tuple instance
+func NewTuple(x, y, z, w float64) *Tuple {
+	t := &Tuple{
+		X: x,
+		Y: y,
+		Z: z,
+		W: w,
+	}
+	return t
+}
+
+//Point checks whether the tuple is a point
+func Point(x, y, z float64) *Tuple {
+	v := NewTuple(x, y, z, 1.0)
+	return v
+}
+
+//Vector checks whether the tuple is a vector
+func Vector(x, y, z float64) *Tuple {
+	v := NewTuple(x, y, z, 0)
+	return v
+}
+
 //GetTuple tells whether the input of the vector is correct or not
-func (v Tuple) GetTuple() (x, y, z float64, typeOfTuple bool) {
+func (v *Tuple) GetTuple() (x, y, z float64, typeOfTuple bool) {
 	if v.W == 1.0 {
 		return v.X, v.Y, v.Z, true
 	}
 	return v.X, v.Y, v.Z, false
 }
 
-//Point checks whether the tuple is a point
-func Point(x, y, z float64) Tuple {
-	v := Tuple{x, y, z, 1.0}
-	return v
-}
-
-//Vector checks whether the tuple is a vector
-func Vector(x, y, z float64) Tuple {
-	v := Tuple{x, y, z, 0}
-	return v
-}
-
 //Add adds two tuple together
-func (tone Tuple) Add(ttwo Tuple) Tuple {
+func (tone *Tuple) Add(ttwo *Tuple) Tuple {
 	var ans Tuple
 	ans.X = tone.X + ttwo.X
 	ans.Y = tone.Y + ttwo.Y
@@ -41,7 +52,7 @@ func (tone Tuple) Add(ttwo Tuple) Tuple {
 }
 
 //Subtract subtracts ttwo from tone
-func (tone Tuple) Subtract(ttwo Tuple) (ans Tuple, typeOfTuple bool) {
+func (tone *Tuple) Subtract(ttwo *Tuple) (ans Tuple, typeOfTuple bool) {
 	ans.X = tone.X - ttwo.X
 	ans.Y = tone.Y - ttwo.Y
 	ans.Z = tone.Z - ttwo.Z
@@ -55,7 +66,7 @@ func (tone Tuple) Subtract(ttwo Tuple) (ans Tuple, typeOfTuple bool) {
 }
 
 //Mutiply helps the tuple mutiplies a scalar
-func (t Tuple) Multiply(scalar float64) Tuple {
+func (t *Tuple) Multiply(scalar float64) Tuple {
 	var ans Tuple
 	ans.X = t.X * scalar
 	ans.Y = t.Y * scalar
@@ -65,7 +76,7 @@ func (t Tuple) Multiply(scalar float64) Tuple {
 }
 
 //Divides helps the tuple divide by a scalar
-func (t Tuple) Divide(scalar float64) Tuple {
+func (t *Tuple) Divide(scalar float64) Tuple {
 	var ans Tuple
 	if scalar != 0 {
 		ans.X = t.X / scalar
@@ -80,7 +91,7 @@ func (t Tuple) Divide(scalar float64) Tuple {
 }
 
 //Magnitude calculates the magnitude of a vector
-func (t Tuple) Magnitude() (mag float64, vecOrNot bool) {
+func (t *Tuple) Magnitude() (mag float64, vecOrNot bool) {
 	if t.W != 1 {
 		mag = math.Sqrt(t.X*t.X + t.Y*t.Y + t.Z*t.Z)
 		return mag, true
@@ -92,7 +103,7 @@ func (t Tuple) Magnitude() (mag float64, vecOrNot bool) {
 }
 
 //Normalize normalizes the vector by dividing each element with magnitude
-func (t Tuple) Normalize() (ans Tuple, normalized bool) {
+func (t *Tuple) Normalize() (ans Tuple, normalized bool) {
 	mag, vecOrNot := t.Magnitude()
 	if vecOrNot && mag != 0 {
 		normalized = true
@@ -111,16 +122,16 @@ func (t Tuple) Normalize() (ans Tuple, normalized bool) {
 }
 
 //DotProduct calculates the dot product of two vectors
-func (tone Tuple) DotProduct(ttwo Tuple) (ans float64, dotted bool) {
+func (tone *Tuple) DotProduct(ttwo *Tuple) (ans float64, dotted bool) {
 	if tone.W != 1 && ttwo.W != 1 {
-		return tone.X*ttwo.X + tone.Y*ttwo.Y + tone.Z * ttwo.Z, true
+		return tone.X*ttwo.X + tone.Y*ttwo.Y + tone.Z*ttwo.Z, true
 	} else {
 		return 0, false
 	}
 }
 
 //CrossProduct calculates the cross product of two vectors
-func (tone Tuple) CrossProduct(ttwo Tuple) (ans Tuple, crossed bool) {
+func (tone *Tuple) CrossProduct(ttwo *Tuple) (ans Tuple, crossed bool) {
 	if tone.W != 1 && ttwo.W != 1 {
 		ans.X = tone.Y*ttwo.Z - tone.Z*ttwo.Y
 		ans.Y = tone.Z*ttwo.X - tone.X*ttwo.Z
@@ -129,10 +140,4 @@ func (tone Tuple) CrossProduct(ttwo Tuple) (ans Tuple, crossed bool) {
 	} else {
 		return ans, false
 	}
-}
-
-func main() {
-	vone := Tuple{1, 2, 3, 0}
-	vtwo := Tuple{2, 3, 4, 0}
-	fmt.Println(vone.CrossProduct(vtwo))
 }
