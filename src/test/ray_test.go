@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-//TestColor1 tests to see if the GetRay function works for class tuple
-func TestColor1(t *testing.T) {
+//TestRay1 tests to see if the GetRay function works for class tuple
+func TestRay1(t *testing.T) {
 	tables := []struct {
 		oriX, oriY, oriZ, dirX, dirY, dirZ float64
 		ansOri                             class.Tuple
@@ -23,7 +23,7 @@ func TestColor1(t *testing.T) {
 	}
 }
 
-func TestColor2(t *testing.T) {
+func TestRay2(t *testing.T) {
 	tables := []struct {
 		oriX, oriY, oriZ, dirX, dirY, dirZ float64
 		dist                               float64
