@@ -1,9 +1,23 @@
 package class
 
+import(
+	"strconv"
+)
+
 //Canvas type
 type Canvas struct {
 	Width, Height int
 	Canv          [][]Color
+}
+
+//Convert float to string
+func FloatToString(num float64) string {
+	return strconv.FormatFloat(num, 'f', 6, 64)
+}
+
+//Convert int to string
+func IntToString(num int) string {
+	return strconv.FormatInt(int64(num), 10)
 }
 
 //NewCanvas establishes a new Canvas instance
@@ -36,4 +50,10 @@ func (c *Canvas) WritePixel(rw, cl int, col *Color) *Canvas {
 //PixelAt returns the color pixel at a certain location
 func (c *Canvas) PixelAt(rw, cl int) Color {
 	return c.Canv[rw][cl]
+}
+
+//CanvasToPPM writes to PPM file
+func (c *Canvas) CanvasToPPM() string{
+	PPMHeader := "P3\n" + IntToString(c.Width) + " " + IntToString(c.Height) + "\n" + "255\n"
+
 }
