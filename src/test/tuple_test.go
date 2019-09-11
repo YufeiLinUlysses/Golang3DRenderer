@@ -215,3 +215,21 @@ func TestTuple11(t *testing.T) {
 		}
 	}
 }
+
+//TestTuple12 tests to see if the function MagnitudeSquared works as the way we want
+func TestTuple12(t *testing.T) {
+	tables := []struct {
+		tone     class.Tuple
+		ans      float64
+		vecOrNot bool
+	}{
+		{class.Tuple{4.3, -4.2, 3.1, 1}, 0, false},
+		{class.Tuple{4.3, -4.2, 3.1, 0}, 45.739999999999995, true},
+	}
+	for _, table := range tables {
+		ans, vecOrNot := table.tone.MagnitudeSquared()
+		if ans != table.ans || vecOrNot != table.vecOrNot {
+			t.Errorf("You are wrong")
+		}
+	}
+}

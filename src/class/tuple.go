@@ -100,6 +100,16 @@ func (t *Tuple) Magnitude() (mag float64, vecOrNot bool) {
 	return mag, false
 }
 
+//MagnitudeSquared calculates the square of  magnitude of a vector
+func (t *Tuple) MagnitudeSquared() (magSq float64, vecOrNot bool) {
+	if t.W != 1 {
+		magSq = t.X*t.X + t.Y*t.Y + t.Z*t.Z
+		return magSq, true
+	}
+	magSq = 0
+	return magSq, false
+}
+
 //Normalize normalizes the vector by dividing each element with magnitude
 func (t *Tuple) Normalize() (ans Tuple, normalized bool) {
 	mag, vecOrNot := t.Magnitude()

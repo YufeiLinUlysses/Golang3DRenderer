@@ -9,9 +9,10 @@ type Ray struct {
 
 //NewRay establishes a new Ray instance
 func NewRay(oriX, oriY, oriZ, dirX, dirY, dirZ float64) *Ray {
+	inputDir, _ := Vector(dirX, dirY, dirZ).Normalize()
 	r := &Ray{
 		Origin:    *Point(oriX, oriY, oriZ),
-		Direction: *Vector(dirX, dirY, dirZ),
+		Direction: inputDir,
 	}
 	return r
 }
