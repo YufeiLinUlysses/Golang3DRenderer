@@ -2,6 +2,7 @@ package class
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
@@ -23,13 +24,13 @@ func IntToString(num int) string {
 }
 
 //ConvertToNum converts pixel number to float between 0 and 255
-func ConvertToNum(num float64) float64 {
+func ConvertToNum(num float64) int {
 	if num >= 255 {
 		num = 255
 	} else if num <= 0 {
 		num = 0
 	}
-	return num
+	return int(math.Floor(num))
 }
 
 //NewCanvas establishes a new Canvas instance
@@ -74,12 +75,12 @@ func (c *Canvas) CanvasToString() string {
 		var temp string
 		for j := 0; j < c.Height; j++ {
 			var blue string
-			red := FloatToString(ConvertToNum(c.Canv[i][j].R*255)) + " "
-			green := FloatToString(ConvertToNum(c.Canv[i][j].G*255)) + " "
+			red := IntToString(ConvertToNum(c.Canv[i][j].R*255)) + " "
+			green := IntToString(ConvertToNum(c.Canv[i][j].G*255)) + " "
 			if j == (c.Height - 1) {
-				blue = FloatToString(ConvertToNum(c.Canv[i][j].B*255)) + "\n"
+				blue = IntToString(ConvertToNum(c.Canv[i][j].B*255)) + "\n"
 			} else {
-				blue = FloatToString(ConvertToNum(c.Canv[i][j].B*255)) + " "
+				blue = IntToString(ConvertToNum(c.Canv[i][j].B*255)) + " "
 			}
 			if len(temp)+len(red) <= 70 {
 				temp += red
