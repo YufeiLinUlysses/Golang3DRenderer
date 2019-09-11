@@ -12,7 +12,7 @@ func TestRay1(t *testing.T) {
 		ansOri                             class.Tuple
 		ansDir                             class.Tuple
 	}{
-		{1, 2, 3, 1, 2, 3, class.Tuple{1, 2, 3, 1}, class.Tuple{1, 2, 3, 0}},
+		{1, 2, 3, 4, 5, 6, class.Tuple{1, 2, 3, 1}, class.Tuple{0.4558423058385518, 0.5698028822981898, 0.6837634587578276, 0}},
 	}
 	for _, table := range tables {
 		r := class.NewRay(table.oriX, table.oriY, table.oriZ, table.dirX, table.dirY, table.dirZ)
@@ -23,13 +23,17 @@ func TestRay1(t *testing.T) {
 	}
 }
 
+//TestRay2 tests to see whether the function Position works as we wanted
 func TestRay2(t *testing.T) {
 	tables := []struct {
 		oriX, oriY, oriZ, dirX, dirY, dirZ float64
 		dist                               float64
 		ans                                class.Tuple
 	}{
-		{1, 2, 3, 1, 2, 3, 3, class.Tuple{4, 8, 12, 1}},
+		{2, 3, 4, 1, 0, 0, 0, *class.Point(2, 3, 4)},
+		{2, 3, 4, 1, 0, 0, 1, *class.Point(3, 3, 4)},
+		{2, 3, 4, 1, 0, 0, -1, *class.Point(1, 3, 4)},
+		{2, 3, 4, 1, 0, 0, 2.5, *class.Point(4.5, 3, 4)},
 	}
 	for _, table := range tables {
 		r := class.NewRay(table.oriX, table.oriY, table.oriZ, table.dirX, table.dirY, table.dirZ)

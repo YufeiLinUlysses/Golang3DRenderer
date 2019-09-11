@@ -52,3 +52,23 @@ func TestCanvas2(t *testing.T) {
 		}
 	}
 }
+
+//TestCanvas3 tests to see if the WritePixel and PixelAt functions work for class tuple
+func TestCanvas3(t *testing.T) {
+	tables := []struct {
+		w, h   int
+		rw, cl int
+		inputC class.Color
+		ansC   class.Color
+	}{
+		{1, 2, 0, 1, *class.NewColor(1, 0, 0), *class.NewColor(1, 0, 0)},
+	}
+	for _, table := range tables {
+		c := class.NewCanvas(table.w, table.h)
+		newC := c.WritePixel(table.rw, table.cl, &table.inputC)
+		ans := newC.PixelAt(table.rw,table.cl)
+		if ans != table.ansC{
+			t.Errorf("You are wrong")
+		}
+	}
+}
