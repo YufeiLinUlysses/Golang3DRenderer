@@ -18,15 +18,9 @@ func TestTuple1(t *testing.T) {
 	}
 	for _, table := range tables {
 		x, y, z, typeOfTuple := table.v.GetTuple()
-		if x != table.x || y != table.y || z != table.z {
+		if x != table.x || y != table.y || z != table.z ||typeOfTuple !=table.point{
 			t.Errorf("Error Input")
-		} else {
-			if !typeOfTuple {
-				t.Errorf("Not a point")
-			} else {
-				t.Errorf("It's a point")
-			}
-		}
+		} 
 	}
 }
 
