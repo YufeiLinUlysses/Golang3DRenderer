@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-//TestColor1 tests to see if the GetColor  function works for class tuple
+//TestColor1 tests to see if the GetColor  function works for class Color
 func TestColor1(t *testing.T) {
 	tables := []struct {
 		r, g, b    float64
@@ -22,7 +22,7 @@ func TestColor1(t *testing.T) {
 	}
 }
 
-//TestColor2 tests to see if the Add function works for class tuple
+//TestColor2 tests to see if the Add function works for class Color
 func TestColor2(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64
@@ -41,7 +41,7 @@ func TestColor2(t *testing.T) {
 	}
 }
 
-//TestColor3 tests to see if the Subtract function works for class tuple
+//TestColor3 tests to see if the Subtract function works for class Color
 func TestColor3(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64
@@ -60,7 +60,7 @@ func TestColor3(t *testing.T) {
 	}
 }
 
-//TestColor4 tests to see if the Multiply function works for class tuple
+//TestColor4 tests to see if the Multiply function works for class Color
 func TestColor4(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64
@@ -78,7 +78,7 @@ func TestColor4(t *testing.T) {
 	}
 }
 
-//TestColor5 tests to see if the ColorMultiply function works for class tuple
+//TestColor5 tests to see if the ColorMultiply function works for class Color
 func TestColor5(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64

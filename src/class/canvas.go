@@ -5,12 +5,21 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"time"
 )
 
 //Canvas type
 type Canvas struct {
 	Width, Height int
 	Canv          [][]Color
+}
+
+//WriteErrorFile writes a file for all captured errors in the process
+func WriteErrorFile(errorStr string, err error) {
+	errorStr += "Have Error: " + err.Error() + "\n"
+	errorFile, _ := os.Create("Error.txt")
+	errorFile.WriteString(errorStr)
+	errorFile.Close()
 }
 
 //FloatToString converts float to string
@@ -30,15 +39,15 @@ func ConvertToNum(num float64) int {
 	} else if num <= 0 {
 		num = 0
 	}
-	return int(math.Floor(num))
+	return int(math.Round(num))
 }
 
 //NewCanvas establishes a new Canvas instance
 func NewCanvas(w, h int) *Canvas {
 	//Initialize the canvas as a 2D slice
-	matrix := make([][]Color, w)
-	for i := 0; i < w; i++ {
-		matrix[i] = make([]Color, h)
+	matrix := make([][]Color, h)
+	for i := 0; i < h; i++ {
+		matrix[i] = make([]Color, w)
 	}
 
 	c := &Canvas{
@@ -55,13 +64,13 @@ func (c *Canvas) GetCanvas() (w, h int, can [][]Color) {
 }
 
 //WritePixel writes the color pixel on a specific location
-func (c *Canvas) WritePixel(rw, cl int, col *Color) *Canvas {
+func (c *Canvas) WritePixel(cl, rw int, col *Color) *Canvas {
 	c.Canv[rw][cl] = *col
 	return c
 }
 
 //PixelAt returns the color pixel at a certain location
-func (c *Canvas) PixelAt(rw, cl int) Color {
+func (c *Canvas) PixelAt(cl, rw int) Color {
 	return c.Canv[rw][cl]
 }
 
@@ -71,13 +80,13 @@ func (c *Canvas) CanvasToString() string {
 	PPMHeader := "P3\n" + IntToString(c.Width) + " " + IntToString(c.Height) + "\n" + "255\n"
 	ans += PPMHeader
 
-	for i := 0; i < c.Width; i++ {
+	for i := 0; i < c.Height; i++ {
 		var temp string
-		for j := 0; j < c.Height; j++ {
+		for j := 0; j < c.Width; j++ {
 			var blue string
 			red := IntToString(ConvertToNum(c.Canv[i][j].R*255)) + " "
 			green := IntToString(ConvertToNum(c.Canv[i][j].G*255)) + " "
-			if j == (c.Height - 1) {
+			if j == (c.Width - 1) {
 				blue = IntToString(ConvertToNum(c.Canv[i][j].B*255)) + "\n"
 			} else {
 				blue = IntToString(ConvertToNum(c.Canv[i][j].B*255)) + " "
@@ -108,23 +117,26 @@ func (c *Canvas) CanvasToString() string {
 }
 
 //CanvasToPPM saves the canvas string to ppm file
-func CanvasToPPM(ppm string, title string) {
+func (c *Canvas) CanvasToPPM(title string) {
+	ppm := c.CanvasToString()
 	fileTitle := title + ".ppm"
+	errorStr := "Writing File:" + fileTitle + time.Now().String() + "\n"
 	f, err := os.Create(fileTitle)
 	if err != nil {
 		fmt.Println(err)
+		WriteErrorFile(errorStr, err)
 		return
 	}
-	l, err := f.WriteString(ppm)
+	_, err = f.WriteString(ppm)
 	if err != nil {
 		fmt.Println(err)
-		f.Close()
+		WriteErrorFile(errorStr, err)
 		return
 	}
-	fmt.Println(l, "bytes written successfully")
 	err = f.Close()
 	if err != nil {
 		fmt.Println(err)
+		WriteErrorFile(errorStr, err)
 		return
 	}
 }

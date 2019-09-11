@@ -2,17 +2,19 @@ package test
 
 import (
 	"class"
+	"io/ioutil"
+	"os"
 	"testing"
 )
 
-//TestCanvas1 tests to see if the GetCanvas function works for class tuple
+//TestCanvas1 tests to see if the GetCanvas function works for class Canvas
 func TestCanvas1(t *testing.T) {
 	tables := []struct {
 		w, h       int
 		ansW, ansH int
 		ansCanv    [][]class.Color
 	}{
-		{1, 2, 1, 2, [][]class.Color{
+		{2, 1, 2, 1, [][]class.Color{
 			{*class.NewColor(0, 0, 0), *class.NewColor(0, 0, 0)},
 		},
 		},
@@ -33,7 +35,7 @@ func TestCanvas1(t *testing.T) {
 	}
 }
 
-//TestCanvas2 tests to see if the WritePixel and PixelAt functions work for class tuple
+//TestCanvas2 tests to see if the WritePixel and PixelAt functions work for class Canvas
 func TestCanvas2(t *testing.T) {
 	tables := []struct {
 		w, h   int
@@ -41,34 +43,27 @@ func TestCanvas2(t *testing.T) {
 		inputC class.Color
 		ansC   class.Color
 	}{
-		{1, 2, 0, 1, *class.NewColor(1, 0, 0), *class.NewColor(1, 0, 0)},
+		{2, 1, 1, 0, *class.NewColor(1, 0, 0), *class.NewColor(1, 0, 0)},
 	}
 	for _, table := range tables {
 		c := class.NewCanvas(table.w, table.h)
 		newC := c.WritePixel(table.rw, table.cl, &table.inputC)
-		ans := newC.PixelAt(table.rw,table.cl)
-		if ans != table.ansC{
+		ans := newC.PixelAt(table.rw, table.cl)
+		if ans != table.ansC {
 			t.Errorf("You are wrong")
 		}
 	}
 }
 
-//TestCanvas3 tests to see if the WritePixel and PixelAt functions work for class tuple
+//TestCanvas3 tests to see if the CanvasToPPM work for class Canvas
 func TestCanvas3(t *testing.T) {
-	tables := []struct {
-		w, h   int
-		rw, cl int
-		inputC class.Color
-		ansC   class.Color
-	}{
-		{1, 2, 0, 1, *class.NewColor(1, 0, 0), *class.NewColor(1, 0, 0)},
-	}
-	for _, table := range tables {
-		c := class.NewCanvas(table.w, table.h)
-		newC := c.WritePixel(table.rw, table.cl, &table.inputC)
-		ans := newC.PixelAt(table.rw,table.cl)
-		if ans != table.ansC{
-			t.Errorf("You are wrong")
-		}
+	dat, _ := os.Open("test.ppm")
+	b, _ := ioutil.ReadAll(dat)
+	ans1 := string(b)
+	dat1, _ := os.Open("hahaha.ppm")
+	b1, _ := ioutil.ReadAll(dat1)
+	ans2 := string(b1)
+	if ans1 != ans2 {
+		t.Errorf("You are wrong")
 	}
 }

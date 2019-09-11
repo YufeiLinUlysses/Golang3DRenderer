@@ -3,18 +3,26 @@ package main
 import (
 	"class"
 	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 func main() {
-	cone := class.NewCanvas(2, 3)
-	ctwo := class.NewColor(0.9, 1, 0.1)
-	// //vtwo := class.NewTuple(2, 3, 4, 0)
-	cone.WritePixel(1, 2, ctwo)
-	// fmt.Println(cone.PixelAt(0, 1))
-	PPM := cone.CanvasToString()
-	class.CanvasToPPM(PPM, "hahaha")
+	canv := class.NewCanvas(5, 3)
+	cone := class.NewColor(1.5, 0, 0)
+	ctwo := class.NewColor(0, 0.5, 0)
+	cthree := class.NewColor(-0.5, 0, 1)
+	canv.WritePixel(0, 0, cone)
+	canv.WritePixel(2, 1, ctwo)
+	canv.WritePixel(4, 2, cthree)
+	PPM := canv.CanvasToString()
+	canv.CanvasToPPM("hahaha")
 	fmt.Println(PPM)
-	// rone := class.NewRay(0, 0, 5, 0, 0, 1)
-	// sone := class.NewSphere()
-	// fmt.Println(sone.IntersectWithRay(rone))
+	dat, _ := os.Open("test.ppm")
+	b, _ := ioutil.ReadAll(dat)
+	ans1 := string(b)
+	dat1, _ := os.Open("hahaha.ppm")
+	b1, _ := ioutil.ReadAll(dat1)
+	ans2 := string(b1)
+	fmt.Println(ans1 == ans2)
 }
