@@ -2,7 +2,6 @@ package test
 
 import (
 	"class"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -78,15 +77,11 @@ func TestCanvas4(t *testing.T) {
 			canv.Canv[i][j] = *class.NewColor(1, 0.8, 0.6)
 		}
 	}
-	canv.CanvasToPPM("hhh")
-	files, err:= ioutil.ReadDir("../testFiles/originalFile")
-	fmt.Println(files)
-	fmt.Println(err)
-	dat, err := os.Open("testFiles/originalFile/test2.ppm")
+	canv.CanvasToPPM("testFiles/myFile/hhh")
+	dat, _ := os.Open("testFiles/originalFile/test2.ppm")
 	b, _ := ioutil.ReadAll(dat)
 	ans1 := string(b)
-	fmt.Println("ans1:\n" + ans1)
-	dat1, _ := os.Open("hhh.ppm")
+	dat1, _ := os.Open("testFiles/myFile/hhh.ppm")
 	b1, _ := ioutil.ReadAll(dat1)
 	ans2 := string(b1)
 	if ans1 != ans2 {

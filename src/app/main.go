@@ -1,24 +1,28 @@
 package main
 
 import (
+	"class"
 	"fmt"
-	"path/filepath"
+	"io/ioutil"
 )
 
-//"class"
+//
 
 func main() {
-	fmt.Println(filepath.Dir("../test/testFiles/originalFile/"))
-	// canv := class.NewCanvas(5, 3)
-	// cone := class.NewColor(1.5, 0, 0)
-	// ctwo := class.NewColor(0, 0.5, 0)
-	// cthree := class.NewColor(-0.5, 0, 1)
-	// canv.WritePixel(0, 0, cone)
-	// canv.WritePixel(2, 1, ctwo)
-	// canv.WritePixel(4, 2, cthree)
-	// PPM := canv.CanvasToString()
-	// canv.CanvasToPPM("hahaha")
-	// fmt.Println(PPM)
+	files, _:= ioutil.ReadDir("../test/testFiles/myFile")
+	for _, f := range files {
+		fmt.Println(f.Name())
+	}
+	canv := class.NewCanvas(5, 3)
+	cone := class.NewColor(1.5, 0, 0)
+	ctwo := class.NewColor(0, 0.5, 0)
+	cthree := class.NewColor(-0.5, 0, 1)
+	canv.WritePixel(0, 0, cone)
+	canv.WritePixel(2, 1, ctwo)
+	canv.WritePixel(4, 2, cthree)
+	PPM := canv.CanvasToString()
+	canv.CanvasToPPM("../test/testFiles/myFile/hahaha")
+	fmt.Println(PPM)
 	// dat, _ := os.Open("test.ppm")
 	// b, _ := ioutil.ReadAll(dat)
 	// ans1 := string(b)
