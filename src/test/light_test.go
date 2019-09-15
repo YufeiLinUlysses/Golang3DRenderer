@@ -17,8 +17,8 @@ func TestLight1(t *testing.T) {
 		{*class.NewLight(), *class.Point(0, 0, 0), *class.NewColor(1, 1, 1), *class.Point(0, 0, 0), *class.NewColor(1, 1, 1)},
 	}
 	for _, table := range tables {
-		ansp, ansi := table.l.PointLight(table.p, table.i)
-		if *ansp != table.ansp || *ansi != table.ansi{
+		ansl := table.l.PointLight(table.p, table.i)
+		if ansl.Position != table.ansp || ansl.Intensity != table.ansi{
 			t.Errorf("You are wrong")
 		}
 	}

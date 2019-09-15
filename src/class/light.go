@@ -21,8 +21,8 @@ func (l *Light) GetLight() (np *Tuple, ni *Color) {
 }
 
 //PointLight sets and gets the position and intensity of the light
-func (l *Light) PointLight(p Tuple, i Color) (np *Tuple, ni *Color) {
+func (l *Light) PointLight(p Tuple, i Color) Light {
 	l.Position = p
 	l.Intensity = i
-	return &l.Position, &l.Intensity
+	return *l
 }
