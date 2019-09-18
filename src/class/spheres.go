@@ -6,15 +6,17 @@ import (
 
 //Sphere type, for now just create an unit sphere
 type Sphere struct {
-	Center Tuple
-	Radius float64
+	Material Material
+	Center   Tuple
+	Radius   float64
 }
 
 //NewSphere creates an instance of Type Sphere
 func NewSphere() *Sphere {
 	s := &Sphere{
-		Center: *Point(0, 0, 0),
-		Radius: 1,
+		Material: *NewMaterial(),
+		Center:   *Point(0, 0, 0),
+		Radius:   1,
 	}
 	return s
 }
@@ -39,7 +41,8 @@ func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans1, ans2 float64, inters
 }
 
 //NormalAt finds the normal at a certain point
-func (s *Sphere) NormalAt(point *Tuple)Tuple{
+func (s *Sphere) NormalAt(point *Tuple) Tuple {
 	ans, _ := point.Subtract(&s.Center)
+	ans,_ =ans.Normalize()
 	return ans
 }
