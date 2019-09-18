@@ -2,12 +2,11 @@ package class
 
 //Ray type
 type Ray struct {
-	Tuple
 	Origin    Tuple
 	Direction Tuple
 }
 
-//NewRay establishes a new Ray instance
+//NewRay establishes a new Ray instance, overload for inputting two tuples
 func NewRay(oriX, oriY, oriZ, dirX, dirY, dirZ float64) *Ray {
 	inputDir, _ := Vector(dirX, dirY, dirZ).Normalize()
 	r := &Ray{
