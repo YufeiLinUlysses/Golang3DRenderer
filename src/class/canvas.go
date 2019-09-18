@@ -86,10 +86,11 @@ func (c *Canvas) CanvasToString() string {
 			var blue string
 			red := IntToString(ConvertToNum(c.Canv[i][j].R*255)) + " "
 			green := IntToString(ConvertToNum(c.Canv[i][j].G*255)) + " "
+			blue = IntToString(ConvertToNum(c.Canv[i][j].B * 255))
 			if j == (c.Width - 1) {
-				blue = IntToString(ConvertToNum(c.Canv[i][j].B*255)) + "\n"
+				blue = blue + "\n"
 			} else {
-				blue = IntToString(ConvertToNum(c.Canv[i][j].B*255)) + " "
+				blue = blue + " "
 			}
 			if len(temp)+len(red) <= 70 {
 				temp += red
