@@ -25,7 +25,7 @@ func FirstImage() {
 }
 
 //SecondImage creates the second image
-func SecondImage() {
+func SecondImage(fileName string) {
 	var x, y float64
 	canv := class.NewCanvas(100, 100)
 	red := class.NewColor(1, 0, 0)
@@ -44,7 +44,7 @@ func SecondImage() {
 			}
 		}
 	}
-	canv.CanvasToPPM("test2")
+	canv.CanvasToPPM(fileName)
 }
 
 //DiffuseLight diffuses Light

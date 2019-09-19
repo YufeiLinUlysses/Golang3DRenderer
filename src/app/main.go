@@ -15,5 +15,5 @@ func main() {
 	// fmt.Println(m.Lighting(light, &s.Center, &normal))
 	// m := class.NewLight()
 	// fmt.Println(m.PointLight(*class.Point(0,0,0),*class.NewColor(1,1,1)))
-	method.SecondImage()
+	method.SecondImage("../../output/test2")
 }
