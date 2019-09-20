@@ -33,12 +33,12 @@ func (m *Matrix) GetValueAt(cl, rw int) float64 {
 }
 
 //EqualTo determines whether two matrix are the same
-func (m *Matrix) EqualTo(m2 Matrix) bool{
-	if m.Width == m2.Width && m.Height==m2.Height{
+func (m *Matrix) EqualTo(m2 Matrix) bool {
+	if m.Width == m2.Width && m.Height == m2.Height {
 		for i, row := range m.Matrix {
 			for j := range row {
 				mVal := m.GetValueAt(j, i)
-				m2Val := m2.GetValueAt(j,i)
+				m2Val := m2.GetValueAt(j, i)
 				if m2Val != mVal {
 					return false
 				}
@@ -47,4 +47,22 @@ func (m *Matrix) EqualTo(m2 Matrix) bool{
 		return true
 	}
 	return false
+}
+
+//Multiply multiplies two matrices
+func (m *Matrix) Multiply(m2 *Matrix) (ansM *Matrix, multiplied bool) {
+	ansM = NewMatrix(m.Height, m2.Height)
+	if m.Width != m2.Height {
+		return ansM, false
+	}
+	for i := range m.Matrix {
+		for j := range m2.Matrix {
+			Value := float64(0)
+			for k := range ansM.Matrix {
+				Value += m.GetValueAt(k, i) * m2.GetValueAt(j, k)
+			}
+			ansM.Assign(j, i, Value)
+		}
+	}
+	return ansM, true
 }
