@@ -31,3 +31,20 @@ func (m *Matrix) Assign(cl, rw int, value float64) *Matrix {
 func (m *Matrix) GetValueAt(cl, rw int) float64 {
 	return m.Matrix[rw][cl]
 }
+
+//EqualTo determines whether two matrix are the same
+func (m *Matrix) EqualTo(m2 Matrix) bool{
+	if m.Width == m2.Width && m.Height==m2.Height{
+		for i, row := range m.Matrix {
+			for j := range row {
+				mVal := m.GetValueAt(j, i)
+				m2Val := m2.GetValueAt(j,i)
+				if m2Val != mVal {
+					return false
+				}
+			}
+		}
+		return true
+	}
+	return false
+}
