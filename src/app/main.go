@@ -1,19 +1,30 @@
 package main
 
 import (
-	//"class"
+	"class"
+	"fmt"
 	//"fmt"
-	"method"
+	//"method"
 )
 
 func main() {
-	// m := class.NewMaterial()
-	// s := class.NewSphere()
-	// l := class.NewLight()
-	// normal := s.NormalAt(class.Point(0, 0, -1))
-	// light := l.PointLight(*class.Point(0, 10, -10), *class.NewColor(1, 1, 1))
-	// fmt.Println(m.Lighting(light, &s.Center, &normal))
-	// m := class.NewLight()
-	// fmt.Println(m.PointLight(*class.Point(0,0,0),*class.NewColor(1,1,1)))
-	method.SecondImage("../../output/test2")
+	//method.SecondImage("../../output/test2")
+	tables := []struct {
+		w, h     int
+		value    []float64
+		ansValue []float64
+	}{
+		{4, 4, []float64{1, 2, 3, 4, 5.5, 6.5, 7.5, 8.5, 9, 10, 11, 12, 0, 0, 0, 1}, []float64{1, 2, 3, 4, 5.5, 6.5, 7.5, 8.5, 9, 10, 11, 12, 0, 0, 0, 1}},
+	}
+	for _, table := range tables {
+		count := 0
+		m := class.NewMatrix(table.w, table.h)
+		for i, row := range m.Matrix {
+			for j := range row {
+				m = m.Assign(j, i, table.value[count])
+				count++
+			}
+		}
+		fmt.Println(m)
+	}
 }
