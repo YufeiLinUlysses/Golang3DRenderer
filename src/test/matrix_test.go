@@ -83,6 +83,7 @@ func TestMatrix3(t *testing.T) {
 		ansValue []float64
 	}{
 		{4, 4, []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 0, 0, 0, 1}, 4, 4, []float64{-2, 1, 2, 3, 3, 2, 1, -1, 4, 3, 6, 5, 0, 0, 0, 1}, []float64{16, 14, 22, 20, 36, 38, 58, 52, 34, 46, 68, 60, 0, 0, 0, 1}},
+		{4, 4, []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 0, 0, 0, 1}, 4, 4, []float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, []float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 0, 0, 0, 1}},
 	}
 	for _, table := range tables {
 		count := 0
@@ -108,6 +109,95 @@ func TestMatrix3(t *testing.T) {
 				tempAns := ansM.GetValueAt(j, i)
 				if tempAns != table.ansValue[count] {
 					t.Errorf("You are wrong: %f should be: %f at place %d,%d", tempAns, table.ansValue[count], i, j)
+				}
+				count++
+			}
+		}
+	}
+}
+
+//TestMatrix4 tests to see if the MultiplyTuple function works for class Matrix
+func TestMatrix4(t *testing.T) {
+	tables := []struct {
+		w, h     int
+		value    []float64
+		tuple    class.Tuple
+		ansTuple class.Tuple
+	}{
+		{4, 4, []float64{1, 2, 3, 4, 2, 4, 4, 2, 8, 6, 4, 1, 0, 0, 0, 1}, *class.NewTuple(1, 2, 3, 1), *class.NewTuple(18, 24, 33, 1)},
+		{4, 4, []float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, *class.NewTuple(1, 2, 3, 4), *class.NewTuple(1, 2, 3, 4)},
+	}
+	for _, table := range tables {
+		count := 0
+		m := class.NewMatrix(table.w, table.h)
+		for i, row := range m.Matrix {
+			for j := range row {
+				m = m.Assign(j, i, table.value[count])
+				count++
+			}
+		}
+		ansM, _ := m.MultiplyTuple(&table.tuple)
+		if *ansM != table.ansTuple {
+			t.Errorf("You are wrong")
+		}
+	}
+}
+
+//TestMatrix5 tests to see if the DeterminantForTwo function works for class Matrix
+func TestMatrix5(t *testing.T) {
+	tables := []struct {
+		w, h       int
+		value      []float64
+		ans        float64
+		invertible bool
+	}{
+		{2, 2, []float64{1, 5, -3, 2}, 17, true},
+		{3, 3, []float64{1, 2, 6, -5, 8, -4, 2, 6, 4}, -196, true},
+		{4, 4, []float64{-2, -8, 3, 5, -3, 1, 7, 3, 1, 2, -9, 6, 0, 0, 0, 1}, 185, true},
+		{4, 4, []float64{6, 4, 4, 4, 5, 5, 7, 6, 4, -9, 3, -7, 0, 0, 0, 1}, 260, true},
+		{4, 4, []float64{-4, 2, 0, -3, 9, 6, 0, 6, 0, -5, 0, -5, 0, 0, 0, 1}, 0, false},
+	}
+	for _, table := range tables {
+		count := 0
+		m := class.NewMatrix(table.w, table.h)
+		for i, row := range m.Matrix {
+			for j := range row {
+				m = m.Assign(j, i, table.value[count])
+				count++
+			}
+		}
+		ansM, invertible := m.Determinant()
+		if ansM != table.ans && invertible == table.invertible {
+			t.Errorf("You are wrong %v", ansM)
+		}
+	}
+}
+
+//TestMatrix6 tests to see if the SubMatrix function works for class Matrix
+func TestMatrix6(t *testing.T) {
+	tables := []struct {
+		w, h  int
+		value []float64
+		ans   []float64
+	}{
+		{3, 3, []float64{1, 5, 0, -3, 2, 7, 0, 6, -3}, []float64{-3, 2, 0, 6}},
+	}
+	for _, table := range tables {
+		count := 0
+		m := class.NewMatrix(table.w, table.h)
+		for i, row := range m.Matrix {
+			for j := range row {
+				m = m.Assign(j, i, table.value[count])
+				count++
+			}
+		}
+		ansM := m.SubMatrix(0, 2)
+		count = 0
+		for i, row := range ansM.Matrix {
+			for j := range row {
+				tempAns := ansM.GetValueAt(j, i)
+				if tempAns != table.ans[count] {
+					t.Errorf("You are wrong: %f should be: %f at place %d,%d", tempAns, table.ans[count], i, j)
 				}
 				count++
 			}

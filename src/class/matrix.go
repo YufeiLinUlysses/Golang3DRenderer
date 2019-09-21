@@ -1,5 +1,9 @@
 package class
 
+import (
+	"math"
+)
+
 //Matrix type
 type Matrix struct {
 	Width, Height int
@@ -49,6 +53,18 @@ func (m *Matrix) EqualTo(m2 Matrix) bool {
 	return false
 }
 
+//GetIdentity returns the identity matrix of the size of the matrix
+func (m *Matrix) GetIdentity() (identity *Matrix, square bool) {
+	if m.Width != m.Height {
+		return identity, false
+	}
+	identity = NewMatrix(m.Width, m.Height)
+	for i := 0; i < m.Height; i++ {
+		identity.Assign(i, i, 1)
+	}
+	return identity, true
+}
+
 //Multiply multiplies two matrices
 func (m *Matrix) Multiply(m2 *Matrix) (ansM *Matrix, multiplied bool) {
 	ansM = NewMatrix(m.Height, m2.Height)
@@ -66,3 +82,69 @@ func (m *Matrix) Multiply(m2 *Matrix) (ansM *Matrix, multiplied bool) {
 	}
 	return ansM, true
 }
+
+//MultiplyTuple multiplies tuple
+func (m *Matrix) MultiplyTuple(t *Tuple) (ansT *Tuple, tuple bool) {
+	tup := []float64{t.X, t.Y, t.Z, t.W}
+	var ans []float64
+	if m.Height != 4 {
+		return ansT, false
+	}
+	for i := 0; i < 4; i++ {
+		temp := float64(0)
+		for j := 0; j < 4; j++ {
+			temp += m.GetValueAt(j, i) * tup[j]
+		}
+		ans = append(ans, temp)
+	}
+	ansT = NewTuple(ans[0], ans[1], ans[2], ans[3])
+	return ansT, true
+}
+
+//SubMatrix gets the cofactor of a matrix at a certain location
+func (m *Matrix) SubMatrix(cl, rw int) *Matrix {
+	var value []float64
+	ans := NewMatrix(m.Width-1, m.Height-1)
+	for i := range m.Matrix {
+		if i != cl {
+			for j := range m.Matrix {
+				if j != rw {
+					value = append(value, m.Matrix[i][j])
+				}
+			}
+		}
+	}
+	count := 0
+	for i := 0; i < m.Width-1; i++ {
+		for j := 0; j < m.Width-1; j++ {
+			ans.Assign(j, i, value[count])
+			count++
+		}
+	}
+	return ans
+}
+
+//Determinant gets the determinant of a 2x2 square matrix
+func (m *Matrix) Determinant() (ans float64, invertible bool) {
+	var cl int
+	if m.Width == 2 {
+		ans = m.Matrix[0][0]*m.Matrix[1][1] - m.Matrix[0][1]*m.Matrix[1][0]
+		return ans, true
+	}
+	if m.Width == 4 {
+		cl = 3
+	}
+	for i := 0; i < len(m.Matrix); i++ {
+		if m.GetValueAt(cl, i) == 0 {
+			continue
+		}
+		deter, _ := m.SubMatrix(cl, i).Determinant()
+		ans += deter * math.Pow(-1, float64(cl+i)) * m.GetValueAt(i, cl)
+	}
+	if ans != 0 {
+		return ans, true
+	}
+	return ans, false
+}
+
+//GetInverse get the inverse of the matrix
