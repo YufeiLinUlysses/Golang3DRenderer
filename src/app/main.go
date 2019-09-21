@@ -39,13 +39,19 @@ func main() {
 	// 	fmt.Println(ansM)
 	// }
 	count := 0
-	value := []float64{1, 2, 6, -5, 8, -4, 2, 6, 4}
-	m := class.NewMatrix(3, 3)
+	value := []float64{-5, 2, 6, -8, 1, -5, 1, 8, 7, 7, -6, -7, 0, 0, 0, 1}
+	m := class.NewMatrix(4, 4)
 	for i, row := range m.Matrix {
 		for j := range row {
 			m = m.Assign(j, i, value[count])
 			count++
 		}
 	}
-	fmt.Println(m.Determinant())
+	deter, _ := m.Determinant()
+	fmt.Println()
+	adj := m.Adjacent()
+	fmt.Println(adj.GetInverse(float64(1 / deter)))
+	// fmt.Println(deter)
+	// ansM := m.GetInverse(1/deter)
+	// fmt.Println(m.Multiply(ansM))
 }

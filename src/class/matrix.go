@@ -101,6 +101,17 @@ func (m *Matrix) MultiplyTuple(t *Tuple) (ansT *Tuple, tuple bool) {
 	return ansT, true
 }
 
+//MultiplyScalar mutlipliese the matrix to a scalar
+func (m *Matrix) MultiplyScalar(scalar float64) *Matrix {
+	for i, row := range m.Matrix {
+		for j := range row {
+			currValue := m.GetValueAt(j, i)
+			m.Assign(j, i, scalar*currValue)
+		}
+	}
+	return m
+}
+
 //SubMatrix gets the cofactor of a matrix at a certain location
 func (m *Matrix) SubMatrix(cl, rw int) *Matrix {
 	var value []float64
@@ -135,11 +146,12 @@ func (m *Matrix) Determinant() (ans float64, invertible bool) {
 		cl = 3
 	}
 	for i := 0; i < len(m.Matrix); i++ {
-		if m.GetValueAt(cl, i) == 0 {
+		if m.GetValueAt(i, cl) == 0 {
 			continue
 		}
 		deter, _ := m.SubMatrix(cl, i).Determinant()
 		ans += deter * math.Pow(-1, float64(cl+i)) * m.GetValueAt(i, cl)
+
 	}
 	if ans != 0 {
 		return ans, true
@@ -147,4 +159,32 @@ func (m *Matrix) Determinant() (ans float64, invertible bool) {
 	return ans, false
 }
 
+//Transpose gets the transverse of a matrix
+func (m *Matrix) Transpose() (transpose *Matrix) {
+	transpose = NewMatrix(4, 4)
+	for i, row := range m.Matrix {
+		for j := range row {
+			currVal := m.GetValueAt(j, i)
+			transpose.Assign(i, j, currVal)
+		}
+	}
+	return transpose
+}
+
+//Adjacent returns the matrix of minors
+func (m *Matrix) Adjacent() (adj *Matrix) {
+	adj = NewMatrix(m.Width, m.Height)
+	for i, row := range m.Matrix {
+		for j := range row {
+			val, _ := m.SubMatrix(j, i).Determinant()
+			val = val * math.Pow(-1, float64(j+i))
+			adj.Assign(j, i, val)
+		}
+	}
+	return adj
+}
+
 //GetInverse get the inverse of the matrix
+func (m *Matrix) GetInverse(determinant float64) *Matrix {
+	return m.MultiplyScalar(determinant)
+}
