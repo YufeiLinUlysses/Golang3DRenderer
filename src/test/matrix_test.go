@@ -2,6 +2,7 @@ package test
 
 import (
 	"class"
+	"math"
 	"testing"
 )
 
@@ -143,7 +144,7 @@ func TestMatrix4(t *testing.T) {
 	}
 }
 
-//TestMatrix5 tests to see if the DeterminantForTwo function works for class Matrix
+//TestMatrix5 tests to see if the Determinant function works for class Matrix
 func TestMatrix5(t *testing.T) {
 	tables := []struct {
 		w, h       int
@@ -198,6 +199,85 @@ func TestMatrix6(t *testing.T) {
 				tempAns := ansM.GetValueAt(j, i)
 				if tempAns != table.ans[count] {
 					t.Errorf("You are wrong: %f should be: %f at place %d,%d", tempAns, table.ans[count], i, j)
+				}
+				count++
+			}
+		}
+	}
+}
+
+//TestMatrix7 tests to see if the GetInverse function works for class Matrix
+func TestMatrix7(t *testing.T) {
+	tables := []struct {
+		w, h  int
+		value []float64
+		ans   []float64
+	}{
+		{4, 4, []float64{-5, 2, 6, -8, 1, -5, 1, 8, 7, 7, -6, -7, 0, 0, 0, 1}, []float64{0.141104, 0.331288, 0.196319, -0.147239, 0.079755, -0.073620, 0.067485, 1.699387, 0.257669, 0.300613, 0.141104, 0.644172, 0.0, 0.0, 0.0, 1.0}},
+	}
+	for _, table := range tables {
+		count := 0
+		m := class.NewMatrix(table.w, table.h)
+		for i, row := range m.Matrix {
+			for j := range row {
+				m = m.Assign(j, i, table.value[count])
+				count++
+			}
+		}
+		deter, _ := m.Determinant()
+		inv := m.GetInverse(deter)
+		count = 0
+		for i, row := range inv.Matrix {
+			for j := range row {
+				tempAns := inv.GetValueAt(j, i)
+				if math.Round(tempAns*1000) != math.Round(table.ans[count]*1000) {
+					t.Errorf("You are wrong: %f should be: %f at place %d,%d", tempAns, table.ans[count], i, j)
+				}
+				count++
+			}
+		}
+	}
+}
+
+//TestMatrix8 tests to see if a process works for class Matrix
+func TestMatrix8(t *testing.T) {
+	tables := []struct {
+		w1, h1   int
+		value1   []float64
+		w2, h2   int
+		value2   []float64
+		ansValue []float64
+	}{
+		{4, 4, []float64{3,-9,7,3,3,-8,2,-9,-4,4,4,1,0,0,0,1}, 
+		 4, 4, []float64{8,2,2,2,3,-1,7,0,7,0,5,4,0,0,0,1},
+		 []float64{3,-9,7,3,3,-8,2,-9,-4,4,4,1,0,0,0,1}},
+	}
+	for _, table := range tables {
+		count := 0
+		m := class.NewMatrix(table.w1, table.h1)
+		for i, row := range m.Matrix {
+			for j := range row {
+				m = m.Assign(j, i, table.value1[count])
+				count++
+			}
+		}
+		count = 0
+		m2 := class.NewMatrix(table.w2, table.h2)
+		for i, row := range m2.Matrix {
+			for j := range row {
+				m2 = m2.Assign(j, i, table.value2[count])
+				count++
+			}
+		}
+		count = 0
+		mult,_ := m.Multiply(m2)
+		deter,_ := m2.Determinant()
+		rev,_:=mult.Multiply(m2.GetInverse(deter))
+		for i, row := range rev.Matrix {
+			for j := range row {
+				tempAns := rev.GetValueAt(j, i)
+				if math.Round(tempAns*1000) != math.Round(table.ansValue[count]*1000) {
+					t.Errorf("You are wrong: %f should be: %f at place %d,%d", tempAns, table.ansValue[count], i, j)
 				}
 				count++
 			}

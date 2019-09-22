@@ -48,9 +48,8 @@ func main() {
 		}
 	}
 	deter, _ := m.Determinant()
-	fmt.Println()
-	adj := m.Adjacent()
-	fmt.Println(adj.GetInverse(float64(1 / deter)))
+	inv := m.GetInverse(float64(deter))
+	fmt.Println(inv)
 	// fmt.Println(deter)
 	// ansM := m.GetInverse(1/deter)
 	// fmt.Println(m.Multiply(ansM))

@@ -186,5 +186,6 @@ func (m *Matrix) Adjacent() (adj *Matrix) {
 
 //GetInverse get the inverse of the matrix
 func (m *Matrix) GetInverse(determinant float64) *Matrix {
-	return m.MultiplyScalar(determinant)
+	adj := m.Adjacent()	
+	return adj.MultiplyScalar(float64(1 / determinant))
 }
