@@ -30,3 +30,17 @@ func (r *Ray) Position(dist float64) Tuple {
 	ans.W = 1
 	return ans
 }
+
+//Translate translates a ray
+func (r *Ray) Translate(xInc, yInc, zInc float64) *Ray {
+	transV := Vector(xInc, yInc, zInc)
+	r.Origin = r.Origin.Add(transV)
+	return r
+}
+
+//Scale scales the ray
+func (r *Ray) Scale(xMult, yMult, zMult float64) *Ray {
+	r.Origin = *Point(xMult*r.Origin.X, yMult*r.Origin.Y, zMult*r.Origin.Z)
+	r.Direction = *Vector(xMult*r.Direction.X, yMult*r.Direction.Y, zMult*r.Direction.Z)
+	return r
+}
