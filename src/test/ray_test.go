@@ -60,9 +60,9 @@ func TestRay3(t *testing.T) {
 		r := class.NewRay(table.oriX, table.oriY, table.oriZ, table.dirX, table.dirY, table.dirZ)
 		matrix := class.NewMatrix(4, 4)
 		if table.transType == "translate" {
-			matrix = r.Translate(table.xInc, table.yInc, table.zInc)
+			matrix = class.Translate(table.xInc, table.yInc, table.zInc)
 		} else if table.transType == "scale" {
-			matrix = r.Scale(table.xInc, table.yInc, table.zInc)
+			matrix = class.Scale(table.xInc, table.yInc, table.zInc)
 		} else {
 			t.Errorf("Wrong transform type")
 		}

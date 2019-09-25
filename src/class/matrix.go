@@ -186,6 +186,26 @@ func (m *Matrix) Adjacent() (adj *Matrix) {
 
 //GetInverse get the inverse of the matrix
 func (m *Matrix) GetInverse(determinant float64) *Matrix {
-	adj := m.Adjacent()	
+	adj := m.Adjacent()
 	return adj.MultiplyScalar(float64(1 / determinant))
+}
+
+//Translate returns translation matrix
+func Translate(xInc, yInc, zInc float64) *Matrix {
+	m := NewMatrix(4, 4)
+	m, _ = m.GetIdentity()
+	m = m.Assign(3, 0, xInc)
+	m = m.Assign(3, 1, yInc)
+	m = m.Assign(3, 2, zInc)
+	return m
+}
+
+//Scale scales the ray
+func Scale(xInc, yInc, zInc float64) *Matrix {
+	m := NewMatrix(4, 4)
+	m, _ = m.GetIdentity()
+	m = m.Assign(0, 0, xInc)
+	m = m.Assign(1, 1, yInc)
+	m = m.Assign(2, 2, zInc)
+	return m
 }

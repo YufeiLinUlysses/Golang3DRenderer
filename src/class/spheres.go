@@ -6,6 +6,7 @@ import (
 
 //Sphere type, for now just create an unit sphere
 type Sphere struct {
+	Transform *Matrix
 	Material Material
 	Center   Tuple
 	Radius   float64
