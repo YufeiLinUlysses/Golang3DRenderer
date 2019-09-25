@@ -8,7 +8,10 @@ import (
 
 func main() {
 	//method.SecondImage("../../output/test2")
-	r := class.NewRay(1, 2, 3, 0, 1, 0)
-	matrix := class.Scale(2, 3, 4)
-	fmt.Println(r.Transform(matrix))
+	r := class.NewRay(0, 0, -5, 0, 0, 1)
+	matrix := class.Scale(2, 2, 2)
+	s := class.NewSphere()
+	s = s.SetTransform(matrix)
+	fmt.Println(s.Transform)
+	fmt.Println(s.IntersectWithRay(r))
 }
