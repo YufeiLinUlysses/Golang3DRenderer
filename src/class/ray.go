@@ -31,16 +31,32 @@ func (r *Ray) Position(dist float64) Tuple {
 	return ans
 }
 
-//Translate translates a ray
-func (r *Ray) Translate(xInc, yInc, zInc float64) *Ray {
-	transV := Vector(xInc, yInc, zInc)
-	r.Origin = r.Origin.Add(transV)
-	return r
+//Translate returns translation matrix
+func (r *Ray) Translate(xInc, yInc, zInc float64) *Matrix {
+	m := NewMatrix(4, 4)
+	m, _ = m.GetIdentity()
+	m = m.Assign(3, 0, xInc)
+	m = m.Assign(3, 1, yInc)
+	m = m.Assign(3, 2, zInc)
+	return m
 }
 
 //Scale scales the ray
-func (r *Ray) Scale(xMult, yMult, zMult float64) *Ray {
-	r.Origin = *Point(xMult*r.Origin.X, yMult*r.Origin.Y, zMult*r.Origin.Z)
-	r.Direction = *Vector(xMult*r.Direction.X, yMult*r.Direction.Y, zMult*r.Direction.Z)
-	return r
+func (r *Ray) Scale(xInc, yInc, zInc float64) *Matrix {
+	m := NewMatrix(4, 4)
+	m, _ = m.GetIdentity()
+	m = m.Assign(0, 0, xInc)
+	m = m.Assign(1, 1, yInc)
+	m = m.Assign(2, 2, zInc)
+	return m
+}
+
+//Transform transforms the matrix with a given command
+func (r *Ray) Transform(matrix *Matrix) *Ray {
+	newR := NewRay(0, 0, 0, 0, 0, 0)
+	ori, _ := matrix.MultiplyTuple(&r.Origin)
+	newR.Origin = *ori
+	dir, _ := matrix.MultiplyTuple(&r.Direction)
+	newR.Direction = *dir
+	return newR
 }

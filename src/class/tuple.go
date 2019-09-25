@@ -121,7 +121,6 @@ func (t *Tuple) Normalize() (ans Tuple, normalized bool) {
 		return ans, normalized
 	} else if vecOrNot && mag == 0 {
 		normalized = false
-		fmt.Println("A zero vector")
 		return ans, normalized
 	} else {
 		normalized = false
