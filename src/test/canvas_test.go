@@ -1,26 +1,26 @@
 package test
 
 import (
-	"class"
+	"feature"
 	"io/ioutil"
 	"os"
 	"testing"
 )
 
-//TestCanvas1 tests to see if the GetCanvas function works for class Canvas
+//TestCanvas1 tests to see if the GetCanvas function works for feature Canvas
 func TestCanvas1(t *testing.T) {
 	tables := []struct {
 		w, h       int
 		ansW, ansH int
-		ansCanv    [][]class.Color
+		ansCanv    [][]feature.Color
 	}{
-		{2, 1, 2, 1, [][]class.Color{
-			{*class.NewColor(0, 0, 0), *class.NewColor(0, 0, 0)},
+		{2, 1, 2, 1, [][]feature.Color{
+			{*feature.NewColor(0, 0, 0), *feature.NewColor(0, 0, 0)},
 		},
 		},
 	}
 	for _, table := range tables {
-		c := class.NewCanvas(table.w, table.h)
+		c := feature.NewCanvas(table.w, table.h)
 		w, h, canv := c.GetCanvas()
 		if w != table.ansW || h != table.ansH {
 			t.Errorf("Error Input %v,%v,%v", w, h, canv)
@@ -35,18 +35,18 @@ func TestCanvas1(t *testing.T) {
 	}
 }
 
-//TestCanvas2 tests to see if the WritePixel and PixelAt functions work for class Canvas
+//TestCanvas2 tests to see if the WritePixel and PixelAt functions work for feature Canvas
 func TestCanvas2(t *testing.T) {
 	tables := []struct {
 		w, h   int
 		rw, cl int
-		inputC class.Color
-		ansC   class.Color
+		inputC feature.Color
+		ansC   feature.Color
 	}{
-		{2, 1, 1, 0, *class.NewColor(1, 0, 0), *class.NewColor(1, 0, 0)},
+		{2, 1, 1, 0, *feature.NewColor(1, 0, 0), *feature.NewColor(1, 0, 0)},
 	}
 	for _, table := range tables {
-		c := class.NewCanvas(table.w, table.h)
+		c := feature.NewCanvas(table.w, table.h)
 		newC := c.WritePixel(table.rw, table.cl, &table.inputC)
 		ans := newC.PixelAt(table.rw, table.cl)
 		if ans != table.ansC {
@@ -55,7 +55,7 @@ func TestCanvas2(t *testing.T) {
 	}
 }
 
-//TestCanvas3 tests to see if the CanvasToPPM work for class Canvas
+//TestCanvas3 tests to see if the CanvasToPPM work for feature Canvas
 func TestCanvas3(t *testing.T) {
 	dat, _ := os.Open("test.ppm")
 	b, _ := ioutil.ReadAll(dat)
@@ -69,12 +69,12 @@ func TestCanvas3(t *testing.T) {
 }
 
 //TestCanvas4 tests to see if we change everything
-//will CanvasToPPm still work for class Canvas
+//will CanvasToPPm still work for feature Canvas
 func TestCanvas4(t *testing.T) {
-	canv := class.NewCanvas(10, 2)
+	canv := feature.NewCanvas(10, 2)
 	for i := 0; i < canv.Height; i++ {
 		for j := 0; j < canv.Width; j++ {
-			canv.Canv[i][j] = *class.NewColor(1, 0.8, 0.6)
+			canv.Canv[i][j] = *feature.NewColor(1, 0.8, 0.6)
 		}
 	}
 	canv.CanvasToPPM("testFiles/myFile/hhh")

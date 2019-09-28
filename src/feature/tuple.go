@@ -1,11 +1,11 @@
-package class
+package feature
 
 import (
 	"fmt"
 	"math"
 )
 
-//Tuple Class
+//Tuple feature
 type Tuple struct {
 	X, Y, Z, W float64
 }

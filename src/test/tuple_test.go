@@ -1,20 +1,20 @@
 package test
 
 import (
-	"class"
+	"feature"
 	"testing"
 )
 
-//TestTuple1 tests to see if the GetTuple function works for class tuple
+//TestTuple1 tests to see if the GetTuple function works for feature tuple
 func TestTuple1(t *testing.T) {
 	tables := []struct {
-		v       class.Tuple
+		v       feature.Tuple
 		x, y, z float64
 		point   bool
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 1.0}, 4.3, -4.2, 3.1, true},
-		{class.Tuple{4.5, -42, 310, 0.0}, 4.5, -42, 310, false},
-		{class.Tuple{4.5, -42, 310, 0.0}, 4.5, -42, 310, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 1.0}, 4.3, -4.2, 3.1, true},
+		{feature.Tuple{4.5, -42, 310, 0.0}, 4.5, -42, 310, false},
+		{feature.Tuple{4.5, -42, 310, 0.0}, 4.5, -42, 310, false},
 	}
 	for _, table := range tables {
 		x, y, z, typeOfTuple := table.v.GetTuple()
@@ -28,12 +28,12 @@ func TestTuple1(t *testing.T) {
 func TestTuple2(t *testing.T) {
 	tables := []struct {
 		x, y, z float64
-		ans     class.Tuple
+		ans     feature.Tuple
 	}{
-		{4.3, -4.2, 3.1, class.Tuple{4.3, -4.2, 3.1, 1.0}},
+		{4.3, -4.2, 3.1, feature.Tuple{4.3, -4.2, 3.1, 1.0}},
 	}
 	for _, table := range tables {
-		point := class.Point(table.x, table.y, table.z)
+		point := feature.Point(table.x, table.y, table.z)
 		if *point != table.ans {
 			t.Error("You are wrong")
 		}
@@ -44,12 +44,12 @@ func TestTuple2(t *testing.T) {
 func TestTuple3(t *testing.T) {
 	tables := []struct {
 		x, y, z float64
-		ans     class.Tuple
+		ans     feature.Tuple
 	}{
-		{4.3, -4.2, 3.1, class.Tuple{4.3, -4.2, 3.1, 0}},
+		{4.3, -4.2, 3.1, feature.Tuple{4.3, -4.2, 3.1, 0}},
 	}
 	for _, table := range tables {
-		point := class.Vector(table.x, table.y, table.z)
+		point := feature.Vector(table.x, table.y, table.z)
 		if *point != table.ans {
 			t.Error("You are wrong")
 		}
@@ -59,11 +59,11 @@ func TestTuple3(t *testing.T) {
 //TestTuple4 tests to see if the function Add works as the way we want
 func TestTuple4(t *testing.T) {
 	tables := []struct {
-		tone class.Tuple
-		ttwo class.Tuple
-		ans  class.Tuple
+		tone feature.Tuple
+		ttwo feature.Tuple
+		ans  feature.Tuple
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{4.3, -4.2, 3.1, 1}, class.Tuple{8.6, -8.4, 6.2, 1}},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, feature.Tuple{4.3, -4.2, 3.1, 1}, feature.Tuple{8.6, -8.4, 6.2, 1}},
 	}
 	for _, table := range tables {
 		ans := table.tone.Add(&table.ttwo)
@@ -78,16 +78,16 @@ func TestTuple4(t *testing.T) {
 //get a vector unless otherwise instructed
 func TestTuple5(t *testing.T) {
 	tables := []struct {
-		tone        class.Tuple
-		ttwo        class.Tuple
-		ans         class.Tuple
+		tone        feature.Tuple
+		ttwo        feature.Tuple
+		ans         feature.Tuple
 		typeOfTuple bool
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 1}, class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{0, 0, 0, 1}, true},
-		{class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{0, 0, 0, 0}, false},
-		{class.Tuple{4.3, -4.2, 3.1, 1}, class.Tuple{4.3, -4.2, 3.1, 1}, class.Tuple{0, 0, 0, 0}, false},
-		{class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{4.3, -4.2, 3.1, 1}, class.Tuple{0, 0, 0, -1}, false},
-		{class.Tuple{0, 0, 0, 0}, class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{-4.3, 4.2, -3.1, 0}, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 1}, feature.Tuple{4.3, -4.2, 3.1, 0}, feature.Tuple{0, 0, 0, 1}, true},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, feature.Tuple{4.3, -4.2, 3.1, 0}, feature.Tuple{0, 0, 0, 0}, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 1}, feature.Tuple{4.3, -4.2, 3.1, 1}, feature.Tuple{0, 0, 0, 0}, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, feature.Tuple{4.3, -4.2, 3.1, 1}, feature.Tuple{0, 0, 0, -1}, false},
+		{feature.Tuple{0, 0, 0, 0}, feature.Tuple{4.3, -4.2, 3.1, 0}, feature.Tuple{-4.3, 4.2, -3.1, 0}, false},
 	}
 	for _, table := range tables {
 		ans, typeOfTuple := table.tone.Subtract(&table.ttwo)
@@ -100,12 +100,12 @@ func TestTuple5(t *testing.T) {
 //TestTuple6 tests to see if the function Multiply works as the way we want
 func TestTuple6(t *testing.T) {
 	tables := []struct {
-		tone class.Tuple
+		tone feature.Tuple
 		num  float64
-		ans  class.Tuple
+		ans  feature.Tuple
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 1}, -1, class.Tuple{-4.3, 4.2, -3.1, -1}},
-		{class.Tuple{4.3, -4.2, 3.1, 0}, 2, class.Tuple{8.6, -8.4, 6.2, 0}},
+		{feature.Tuple{4.3, -4.2, 3.1, 1}, -1, feature.Tuple{-4.3, 4.2, -3.1, -1}},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, 2, feature.Tuple{8.6, -8.4, 6.2, 0}},
 	}
 	for _, table := range tables {
 		ans := table.tone.Multiply(table.num)
@@ -118,12 +118,12 @@ func TestTuple6(t *testing.T) {
 //TestTuple7 tests to see if the function Divide works as the way we want
 func TestTuple7(t *testing.T) {
 	tables := []struct {
-		tone class.Tuple
+		tone feature.Tuple
 		num  float64
-		ans  class.Tuple
+		ans  feature.Tuple
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 1}, -1, class.Tuple{-4.3, 4.2, -3.1, -1}},
-		{class.Tuple{4.3, -4.2, 3.1, 0}, 0, class.Tuple{0, 0, 0, 0}},
+		{feature.Tuple{4.3, -4.2, 3.1, 1}, -1, feature.Tuple{-4.3, 4.2, -3.1, -1}},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, 0, feature.Tuple{0, 0, 0, 0}},
 	}
 	for _, table := range tables {
 		ans := table.tone.Divide(table.num)
@@ -136,12 +136,12 @@ func TestTuple7(t *testing.T) {
 //TestTuple8 tests to see if the function Magnitude works as the way we want
 func TestTuple8(t *testing.T) {
 	tables := []struct {
-		tone     class.Tuple
+		tone     feature.Tuple
 		ans      float64
 		vecOrNot bool
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 1}, 0, false},
-		{class.Tuple{4.3, -4.2, 3.1, 0}, 6.763135367564367, true},
+		{feature.Tuple{4.3, -4.2, 3.1, 1}, 0, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, 6.763135367564367, true},
 	}
 	for _, table := range tables {
 		ans, vecOrNot := table.tone.Magnitude()
@@ -154,13 +154,13 @@ func TestTuple8(t *testing.T) {
 //TestTuple9 tests to see if the function Normalize works as the way we want
 func TestTuple9(t *testing.T) {
 	tables := []struct {
-		tone       class.Tuple
-		ans        class.Tuple
+		tone       feature.Tuple
+		ans        feature.Tuple
 		normalized bool
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 1}, class.Tuple{0, 0, 0, 0}, false},
-		{class.Tuple{4.3, -4.2, 3.1, 0}, class.Tuple{0.6357997831335106, -0.6210137416652894, 0.4583672855148565, 0}, true},
-		{class.Tuple{0, 0, 0, 0}, class.Tuple{0, 0, 0, 0}, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 1}, feature.Tuple{0, 0, 0, 0}, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, feature.Tuple{0.6357997831335106, -0.6210137416652894, 0.4583672855148565, 0}, true},
+		{feature.Tuple{0, 0, 0, 0}, feature.Tuple{0, 0, 0, 0}, false},
 	}
 	for _, table := range tables {
 		ans, normalized := table.tone.Normalize()
@@ -174,10 +174,10 @@ func TestTuple9(t *testing.T) {
 //by checking whether the magnitude of the normalized  is 1
 func TestTuple10(t *testing.T) {
 	tables := []struct {
-		tone class.Tuple
+		tone feature.Tuple
 		mag  float64
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 0}, 1},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, 1},
 	}
 	for _, table := range tables {
 		ans, normalized := table.tone.Normalize()
@@ -193,14 +193,14 @@ func TestTuple10(t *testing.T) {
 //TestTuple11 tests to see if the function DotProduct works as the way we want
 func TestTuple11(t *testing.T) {
 	tables := []struct {
-		tone   class.Tuple
-		ttwo   class.Tuple
+		tone   feature.Tuple
+		ttwo   feature.Tuple
 		ans    float64
 		dotted bool
 	}{
-		{class.Tuple{1, 2, 3, 0}, class.Tuple{2, 3, 4, 0}, 20, true},
-		{class.Tuple{1, 2, 3, 1}, class.Tuple{2, 3, 4, 0}, 0, false},
-		{class.Tuple{1, 2, 3, 1}, class.Tuple{2, 3, 4, 1}, 0, false},
+		{feature.Tuple{1, 2, 3, 0}, feature.Tuple{2, 3, 4, 0}, 20, true},
+		{feature.Tuple{1, 2, 3, 1}, feature.Tuple{2, 3, 4, 0}, 0, false},
+		{feature.Tuple{1, 2, 3, 1}, feature.Tuple{2, 3, 4, 1}, 0, false},
 	}
 	for _, table := range tables {
 		ans, dotted := table.tone.DotProduct(&table.ttwo)
@@ -213,12 +213,12 @@ func TestTuple11(t *testing.T) {
 //TestTuple12 tests to see if the function MagnitudeSquared works as the way we want
 func TestTuple12(t *testing.T) {
 	tables := []struct {
-		tone     class.Tuple
+		tone     feature.Tuple
 		ans      float64
 		vecOrNot bool
 	}{
-		{class.Tuple{4.3, -4.2, 3.1, 1}, 0, false},
-		{class.Tuple{4.3, -4.2, 3.1, 0}, 45.739999999999995, true},
+		{feature.Tuple{4.3, -4.2, 3.1, 1}, 0, false},
+		{feature.Tuple{4.3, -4.2, 3.1, 0}, 45.739999999999995, true},
 	}
 	for _, table := range tables {
 		ans, vecOrNot := table.tone.MagnitudeSquared()

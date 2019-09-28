@@ -1,4 +1,4 @@
-package class
+package feature
 
 //Light type
 type Light struct {

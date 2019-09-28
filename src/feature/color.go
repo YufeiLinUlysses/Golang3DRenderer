@@ -1,4 +1,4 @@
-package class
+package feature
 
 //Color type
 type Color struct {

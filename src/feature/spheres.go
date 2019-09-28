@@ -1,4 +1,4 @@
-package class
+package feature
 
 import (
 	"fmt"
@@ -57,7 +57,7 @@ func (s *Sphere) NormalAt(point *Tuple) Tuple {
 	return ans
 }
 
-//SetTransform sets the Transform variable for class Sphere
+//SetTransform sets the Transform variable for feature Sphere
 func (s *Sphere) SetTransform(matrix *Matrix) *Sphere {
 	s.Transform = matrix
 	return s

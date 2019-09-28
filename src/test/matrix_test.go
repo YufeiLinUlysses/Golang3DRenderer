@@ -1,12 +1,12 @@
 package test
 
 import (
-	"class"
+	"feature"
 	"math"
 	"testing"
 )
 
-//TestMatrix1 tests to see if the Assign and GetValueAt functions work for class Matrix
+//TestMatrix1 tests to see if the Assign and GetValueAt functions work for feature Matrix
 func TestMatrix1(t *testing.T) {
 	tables := []struct {
 		w, h     int
@@ -19,7 +19,7 @@ func TestMatrix1(t *testing.T) {
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w, table.h)
+		m := feature.NewMatrix(table.w, table.h)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value[count])
@@ -39,7 +39,7 @@ func TestMatrix1(t *testing.T) {
 	}
 }
 
-//TestMatrix2 tests to see if the EqualTo function works for class Matrix
+//TestMatrix2 tests to see if the EqualTo function works for feature Matrix
 func TestMatrix2(t *testing.T) {
 	tables := []struct {
 		w1, h1 int
@@ -53,7 +53,7 @@ func TestMatrix2(t *testing.T) {
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w1, table.h1)
+		m := feature.NewMatrix(table.w1, table.h1)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value1[count])
@@ -61,7 +61,7 @@ func TestMatrix2(t *testing.T) {
 			}
 		}
 		count = 0
-		m2 := class.NewMatrix(table.w2, table.h2)
+		m2 := feature.NewMatrix(table.w2, table.h2)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m2 = m2.Assign(j, i, table.value2[count])
@@ -74,7 +74,7 @@ func TestMatrix2(t *testing.T) {
 	}
 }
 
-//TestMatrix3 tests to see if the Multiply function works for class Matrix
+//TestMatrix3 tests to see if the Multiply function works for feature Matrix
 func TestMatrix3(t *testing.T) {
 	tables := []struct {
 		w1, h1   int
@@ -88,7 +88,7 @@ func TestMatrix3(t *testing.T) {
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w1, table.h1)
+		m := feature.NewMatrix(table.w1, table.h1)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value1[count])
@@ -96,7 +96,7 @@ func TestMatrix3(t *testing.T) {
 			}
 		}
 		count = 0
-		m2 := class.NewMatrix(table.w2, table.h2)
+		m2 := feature.NewMatrix(table.w2, table.h2)
 		for i, row := range m2.Matrix {
 			for j := range row {
 				m2 = m2.Assign(j, i, table.value2[count])
@@ -117,20 +117,20 @@ func TestMatrix3(t *testing.T) {
 	}
 }
 
-//TestMatrix4 tests to see if the MultiplyTuple function works for class Matrix
+//TestMatrix4 tests to see if the MultiplyTuple function works for feature Matrix
 func TestMatrix4(t *testing.T) {
 	tables := []struct {
 		w, h     int
 		value    []float64
-		tuple    class.Tuple
-		ansTuple class.Tuple
+		tuple    feature.Tuple
+		ansTuple feature.Tuple
 	}{
-		{4, 4, []float64{1, 2, 3, 4, 2, 4, 4, 2, 8, 6, 4, 1, 0, 0, 0, 1}, *class.NewTuple(1, 2, 3, 1), *class.NewTuple(18, 24, 33, 1)},
-		{4, 4, []float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, *class.NewTuple(1, 2, 3, 4), *class.NewTuple(1, 2, 3, 4)},
+		{4, 4, []float64{1, 2, 3, 4, 2, 4, 4, 2, 8, 6, 4, 1, 0, 0, 0, 1}, *feature.NewTuple(1, 2, 3, 1), *feature.NewTuple(18, 24, 33, 1)},
+		{4, 4, []float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, *feature.NewTuple(1, 2, 3, 4), *feature.NewTuple(1, 2, 3, 4)},
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w, table.h)
+		m := feature.NewMatrix(table.w, table.h)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value[count])
@@ -144,7 +144,7 @@ func TestMatrix4(t *testing.T) {
 	}
 }
 
-//TestMatrix5 tests to see if the Determinant function works for class Matrix
+//TestMatrix5 tests to see if the Determinant function works for feature Matrix
 func TestMatrix5(t *testing.T) {
 	tables := []struct {
 		w, h       int
@@ -160,7 +160,7 @@ func TestMatrix5(t *testing.T) {
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w, table.h)
+		m := feature.NewMatrix(table.w, table.h)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value[count])
@@ -174,7 +174,7 @@ func TestMatrix5(t *testing.T) {
 	}
 }
 
-//TestMatrix6 tests to see if the SubMatrix function works for class Matrix
+//TestMatrix6 tests to see if the SubMatrix function works for feature Matrix
 func TestMatrix6(t *testing.T) {
 	tables := []struct {
 		w, h  int
@@ -185,7 +185,7 @@ func TestMatrix6(t *testing.T) {
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w, table.h)
+		m := feature.NewMatrix(table.w, table.h)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value[count])
@@ -206,7 +206,7 @@ func TestMatrix6(t *testing.T) {
 	}
 }
 
-//TestMatrix7 tests to see if the GetInverse function works for class Matrix
+//TestMatrix7 tests to see if the GetInverse function works for feature Matrix
 func TestMatrix7(t *testing.T) {
 	tables := []struct {
 		w, h  int
@@ -217,7 +217,7 @@ func TestMatrix7(t *testing.T) {
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w, table.h)
+		m := feature.NewMatrix(table.w, table.h)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value[count])
@@ -239,7 +239,7 @@ func TestMatrix7(t *testing.T) {
 	}
 }
 
-//TestMatrix8 tests to see if a process works for class Matrix
+//TestMatrix8 tests to see if a process works for feature Matrix
 func TestMatrix8(t *testing.T) {
 	tables := []struct {
 		w1, h1   int
@@ -254,7 +254,7 @@ func TestMatrix8(t *testing.T) {
 	}
 	for _, table := range tables {
 		count := 0
-		m := class.NewMatrix(table.w1, table.h1)
+		m := feature.NewMatrix(table.w1, table.h1)
 		for i, row := range m.Matrix {
 			for j := range row {
 				m = m.Assign(j, i, table.value1[count])
@@ -262,7 +262,7 @@ func TestMatrix8(t *testing.T) {
 			}
 		}
 		count = 0
-		m2 := class.NewMatrix(table.w2, table.h2)
+		m2 := feature.NewMatrix(table.w2, table.h2)
 		for i, row := range m2.Matrix {
 			for j := range row {
 				m2 = m2.Assign(j, i, table.value2[count])

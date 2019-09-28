@@ -1,11 +1,11 @@
 package test
 
 import (
-	"class"
+	"feature"
 	"testing"
 )
 
-//TestColor1 tests to see if the GetColor  function works for class Color
+//TestColor1 tests to see if the GetColor  function works for feature Color
 func TestColor1(t *testing.T) {
 	tables := []struct {
 		r, g, b    float64
@@ -14,7 +14,7 @@ func TestColor1(t *testing.T) {
 		{1, 2, 3, 1, 2, 3},
 	}
 	for _, table := range tables {
-		c := class.NewColor(table.r, table.g, table.b)
+		c := feature.NewColor(table.r, table.g, table.b)
 		r, g, b := c.GetColor()
 		if r != table.rr || g != table.gg || b != table.bb {
 			t.Errorf("Error Input %f,%f,%f", r, g, b)
@@ -22,7 +22,7 @@ func TestColor1(t *testing.T) {
 	}
 }
 
-//TestColor2 tests to see if the Add function works for class Color
+//TestColor2 tests to see if the Add function works for feature Color
 func TestColor2(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64
@@ -32,8 +32,8 @@ func TestColor2(t *testing.T) {
 		{1, 2, 3, 4, 5, 6, 5, 7, 9},
 	}
 	for _, table := range tables {
-		cone := class.NewColor(table.r, table.g, table.b)
-		ctwo := class.NewColor(table.rr, table.gg, table.bb)
+		cone := feature.NewColor(table.r, table.g, table.b)
+		ctwo := feature.NewColor(table.rr, table.gg, table.bb)
 		ans := cone.Add(ctwo)
 		if ans.R != table.rrr || ans.G != table.ggg || ans.B != table.bbb {
 			t.Error("You are wrong")
@@ -41,7 +41,7 @@ func TestColor2(t *testing.T) {
 	}
 }
 
-//TestColor3 tests to see if the Subtract function works for class Color
+//TestColor3 tests to see if the Subtract function works for feature Color
 func TestColor3(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64
@@ -51,8 +51,8 @@ func TestColor3(t *testing.T) {
 		{1, 2, 3, 4, 5, 6, -3, -3, -3},
 	}
 	for _, table := range tables {
-		cone := class.NewColor(table.r, table.g, table.b)
-		ctwo := class.NewColor(table.rr, table.gg, table.bb)
+		cone := feature.NewColor(table.r, table.g, table.b)
+		ctwo := feature.NewColor(table.rr, table.gg, table.bb)
 		ans := cone.Subtract(ctwo)
 		if ans.R != table.rrr || ans.G != table.ggg || ans.B != table.bbb {
 			t.Error("You are wrong")
@@ -60,7 +60,7 @@ func TestColor3(t *testing.T) {
 	}
 }
 
-//TestColor4 tests to see if the Multiply function works for class Color
+//TestColor4 tests to see if the Multiply function works for feature Color
 func TestColor4(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64
@@ -70,7 +70,7 @@ func TestColor4(t *testing.T) {
 		{1, 2, 3, 4, 4, 8, 12},
 	}
 	for _, table := range tables {
-		cone := class.NewColor(table.r, table.g, table.b)
+		cone := feature.NewColor(table.r, table.g, table.b)
 		ans := cone.Multiply(table.scalar)
 		if ans.R != table.rrr || ans.G != table.ggg || ans.B != table.bbb {
 			t.Error("You are wrong")
@@ -78,7 +78,7 @@ func TestColor4(t *testing.T) {
 	}
 }
 
-//TestColor5 tests to see if the ColorMultiply function works for class Color
+//TestColor5 tests to see if the ColorMultiply function works for feature Color
 func TestColor5(t *testing.T) {
 	tables := []struct {
 		r, g, b       float64
@@ -88,8 +88,8 @@ func TestColor5(t *testing.T) {
 		{1, 2, 3, 4, 5, 6, 4, 10, 18},
 	}
 	for _, table := range tables {
-		cone := class.NewColor(table.r, table.g, table.b)
-		ctwo := class.NewColor(table.rr, table.gg, table.bb)
+		cone := feature.NewColor(table.r, table.g, table.b)
+		ctwo := feature.NewColor(table.rr, table.gg, table.bb)
 		ans := cone.ColorMultiply(ctwo)
 		if ans.R != table.rrr || ans.G != table.ggg || ans.B != table.bbb {
 			t.Error("You are wrong")

@@ -1,4 +1,4 @@
-package class
+package feature
 
 //Material type
 type Material struct {
@@ -6,7 +6,7 @@ type Material struct {
 	Diffuse float64
 }
 
-//NewMaterial establishes a new instance for material class
+//NewMaterial establishes a new instance for material feature
 func NewMaterial() *Material {
 	m := &Material{
 		Col:     *NewColor(1, 1, 1),

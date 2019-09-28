@@ -1,4 +1,4 @@
-package class
+package feature
 
 //Ray type
 type Ray struct {

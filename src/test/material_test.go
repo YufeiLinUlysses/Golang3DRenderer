@@ -1,18 +1,18 @@
 package test
 
 import (
-	"class"
+	"feature"
 	"testing"
 )
 
-//TestMaterial1 tests to see if the GetMaterial function works for class Material
+//TestMaterial1 tests to see if the GetMaterial function works for feature Material
 func TestMaterial1(t *testing.T) {
 	tables := []struct {
-		m    class.Material
-		ansc class.Color
+		m    feature.Material
+		ansc feature.Color
 		ansd float64
 	}{
-		{*class.NewMaterial(), *class.NewColor(1, 1, 1), 1},
+		{*feature.NewMaterial(), *feature.NewColor(1, 1, 1), 1},
 	}
 	for _, table := range tables {
 		ansc, ansd := table.m.GetMaterial()
@@ -22,22 +22,22 @@ func TestMaterial1(t *testing.T) {
 	}
 }
 
-//TestMaterial2 tests to see if the Lighting function works for class Material
+//TestMaterial2 tests to see if the Lighting function works for feature Material
 func TestMaterial2(t *testing.T) {
 	tables := []struct {
-		m    class.Material
-		s    class.Sphere
-		l    class.Light
-		p    class.Tuple
-		c    class.Color
-		ansc class.Color
+		m    feature.Material
+		s    feature.Sphere
+		l    feature.Light
+		p    feature.Tuple
+		c    feature.Color
+		ansc feature.Color
 	}{
-		{*class.NewMaterial(), *class.NewSphere(), *class.NewLight(), *class.Point(0, 0, -10), *class.NewColor(1, 1, 1), *class.NewColor(1, 1, 1)},
-		{*class.NewMaterial(), *class.NewSphere(), *class.NewLight(), *class.Point(0, 10, -10), *class.NewColor(1, 1, 1), *class.NewColor(0.7071067811865475, 0.7071067811865475, 0.7071067811865475)},
-		{*class.NewMaterial(), *class.NewSphere(), *class.NewLight(), *class.Point(0, 0, 10), *class.NewColor(1, 1, 1), *class.NewColor(0, 0, 0)},
+		{*feature.NewMaterial(), *feature.NewSphere(), *feature.NewLight(), *feature.Point(0, 0, -10), *feature.NewColor(1, 1, 1), *feature.NewColor(1, 1, 1)},
+		{*feature.NewMaterial(), *feature.NewSphere(), *feature.NewLight(), *feature.Point(0, 10, -10), *feature.NewColor(1, 1, 1), *feature.NewColor(0.7071067811865475, 0.7071067811865475, 0.7071067811865475)},
+		{*feature.NewMaterial(), *feature.NewSphere(), *feature.NewLight(), *feature.Point(0, 0, 10), *feature.NewColor(1, 1, 1), *feature.NewColor(0, 0, 0)},
 	}
 	for _, table := range tables {
-		normal := table.s.NormalAt(class.Point(0, 0, -1))
+		normal := table.s.NormalAt(feature.Point(0, 0, -1))
 		light := table.l.PointLight(table.p, table.c)
 		ansc := table.m.Lighting(light, &table.s.Center, &normal)
 		if ansc != table.ansc {
