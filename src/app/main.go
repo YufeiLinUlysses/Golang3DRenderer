@@ -8,10 +8,8 @@ import (
 
 func main() {
 	//method.SecondImage("../../output/test2")
-	r := feature.NewRay(0, 0, -5, 0, 0, 1)
-	matrix := feature.Scale(2, 2, 2)
-	s := feature.NewSphere()
-	s = s.SetTransform(matrix)
-	fmt.Println(s.Transform)
-	fmt.Println(s.IntersectWithRay(r))
+	point := feature.Point(2,3,4)
+	matrix := feature.Shearing(1, 0, 0, 0, 0, 0)
+	ans, _ := matrix.MultiplyTuple(point)
+	fmt.Println(ans)
 }

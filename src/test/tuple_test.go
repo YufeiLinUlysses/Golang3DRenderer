@@ -2,6 +2,7 @@ package test
 
 import (
 	"feature"
+	"math"
 	"testing"
 )
 
@@ -18,9 +19,9 @@ func TestTuple1(t *testing.T) {
 	}
 	for _, table := range tables {
 		x, y, z, typeOfTuple := table.v.GetTuple()
-		if x != table.x || y != table.y || z != table.z ||typeOfTuple !=table.point{
+		if x != table.x || y != table.y || z != table.z || typeOfTuple != table.point {
 			t.Errorf("Error Input")
-		} 
+		}
 	}
 }
 
@@ -224,6 +225,64 @@ func TestTuple12(t *testing.T) {
 		ans, vecOrNot := table.tone.MagnitudeSquared()
 		if ans != table.ans || vecOrNot != table.vecOrNot {
 			t.Errorf("You are wrong")
+		}
+	}
+}
+
+//TestTuple13 tests to see whether the function RotateX,RotateY,RotateZ works as we wanted
+func TestTuple13(t *testing.T) {
+	tables := []struct {
+		point     feature.Tuple
+		r         float64
+		transType string
+		ansO      feature.Tuple
+	}{
+		{*feature.Point(0, 1, 0), (math.Pi / 4), "x", *feature.Point(0, (math.Sqrt(2) / 2), (math.Sqrt(2) / 2))},
+		{*feature.Point(0, 1, 0), (math.Pi / 2), "x", *feature.Point(0, 0, 1)},
+		{*feature.Point(0, 0, 1), (math.Pi / 4), "y", *feature.Point((math.Sqrt(2) / 2), 0, (math.Sqrt(2) / 2))},
+		{*feature.Point(0, 0, 1), (math.Pi / 2), "y", *feature.Point(1, 0, 0)},
+		{*feature.Point(0, 1, 0), (math.Pi / 4), "z", *feature.Point(-(math.Sqrt(2) / 2), (math.Sqrt(2) / 2), 0)},
+		{*feature.Point(0, 1, 0), (math.Pi / 2), "z", *feature.Point(-1, 0, 0)},
+	}
+	for _, table := range tables {
+		matrix := feature.NewMatrix(4, 4)
+		if table.transType == "x" {
+			matrix = feature.RotationX(table.r)
+		} else if table.transType == "y" {
+			matrix = feature.RotationY(table.r)
+		} else if table.transType == "z" {
+			matrix = feature.RotationZ(table.r)
+		} else {
+			t.Errorf("Wrong transform type")
+		}
+		errorAllowance := 0.0000001
+		ans, _ := matrix.MultiplyTuple(&table.point)
+		if math.Abs(ans.X-table.ansO.X) > errorAllowance || math.Abs(ans.Y-table.ansO.Y) > errorAllowance || math.Abs(ans.Z-table.ansO.Z) > errorAllowance {
+			t.Errorf("Error Input %v, %v, %v, %v", table.r, table.transType, ans, table.ansO)
+		}
+	}
+}
+
+//TestTuple14 tests to see whether the function Shearing works as we wanted
+func TestTuple14(t *testing.T) {
+	tables := []struct {
+		point                  feature.Tuple
+		xy, xz, yx, yz, zx, zy float64
+		ansO                   feature.Tuple
+	}{
+		{*feature.Point(2, 3, 4), 1, 0, 0, 0, 0, 0, *feature.Point(5, 3, 4)},
+		{*feature.Point(2, 3, 4), 0, 1, 0, 0, 0, 0, *feature.Point(6, 3, 4)},
+		{*feature.Point(2, 3, 4), 0, 0, 1, 0, 0, 0, *feature.Point(2, 5, 4)},
+		{*feature.Point(2, 3, 4), 0, 0, 0, 1, 0, 0, *feature.Point(2, 7, 4)},
+		{*feature.Point(2, 3, 4), 0, 0, 0, 0, 1, 0, *feature.Point(2, 3, 6)},
+		{*feature.Point(2, 3, 4), 0, 0, 0, 0, 0, 1, *feature.Point(2, 3, 7)},
+	}
+	for _, table := range tables {
+		matrix := feature.Shearing(table.xy, table.xz, table.yx, table.yz, table.zx, table.zy)
+		errorAllowance := 0.0000001
+		ans, _ := matrix.MultiplyTuple(&table.point)
+		if math.Abs(ans.X-table.ansO.X) > errorAllowance || math.Abs(ans.Y-table.ansO.Y) > errorAllowance || math.Abs(ans.Z-table.ansO.Z) > errorAllowance {
+			t.Errorf("Error Input %v, %v", ans, table.ansO)
 		}
 	}
 }
