@@ -1,9 +1,6 @@
 package feature
 
-import (
-	"fmt"
-	"math"
-)
+import "math"
 
 //Sphere type, for now just create an unit sphere
 type Sphere struct {
@@ -51,7 +48,7 @@ func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans1, ans2 float64, inters
 
 //NormalAt finds the normal at a certain point
 func (s *Sphere) NormalAt(point *Tuple) Tuple {
-	ans, _ := point.Subtract(Point(0,0,0))
+	ans, _ := point.Subtract(Point(0, 0, 0))
 	ans, _ = ans.Normalize()
 	return ans
 }
