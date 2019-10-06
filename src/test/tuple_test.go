@@ -286,3 +286,22 @@ func TestTuple14(t *testing.T) {
 		}
 	}
 }
+
+//TestTuple15 tests to see whether the function Reflect works as we wanted
+func TestTuple15(t *testing.T) {
+	tables := []struct {
+		incidentRay feature.Tuple
+		normal      feature.Tuple
+		ans         feature.Tuple
+	}{
+		{*feature.Vector(0, -1, 0), *feature.Vector(math.Sqrt(2)/2, math.Sqrt(2)/2, 0), *feature.Vector(1, 0, 0)},
+		{*feature.Vector(1, -1, 0), *feature.Vector(0, 1, 0), *feature.Vector(1, 1, 0)},
+	}
+	for _, table := range tables {
+		errorAllowance := 0.000000001
+		ans, _ := table.incidentRay.Reflect(&table.normal)
+		if math.Abs(ans.X-table.ans.X) > errorAllowance || math.Abs(ans.Y-table.ans.Y) > errorAllowance || math.Abs(ans.Z-table.ans.Z) > errorAllowance {
+			t.Errorf("Error Input %v, %v", ans, table.ans)
+		}
+	}
+}

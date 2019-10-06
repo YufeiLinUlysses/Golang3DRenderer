@@ -3,14 +3,20 @@ package feature
 //Material type
 type Material struct {
 	Col     Color
+	Ambient float64
 	Diffuse float64
+	Specular float64
+	Shininess float64
 }
 
 //NewMaterial establishes a new instance for material feature
 func NewMaterial() *Material {
 	m := &Material{
 		Col:     *NewColor(1, 1, 1),
-		Diffuse: 1,
+		Ambient: 0.1,
+		Diffuse: 0.9,
+		Specular: 0.9,
+		Shininess: 200,
 	}
 	return m
 }

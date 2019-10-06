@@ -42,21 +42,21 @@ func (t *Tuple) GetTuple() (x, y, z float64, typeOfTuple bool) {
 }
 
 //Add adds two tuple together
-func (tone *Tuple) Add(ttwo *Tuple) Tuple {
+func (t *Tuple) Add(t2 *Tuple) Tuple {
 	var ans Tuple
-	ans.X = tone.X + ttwo.X
-	ans.Y = tone.Y + ttwo.Y
-	ans.Z = tone.Z + ttwo.Z
-	ans.W = tone.W + ttwo.W
+	ans.X = t.X + t2.X
+	ans.Y = t.Y + t2.Y
+	ans.Z = t.Z + t2.Z
+	ans.W = t.W + t2.W
 	return ans
 }
 
 //Subtract subtracts ttwo from tone
-func (tone *Tuple) Subtract(ttwo *Tuple) (ans Tuple, typeOfTuple bool) {
-	ans.X = tone.X - ttwo.X
-	ans.Y = tone.Y - ttwo.Y
-	ans.Z = tone.Z - ttwo.Z
-	ans.W = tone.W - ttwo.W
+func (t *Tuple) Subtract(t2 *Tuple) (ans Tuple, typeOfTuple bool) {
+	ans.X = t.X - t2.X
+	ans.Y = t.Y - t2.Y
+	ans.Z = t.Z - t2.Z
+	ans.W = t.W - t2.W
 	if ans.W != 1 {
 		typeOfTuple = false
 	} else {
@@ -65,7 +65,7 @@ func (tone *Tuple) Subtract(ttwo *Tuple) (ans Tuple, typeOfTuple bool) {
 	return ans, typeOfTuple
 }
 
-//Mutiply helps the tuple mutiplies a scalar
+//Multiply helps the tuple mutiplies a scalar
 func (t *Tuple) Multiply(scalar float64) Tuple {
 	var ans Tuple
 	ans.X = t.X * scalar
@@ -75,7 +75,7 @@ func (t *Tuple) Multiply(scalar float64) Tuple {
 	return ans
 }
 
-//Divides helps the tuple divide by a scalar
+//Divide helps the tuple divide by a scalar
 func (t *Tuple) Divide(scalar float64) Tuple {
 	var ans Tuple
 	if scalar != 0 {
@@ -129,21 +129,28 @@ func (t *Tuple) Normalize() (ans Tuple, normalized bool) {
 }
 
 //DotProduct calculates the dot product of two vectors
-func (tone *Tuple) DotProduct(ttwo *Tuple) (ans float64, dotted bool) {
-	if tone.W != 1 && ttwo.W != 1 {
-		return tone.X*ttwo.X + tone.Y*ttwo.Y + tone.Z*ttwo.Z, true
+func (t *Tuple) DotProduct(t2 *Tuple) (ans float64, dotted bool) {
+	if t.W != 1 && t2.W != 1 {
+		return t.X*t2.X + t.Y*t2.Y + t.Z*t2.Z, true
 	}
 	return 0, false
 }
 
 //CrossProduct calculates the cross product of two vectors
-func (tone *Tuple) CrossProduct(ttwo *Tuple) (ans Tuple, crossed bool) {
-	if tone.W != 1 && ttwo.W != 1 {
-		ans.X = tone.Y*ttwo.Z - tone.Z*ttwo.Y
-		ans.Y = tone.Z*ttwo.X - tone.X*ttwo.Z
-		ans.Z = tone.X*ttwo.Y - tone.Y*ttwo.X
+func (t *Tuple) CrossProduct(t2 *Tuple) (ans Tuple, crossed bool) {
+	if t.W != 1 && t2.W != 1 {
+		ans.X = t.Y*t2.Z - t.Z*t2.Y
+		ans.Y = t.Z*t2.X - t.X*t2.Z
+		ans.Z = t.X*t2.Y - t.Y*t2.X
 		return ans, true
 	} else {
 		return ans, false
 	}
+}
+
+//Reflect takes in an incident vector and finds out the reflected vector
+func (t *Tuple) Reflect(normal *Tuple) (ans Tuple, reflected bool){
+	dotted,_ := t.DotProduct(normal)
+	processed := normal.Multiply(dotted*2)
+	return t.Subtract(&processed)
 }
