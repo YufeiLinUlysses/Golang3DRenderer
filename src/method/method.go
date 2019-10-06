@@ -30,6 +30,7 @@ func SecondImage(fileName string) {
 	canv := feature.NewCanvas(100, 100)
 	red := feature.NewColor(1, 0, 0)
 	s := feature.NewSphere()
+	//Add Light in here
 	l := feature.NewLight()
 	l.PointLight(*feature.Point(1, 0, -5), *feature.NewColor(0.5, 1, 0.3))
 	for i, row := range canv.Canv {

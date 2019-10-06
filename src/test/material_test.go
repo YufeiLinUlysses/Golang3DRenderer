@@ -2,21 +2,22 @@ package test
 
 import (
 	"feature"
+	"math"
 	"testing"
 )
 
 //TestMaterial1 tests to see if the GetMaterial function works for feature Material
 func TestMaterial1(t *testing.T) {
 	tables := []struct {
-		m    feature.Material
-		ansc feature.Color
-		ansd float64
+		m                       feature.Material
+		ansc                    feature.Color
+		ansa, ansd, anss, anssh float64
 	}{
-		{*feature.NewMaterial(), *feature.NewColor(1, 1, 1), 1},
+		{*feature.NewMaterial(), *feature.NewColor(1, 1, 1), 0.1, 0.9, 0.9, 200},
 	}
 	for _, table := range tables {
-		ansc, ansd := table.m.GetMaterial()
-		if ansc != table.ansc || ansd != table.ansd {
+		ansc, ansa, ansd, anss, anssh := table.m.GetMaterial()
+		if ansc != table.ansc || ansa != table.ansa || ansd != table.ansd || anss != table.anss || anssh != table.anssh {
 			t.Errorf("You are wrong")
 		}
 	}
@@ -25,23 +26,24 @@ func TestMaterial1(t *testing.T) {
 //TestMaterial2 tests to see if the Lighting function works for feature Material
 func TestMaterial2(t *testing.T) {
 	tables := []struct {
-		m    feature.Material
-		s    feature.Sphere
-		l    feature.Light
-		p    feature.Tuple
-		c    feature.Color
-		ansc feature.Color
+		eye, normal, position *feature.Tuple
+		color                 *feature.Color
+		ansc                  feature.Color
 	}{
-		{*feature.NewMaterial(), *feature.NewSphere(), *feature.NewLight(), *feature.Point(0, 0, -10), *feature.NewColor(1, 1, 1), *feature.NewColor(1, 1, 1)},
-		{*feature.NewMaterial(), *feature.NewSphere(), *feature.NewLight(), *feature.Point(0, 10, -10), *feature.NewColor(1, 1, 1), *feature.NewColor(0.7071067811865475, 0.7071067811865475, 0.7071067811865475)},
-		{*feature.NewMaterial(), *feature.NewSphere(), *feature.NewLight(), *feature.Point(0, 0, 10), *feature.NewColor(1, 1, 1), *feature.NewColor(0, 0, 0)},
+		{feature.Vector(0, 0, -1), feature.Vector(0, 0, -1), feature.Point(0, 10, -10), feature.NewColor(1, 1, 1), *feature.NewColor(0.7363961030678927, 0.7363961030678927, 0.7363961030678927)},
+		{feature.Vector(0, -math.Sqrt(2)/2, -math.Sqrt(2)/2), feature.Vector(0, 0, -1), feature.Point(0, 10, -10), feature.NewColor(1, 1, 1), *feature.NewColor(1.6363961030678928, 1.6363961030678928, 1.6363961030678928)},
+		{feature.Vector(0, 0, -1), feature.Vector(0, 0, -1), feature.Point(0, 0, 10), feature.NewColor(1, 1, 1), *feature.NewColor(0.1, 0.1, 0.1)},
+		{feature.Vector(0, 0, -1), feature.Vector(0, 0, -1), feature.Point(0, 0, -10), feature.NewColor(1, 1, 1), *feature.NewColor(1.9, 1.9, 1.9)},
+		{feature.Vector(0, math.Sqrt(2)/2, -math.Sqrt(2)/2), feature.Vector(0, 0, -1), feature.Point(0, 0, -10), feature.NewColor(1, 1, 1), *feature.NewColor(1, 1, 1)},
 	}
 	for _, table := range tables {
-		normal := table.s.NormalAt(feature.Point(0, 0, -1))
-		light := table.l.PointLight(table.p, table.c)
-		ansc := table.m.Lighting(light, &table.s.Center, &normal)
+		m := feature.NewMaterial()
+		position := feature.Point(0, 0, 0)
+		light := feature.NewLight()
+		*light = light.PointLight(*table.position, *table.color)
+		ansc := m.Lighting(*light, position, table.normal, table.eye)
 		if ansc != table.ansc {
-			t.Errorf("You are wrong")
+			t.Errorf("You are wrong %v", table.ansc)
 		}
 	}
 }
