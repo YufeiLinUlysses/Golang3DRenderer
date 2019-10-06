@@ -38,7 +38,7 @@ func SecondImage(fileName string) {
 		for j := range row {
 			x = float64(-2) + float64(j)/float64(25)
 			ray := feature.NewRay(x, y, -5, 0, 0, 1)
-			_, ans1,_, intersect := s.IntersectWithRay(ray)
+			_, ans1, _, intersect := s.IntersectWithRay(ray)
 			if intersect {
 				color := DiffuseLight(ans1, l, ray, red, *s)
 				canv.WritePixel(i, j, color)
@@ -58,4 +58,33 @@ func DiffuseLight(intersection float64, l *feature.Light, ray *feature.Ray, orig
 	colorAtPoint := l.Intensity.ColorMultiply(originalColor)
 	color := colorAtPoint.Multiply(lightIntensity)
 	return &color
+}
+
+//ThirdImage creates the third image
+func ThirdImage(fileName string) {
+	var x, y float64
+
+	canv := feature.NewCanvas(100, 100)
+	s := feature.NewSphere()
+	s.Material.Col = *feature.NewColor(1, 0.2, 1)
+	//Add Light in here
+	l := feature.NewLight()
+	*l = l.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1))
+	for i, row := range canv.Canv {
+		y = float64(2) - float64(i)/float64(25)
+		for j := range row {
+			x = float64(-2) + float64(j)/float64(25)
+			ray := feature.NewRay(x, y, -5, 0, 0, 1)
+
+			_, ans1, _, intersect := s.IntersectWithRay(ray)
+			hitPoint := ray.Position(ans1)
+			eye := ray.Direction.Multiply(-1)
+			normal := s.NormalAt(&hitPoint)
+			if intersect {
+				color := s.Material.Lighting(*l, &hitPoint, &normal, &eye)
+				canv.WritePixel(i, j, &color)
+			}
+		}
+	}
+	canv.CanvasToPPM(fileName)
 }

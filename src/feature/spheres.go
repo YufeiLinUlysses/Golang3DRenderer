@@ -31,7 +31,6 @@ func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans1, ans2 float64, inters
 	deter, _ := s.Transform.Determinant()
 	iT := s.Transform.GetInverse(deter)
 	newR := r.Transform(iT)
-	fmt.Println(newR)
 	o, _ := newR.Origin.Subtract(NewTuple(0, 0, 0, 1))
 	a, _ := newR.Direction.MagnitudeSquared()
 	b, _ := newR.Direction.DotProduct(&o)
