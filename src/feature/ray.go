@@ -7,10 +7,10 @@ type Ray struct {
 }
 
 //NewRay establishes a new Ray instance, overload for inputting two tuples
-func NewRay(oriX, oriY, oriZ, dirX, dirY, dirZ float64) *Ray {
-	inputDir, _ := Vector(dirX, dirY, dirZ).Normalize()
+func NewRay(origin Tuple, direction Tuple) *Ray {
+	inputDir, _ := direction.Normalize()
 	r := &Ray{
-		Origin:    *Point(oriX, oriY, oriZ),
+		Origin:    origin,
 		Direction: inputDir,
 	}
 	return r
@@ -33,7 +33,7 @@ func (r *Ray) Position(dist float64) Tuple {
 
 //Transform transforms the matrix with a given command
 func (r *Ray) Transform(matrix *Matrix) *Ray {
-	newR := NewRay(0, 0, 0, 0, 0, 0)
+	newR := NewRay(*Point(0, 0, 0), *Vector(0, 0, 0))
 	ori, _ := matrix.MultiplyTuple(&r.Origin)
 	newR.Origin = *ori
 	dir, _ := matrix.MultiplyTuple(&r.Direction)

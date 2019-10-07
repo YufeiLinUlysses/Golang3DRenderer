@@ -14,14 +14,14 @@ func FirstImage() {
 		y = float64(2) - float64(i)/float64(25)
 		for j := range row {
 			x = float64(-2) + float64(j)/float64(25)
-			ray := feature.NewRay(x, y, -5, 0, 0, 1)
+			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
 			_, _, _, intersect := s.IntersectWithRay(ray)
 			if intersect {
 				canv.WritePixel(i, j, red)
 			}
 		}
 	}
-	canv.CanvasToPPM("test1")
+	canv.CanvasToPPM("../../output/test1")
 }
 
 //SecondImage creates the second image
@@ -37,7 +37,7 @@ func SecondImage(fileName string) {
 		y = float64(2) - float64(i)/float64(25)
 		for j := range row {
 			x = float64(-2) + float64(j)/float64(25)
-			ray := feature.NewRay(x, y, -5, 0, 0, 1)
+			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
 			_, ans1, _, intersect := s.IntersectWithRay(ray)
 			if intersect {
 				color := DiffuseLight(ans1, l, ray, red, *s)
@@ -74,8 +74,7 @@ func ThirdImage(fileName string) {
 		y = float64(2) - float64(i)/float64(25)
 		for j := range row {
 			x = float64(-2) + float64(j)/float64(25)
-			ray := feature.NewRay(x, y, -5, 0, 0, 1)
-
+			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
 			_, ans1, _, intersect := s.IntersectWithRay(ray)
 			hitPoint := ray.Position(ans1)
 			eye := ray.Direction.Multiply(-1)

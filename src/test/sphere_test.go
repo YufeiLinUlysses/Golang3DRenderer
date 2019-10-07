@@ -17,20 +17,20 @@ func TestSphere1(t *testing.T) {
 		ans1, ans2       float64
 		intersect        bool
 	}{
-		{*feature.NewRay(0, 0, -5, 0, 0, 1), *feature.NewSphere(), "none", 0,0,0, 2, 4, 6, true},
-		{*feature.NewRay(0, 1, -5, 0, 0, 1), *feature.NewSphere(), "none", 0,0,0, 1, 5, 5, true},
-		{*feature.NewRay(0, 2, -5, 0, 0, 1), *feature.NewSphere(), "none", 0,0,0,0, 0, 0, false},
-		{*feature.NewRay(0, 0, 0, 0, 0, 1), *feature.NewSphere(), "none", 0,0,0,2, -1, 1, true},
-		{*feature.NewRay(0, 0, 5, 0, 0, 1), *feature.NewSphere(), "none", 0,0,0,2, -6, -4, true},
-		{*feature.NewRay(0, 0, -5, 0, 0, 1), *feature.NewSphere(), "scale",2,2,2, 2, 3, 7, true},
-		{*feature.NewRay(0, 0, -5, 0, 0, 1), *feature.NewSphere(), "translate",5,0,0, 0, 0, 0, false},
+		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 2, 4, 6, true},
+		{*feature.NewRay(*feature.Point(0, 1, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 1, 5, 5, true},
+		{*feature.NewRay(*feature.Point(0, 2, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 0, 0, 0, false},
+		{*feature.NewRay(*feature.Point(0, 0, 0), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 2, -1, 1, true},
+		{*feature.NewRay(*feature.Point(0, 0, 5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 2, -6, -4, true},
+		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "scale", 2, 2, 2, 2, 3, 7, true},
+		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "translate", 5, 0, 0, 0, 0, 0, false},
 	}
 	for _, table := range tables {
-		if table.command == "translate"{
-			matrix := feature.Translate(table.xInc,table.yInc,table.zInc)
+		if table.command == "translate" {
+			matrix := feature.Translate(table.xInc, table.yInc, table.zInc)
 			table.s = *table.s.SetTransform(matrix)
-		}else if table.command == "scale"{
-			matrix := feature.Scale(table.xInc,table.yInc,table.zInc)
+		} else if table.command == "scale" {
+			matrix := feature.Scale(table.xInc, table.yInc, table.zInc)
 			table.s = *table.s.SetTransform(matrix)
 		}
 		count, ans1, ans2, intersect := table.s.IntersectWithRay(&table.r)

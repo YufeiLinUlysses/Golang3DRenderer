@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	method.ThirdImage("../../output/test3")
+	//method.ThirdImage("../../output/test3")
+	method.FirstImage()
 	// m := feature.NewMaterial()
 	// position := feature.Point(0, 0, 0)
 	// eyev := feature.Vector(0, -math.Sqrt(2)/2, -math.Sqrt(2)/2)
