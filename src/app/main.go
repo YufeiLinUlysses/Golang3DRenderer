@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"feature"
 	"fmt"
 	//"method"
@@ -10,9 +9,8 @@ import (
 func main() {
 	//method.ThirdImage("../../output/test3")
 	w := feature.DefaultWorld()
-	var temp feature.Sphere
-	json.Unmarshal(w.Objects[0], &temp)
-	fmt.Println(temp)
+	this := w.Objects["s1"].(*feature.Sphere)
+	fmt.Println(this.Material )
 	// temp := feature.NewTest(2)
 	// t, _ := json.Marshal(*temp)
 	// var haha feature.Test

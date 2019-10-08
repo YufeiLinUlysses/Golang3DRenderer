@@ -1,18 +1,16 @@
 package feature
 
-import "encoding/json"
-
 //World type
 type World struct {
 	Light   []Light
-	Objects [][]byte
+	Objects map[string]interface{}
 }
 
 //NewWorld establishes a new world instance, if nothing is given, it returns nothing
-func NewWorld(l []Light, s [][]byte) *World {
+func NewWorld(l []Light, o map[string]interface{}) *World {
 	w := &World{
 		Light:   l,
-		Objects: s,
+		Objects: o,
 	}
 	return w
 }
@@ -20,7 +18,7 @@ func NewWorld(l []Light, s [][]byte) *World {
 //DefaultWorld establishes the default world in the book
 func DefaultWorld() *World {
 	var lights []Light
-	var objects [][]byte
+	objects := make(map[string]interface{})
 
 	light := NewLight()
 	lights = append(lights, *light)
@@ -29,13 +27,12 @@ func DefaultWorld() *World {
 	s1.Material.Col = *NewColor(0.8, 1.0, 0.6)
 	s1.Material.Diffuse = 0.7
 	s1.Material.Specular = 0.2
-	t1, _ := json.Marshal(s1)
+	objects["s1"] = s1
 
 	s2 := NewSphere()
 	s2.Transform = Scale(0.5, 0.5, 0.5)
-	t2, _ := json.Marshal(s2)
+	objects["s2"] = s1
 
-	objects = append(objects, t1, t2)
 	w := NewWorld(lights, objects)
 	return w
 }
