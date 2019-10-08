@@ -1,21 +1,31 @@
 package main
 
 import (
-	"feature"
 	"fmt"
+	"reflect"
 	//"method"
 )
 
+//Test type
+type Test struct {
+	A int
+}
+
 func main() {
+	t := &Test{A: 2}
+	func do(i interface{}) {
+		switch v := i.(type) {
+		case *Test:
+			fmt.Printf("%v\n",i)
+		case int:
+			fmt.Printf("Twice %v is %v\n", v, v*2)
+		case string:
+			fmt.Printf("%q is %v bytes long\n", v, len(v))
+		default:
+			fmt.Printf("I don't know about type %T!\n", v)
+		}
+	}
+	
 	//method.ThirdImage("../../output/test3")
-	w := feature.DefaultWorld()
-	this := w.Objects["s1"].(*feature.Sphere)
-	fmt.Println(this.Material )
-	// temp := feature.NewTest(2)
-	// t, _ := json.Marshal(*temp)
-	// var haha feature.Test
-	// fmt.Println(temp)
-	// fmt.Println(string(t))
-	// fmt.Println(json.Unmarshal(t, &haha))
-	// fmt.Println(haha)
+
 }

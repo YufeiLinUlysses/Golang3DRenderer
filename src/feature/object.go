@@ -2,7 +2,7 @@ package feature
 
 //Object type
 type Object struct {
-	Addr []byte
+	Addr interface{}
 }
 
 //SetAddr sets the addr

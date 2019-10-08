@@ -1,5 +1,7 @@
 package feature
 
+import "encoding/json"
+
 //World type
 type World struct {
 	Light   []Light
@@ -27,11 +29,11 @@ func DefaultWorld() *World {
 	s1.Material.Col = *NewColor(0.8, 1.0, 0.6)
 	s1.Material.Diffuse = 0.7
 	s1.Material.Specular = 0.2
-	objects["s1"] = s1
+	objects["s1"] = &s1
 
 	s2 := NewSphere()
 	s2.Transform = Scale(0.5, 0.5, 0.5)
-	objects["s2"] = s1
+	objects["s2"] = &s2
 
 	w := NewWorld(lights, objects)
 	return w
