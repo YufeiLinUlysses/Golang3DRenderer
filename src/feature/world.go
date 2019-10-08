@@ -36,3 +36,9 @@ func DefaultWorld() *World {
 	w := NewWorld(lights, objects)
 	return w
 }
+
+//IntersectWorld gives the intersection the ray has with the world
+func (w *World) IntersectWorld(r *Ray) (count float64, points []float64){
+	
+	return count, points
+}
