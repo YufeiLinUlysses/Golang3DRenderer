@@ -4,21 +4,15 @@ import "math"
 
 //Sphere type, for now just create an unit sphere
 type Sphere struct {
-	Transform *Matrix
-	Material  Material
-	Center    Tuple
-	Radius    float64
+	Object
+	Radius float64
 }
 
 //NewSphere creates an instance of Type Sphere
 func NewSphere() *Sphere {
-	matrix := NewMatrix(4, 4)
-	m, _ := matrix.GetIdentity()
 	s := &Sphere{
-		Transform: m,
-		Material:  *NewMaterial(),
-		Center:    *Point(0, 0, 0),
-		Radius:    1,
+		Object: *NewObject(),
+		Radius: 1,
 	}
 	return s
 }
@@ -53,8 +47,8 @@ func (s *Sphere) NormalAt(point *Tuple) Tuple {
 	return ans
 }
 
-//SetTransform sets the Transform variable for feature Sphere
-func (s *Sphere) SetTransform(matrix *Matrix) *Sphere {
-	s.Transform = matrix
-	return s
-}
+// //SetTransform sets the Transform variable for feature Sphere
+// func (s *Sphere) SetTransform(matrix *Matrix) *Sphere {
+// 	s.Transform = matrix
+// 	return s
+// }

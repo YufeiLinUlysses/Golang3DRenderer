@@ -26,9 +26,9 @@ func DefaultWorld() *World {
 	lights = append(lights, *light)
 
 	s1 := NewSphere()
-	s1.Material.Col = *NewColor(0.8, 1.0, 0.6)
-	s1.Material.Diffuse = 0.7
-	s1.Material.Specular = 0.2
+	s1.Mat.Col = *NewColor(0.8, 1.0, 0.6)
+	s1.Mat.Diffuse = 0.7
+	s1.Mat.Specular = 0.2
 	objects = append(objects, s1)
 
 	s2 := NewSphere()

@@ -4,6 +4,27 @@ import "math"
 
 //Object type
 type Object struct {
+	Mat       Material
+	Center    Tuple
+	Transform *Matrix
+}
+
+//NewObject sets a new instance for Object class
+func NewObject() *Object {
+	matrix := NewMatrix(4, 4)
+	m, _ := matrix.GetIdentity()
+	o := &Object{
+		Mat:       *NewMaterial(),
+		Center:    *Point(0, 0, 0),
+		Transform: m,
+	}
+	return o
+}
+
+//SetTransform sets the transform matrix
+func (o *Object) SetTransform(matrix *Matrix) *Object {
+	o.Transform = matrix
+	return o
 }
 
 //Translate returns translation matrix

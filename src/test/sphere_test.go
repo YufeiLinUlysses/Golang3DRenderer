@@ -28,10 +28,10 @@ func TestSphere1(t *testing.T) {
 	for _, table := range tables {
 		if table.command == "translate" {
 			matrix := feature.Translate(table.xInc, table.yInc, table.zInc)
-			table.s = *table.s.SetTransform(matrix)
+			table.s.Object = *table.s.SetTransform(matrix)
 		} else if table.command == "scale" {
 			matrix := feature.Scale(table.xInc, table.yInc, table.zInc)
-			table.s = *table.s.SetTransform(matrix)
+			table.s.Object = *table.s.SetTransform(matrix)
 		}
 		count, ans, intersect := table.s.IntersectWithRay(&table.r)
 		if intersect {
