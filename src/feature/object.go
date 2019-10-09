@@ -1,6 +1,8 @@
 package feature
 
-import "math"
+import (
+	"math"
+)
 
 //Object type
 type Object struct {
@@ -91,4 +93,27 @@ func Shearing(xy, xz, yx, yz, zx, zy float64) *Matrix {
 	m = m.Assign(0, 2, zx)
 	m = m.Assign(1, 2, zy)
 	return m
+}
+
+//ViewTransformation changes the view orientation
+func ViewTransformation(from, to, up Tuple) *Matrix {
+	m := NewMatrix(4, 4)
+	m, _ = m.GetIdentity()
+	subtract, _ := to.Subtract(&from)
+	forward, _ := subtract.Normalize()
+	upn, _ := up.Normalize()
+	left, _ := forward.CrossProduct(&upn)
+	trueUp, _ := left.CrossProduct(&forward)
+	m = m.Assign(0, 0, left.X)
+	m = m.Assign(1, 0, left.Y)
+	m = m.Assign(2, 0, left.Z)
+	m = m.Assign(0, 1, trueUp.X)
+	m = m.Assign(1, 1, trueUp.Y)
+	m = m.Assign(2, 1, trueUp.Z)
+	m = m.Assign(0, 2, -forward.X)
+	m = m.Assign(1, 2, -forward.Y)
+	m = m.Assign(2, 2, -forward.Z)
+	trans := Translate(-from.X, -from.Y, -from.Z)
+	ans, _ := m.Multiply(trans)
+	return ans
 }
