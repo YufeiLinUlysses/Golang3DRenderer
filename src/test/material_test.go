@@ -37,11 +37,15 @@ func TestMaterial2(t *testing.T) {
 		{feature.Vector(0, math.Sqrt(2)/2, -math.Sqrt(2)/2), feature.Vector(0, 0, -1), feature.Point(0, 0, -10), feature.NewColor(1, 1, 1), *feature.NewColor(1, 1, 1)},
 	}
 	for _, table := range tables {
+		var comp feature.Computations
 		m := feature.NewMaterial()
 		position := feature.Point(0, 0, 0)
 		light := feature.NewLight()
 		*light = light.PointLight(*table.position, *table.color)
-		ansc := m.Lighting(*light, position, table.normal, table.eye)
+		comp.Point = *position
+		comp.Normal = *table.normal
+		comp.Eye = *table.eye
+		ansc := m.Lighting(*light, comp)
 		if ansc != table.ansc {
 			t.Errorf("You are wrong %v", table.ansc)
 		}

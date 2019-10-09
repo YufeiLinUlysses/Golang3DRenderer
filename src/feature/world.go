@@ -4,14 +4,14 @@ import "sort"
 
 //World type
 type World struct {
-	Light   []Light
+	Lights  []Light
 	Objects []interface{}
 }
 
 //NewWorld establishes a new world instance, if nothing is given, it returns nothing
 func NewWorld(l []Light, o []interface{}) *World {
 	w := &World{
-		Light:   l,
+		Lights:  l,
 		Objects: o,
 	}
 	return w
@@ -23,6 +23,7 @@ func DefaultWorld() *World {
 	var objects []interface{}
 
 	light := NewLight()
+	*light = light.PointLight(*Point(-10, 10, -10), *NewColor(1, 1, 1))
 	lights = append(lights, *light)
 
 	s1 := NewSphere()
@@ -54,9 +55,32 @@ func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
 			} else {
 				continue
 			}
-
 		}
 	}
 	sort.Slice(points, func(i, j int) bool { return points[i].T < points[j].T })
 	return count, points
+}
+
+//shadeHit gives back the color at the intersection in the world
+func (w *World) shadeHit(comp Computations) (colors Color) {
+	switch v := comp.Shape.(type) {
+	case *Sphere:
+		for i := range w.Lights {
+			temp := v.Mat.Lighting(w.Lights[i], comp)
+			colors = colors.Add(&temp)
+		}
+	}
+	return colors
+}
+
+//ColorAt returns the color at a
+func (w *World) ColorAt(r *Ray) *Color {
+	color := NewColor(0,0,0)
+	_, inters := w.IntersectWorld(r)
+	hitPoint, hitted := Hit(inters)
+    if hitted == true {
+		comp := hitPoint.PrepareComputation(r)
+		*color = w.shadeHit(comp)
+	}
+	return color
 }

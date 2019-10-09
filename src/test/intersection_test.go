@@ -6,7 +6,7 @@ import (
 )
 
 //TestColor1 tests to see if the Hit function works for feature Intersection
-func TestColor1(t *testing.T) {
+func TestIntersection1(t *testing.T) {
 	tables := []struct {
 		t    []float64
 		ans  float64

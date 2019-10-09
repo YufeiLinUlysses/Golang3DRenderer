@@ -92,10 +92,3 @@ func Shearing(xy, xz, yx, yz, zx, zy float64) *Matrix {
 	m = m.Assign(1, 2, zy)
 	return m
 }
-
-//Object Class
-//Scale
-//Translate
-//Transform
-//Material
-//Virtual IntersectionWidth

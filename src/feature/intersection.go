@@ -2,17 +2,17 @@ package feature
 
 //Intersection type
 type Intersection struct {
-	T      float64
-	r      Ray
-	Object interface{}
+	T     float64
+	r     Ray
+	Shape interface{}
 }
 
 //NewIntersection establishes a new intersection instance
 func NewIntersection(t float64, r Ray, o interface{}) *Intersection {
 	i := &Intersection{
-		T:      t,
-		r:      r,
-		Object: o,
+		T:     t,
+		r:     r,
+		Shape: o,
 	}
 	return i
 }
@@ -31,4 +31,24 @@ func Hit(i []Intersection) (hitPoint *Intersection, hitted bool) {
 		}
 	}
 	return hitPoint, hitted
+}
+
+//PrepareComputation returns a computations instance
+func (i *Intersection) PrepareComputation(r *Ray) Computations {
+	var comp Computations
+	comp.T = i.T
+	comp.Shape = i.Shape
+	comp.Point = r.Position(comp.T)
+	comp.Eye = r.Direction.Multiply(-1)
+	switch v := comp.Shape.(type) {
+	case *Sphere:
+		comp.Normal = v.NormalAt(&comp.Point)
+	}
+	if product, _ := comp.Normal.DotProduct(&comp.Eye); product < 0 {
+		comp.Inside = true
+		comp.Normal = comp.Normal.Multiply(-1)
+	} else {
+		comp.Inside = false
+	}
+	return comp
 }

@@ -46,9 +46,3 @@ func (s *Sphere) NormalAt(point *Tuple) Tuple {
 	ans, _ = ans.Normalize()
 	return ans
 }
-
-// //SetTransform sets the Transform variable for feature Sphere
-// func (s *Sphere) SetTransform(matrix *Matrix) *Sphere {
-// 	s.Transform = matrix
-// 	return s
-// }

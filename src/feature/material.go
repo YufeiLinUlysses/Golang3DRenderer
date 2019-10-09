@@ -29,22 +29,22 @@ func (m *Material) GetMaterial() (col Color, amb, dif, spe, shi float64) {
 }
 
 //Lighting gets the lighting of the object and decides the color of a pixel
-func (m *Material) Lighting(l Light, point, normal, eyev *Tuple) (col Color) {
+func (m *Material) Lighting(l Light, comp Computations) (col Color) {
 	var diffuse, specular, ans Color
 	black := NewColor(0, 0, 0)
 	effectiveCol := m.Col.ColorMultiply(&l.Intensity)
-	sub, _ := l.Position.Subtract(point)
+	sub, _ := l.Position.Subtract(&comp.Point)
 	light, _ := sub.Normalize()
 	ambient := effectiveCol.Multiply(m.Ambient)
-	lightDotNormal, _ := light.DotProduct(normal)
+	lightDotNormal, _ := light.DotProduct(&comp.Normal)
 	if lightDotNormal < 0 {
 		diffuse = *black
 		specular = *black
 	} else {
 		diffuse = effectiveCol.Multiply(m.Diffuse * lightDotNormal)
 		negLight := light.Multiply(-1)
-		reflect, _ := negLight.Reflect(normal)
-		reflectDotEye, _ := reflect.DotProduct(eyev)
+		reflect, _ := negLight.Reflect(&comp.Normal)
+		reflectDotEye, _ := reflect.DotProduct(&comp.Eye)
 		if reflectDotEye <= 0 {
 			specular = *black
 		} else {
