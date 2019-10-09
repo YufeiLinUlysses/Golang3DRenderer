@@ -18,12 +18,12 @@ func TestSphere1(t *testing.T) {
 		intersect        bool
 	}{
 		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 2, 4, 6, true},
-		{*feature.NewRay(*feature.Point(0, 1, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 1, 5, 5, true},
-		{*feature.NewRay(*feature.Point(0, 2, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 0, 0, 0, false},
+		{*feature.NewRay(*feature.Point(0, 1, -5), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 1, 5, 5, true},
+		{*feature.NewRay(*feature.Point(0, 2, -5), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 0, 0, 0, false},
 		{*feature.NewRay(*feature.Point(0, 0, 0), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 2, -1, 1, true},
-		{*feature.NewRay(*feature.Point(0, 0, 5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 2, -6, -4, true},
-		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "scale", 2, 2, 2, 2, 3, 7, true},
-		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector( 0, 0, 1)), *feature.NewSphere(), "translate", 5, 0, 0, 0, 0, 0, false},
+		{*feature.NewRay(*feature.Point(0, 0, 5), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "none", 0, 0, 0, 2, -6, -4, true},
+		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "scale", 2, 2, 2, 2, 3, 7, true},
+		{*feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector(0, 0, 1)), *feature.NewSphere(), "translate", 5, 0, 0, 0, 0, 0, false},
 	}
 	for _, table := range tables {
 		if table.command == "translate" {
@@ -33,10 +33,17 @@ func TestSphere1(t *testing.T) {
 			matrix := feature.Scale(table.xInc, table.yInc, table.zInc)
 			table.s = *table.s.SetTransform(matrix)
 		}
-		count, ans1, ans2, intersect := table.s.IntersectWithRay(&table.r)
-		if count != table.count || ans1 != table.ans1 || ans2 != table.ans2 || intersect != table.intersect {
-			t.Errorf("Error Input")
+		count, ans, intersect := table.s.IntersectWithRay(&table.r)
+		if intersect {
+			if intersect != table.intersect || (count != table.count || ans[0].T != table.ans1 || ans[1].T != table.ans2) {
+				t.Errorf("Error Input")
+			}
+		} else {
+			if intersect != table.intersect {
+				t.Errorf("Error Input")
+			}
 		}
+
 	}
 }
 

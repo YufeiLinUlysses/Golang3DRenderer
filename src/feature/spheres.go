@@ -24,7 +24,7 @@ func NewSphere() *Sphere {
 }
 
 //IntersectWithRay calculates the intersection between a sphere and a ray
-func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans1, ans2 float64, intersect bool) {
+func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans []Intersection, intersect bool) {
 	deter, _ := s.Transform.Determinant()
 	iT := s.Transform.GetInverse(deter)
 	newR := r.Transform(iT)
@@ -36,13 +36,13 @@ func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans1, ans2 float64, inters
 	c = c - 1
 	discri := b*b - 4*a*c
 	if discri < 0 {
-		return count, ans1, ans2, false
+		return count, ans, false
 	} else if discri == 0 {
-		return 1, (-b / 2), (-b / 2), true
+		ans = append(ans, *NewIntersection((-b / 2 * a), *r, s), *NewIntersection((-b / 2 * a), *r, s))
+		return 1, ans, true
 	} else {
-		ans1 = (-b - math.Sqrt(discri)) / (2 * a)
-		ans2 = (-b + math.Sqrt(discri)) / (2 * a)
-		return 2, ans1, ans2, true
+		ans = append(ans, *NewIntersection((-b-math.Sqrt(discri))/(2*a), *r, s), *NewIntersection((-b+math.Sqrt(discri))/(2*a), *r, s))
+		return 2, ans, true
 	}
 }
 

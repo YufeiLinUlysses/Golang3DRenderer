@@ -1,13 +1,15 @@
 package feature
 
+import "sort"
+
 //World type
 type World struct {
 	Light   []Light
-	Objects map[string]interface{}
+	Objects []interface{}
 }
 
 //NewWorld establishes a new world instance, if nothing is given, it returns nothing
-func NewWorld(l []Light, o map[string]interface{}) *World {
+func NewWorld(l []Light, o []interface{}) *World {
 	w := &World{
 		Light:   l,
 		Objects: o,
@@ -18,7 +20,7 @@ func NewWorld(l []Light, o map[string]interface{}) *World {
 //DefaultWorld establishes the default world in the book
 func DefaultWorld() *World {
 	var lights []Light
-	objects := make(map[string]interface{})
+	var objects []interface{}
 
 	light := NewLight()
 	lights = append(lights, *light)
@@ -27,18 +29,34 @@ func DefaultWorld() *World {
 	s1.Material.Col = *NewColor(0.8, 1.0, 0.6)
 	s1.Material.Diffuse = 0.7
 	s1.Material.Specular = 0.2
-	objects["s1"] = s1
+	objects = append(objects, s1)
 
 	s2 := NewSphere()
 	s2.Transform = Scale(0.5, 0.5, 0.5)
-	objects["s2"] = s2
+	objects = append(objects, s2)
 
 	w := NewWorld(lights, objects)
 	return w
 }
 
 //IntersectWorld gives the intersection the ray has with the world
-func (w *World) IntersectWorld(r *Ray) (count float64, points []float64){
-	
+func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
+	obj := w.Objects
+	for i := range obj {
+		switch v := obj[i].(type) {
+		case *Sphere:
+			tempCount, ans, _ := v.IntersectWithRay(r)
+			count += tempCount
+			if tempCount == 1 {
+				points = append(points, ans[0])
+			} else if tempCount == 2 {
+				points = append(points, ans[0], ans[1])
+			} else {
+				continue
+			}
+
+		}
+	}
+	sort.Slice(points, func(i, j int) bool { return points[i].T < points[j].T })
 	return count, points
 }

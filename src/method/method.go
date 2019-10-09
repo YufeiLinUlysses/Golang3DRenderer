@@ -15,7 +15,7 @@ func FirstImage() {
 		for j := range row {
 			x = float64(-2) + float64(j)/float64(25)
 			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
-			_, _, _, intersect := s.IntersectWithRay(ray)
+			_, _, intersect := s.IntersectWithRay(ray)
 			if intersect {
 				canv.WritePixel(i, j, red)
 			}
@@ -38,9 +38,9 @@ func SecondImage(fileName string) {
 		for j := range row {
 			x = float64(-2) + float64(j)/float64(25)
 			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
-			_, ans1, _, intersect := s.IntersectWithRay(ray)
+			_, ans, intersect := s.IntersectWithRay(ray)
 			if intersect {
-				color := DiffuseLight(ans1, l, ray, red, *s)
+				color := DiffuseLight(ans[0].T, l, ray, red, *s)
 				canv.WritePixel(i, j, color)
 			}
 		}
@@ -75,11 +75,11 @@ func ThirdImage(fileName string) {
 		for j := range row {
 			x = float64(-2) + float64(j)/float64(25)
 			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
-			_, ans1, _, intersect := s.IntersectWithRay(ray)
-			hitPoint := ray.Position(ans1)
+			_, ans, intersect := s.IntersectWithRay(ray)
 			eye := ray.Direction.Multiply(-1)
-			normal := s.NormalAt(&hitPoint)
 			if intersect {
+				hitPoint := ray.Position(ans[0].T)
+				normal := s.NormalAt(&hitPoint)
 				color := s.Material.Lighting(*l, &hitPoint, &normal, &eye)
 				canv.WritePixel(i, j, &color)
 			}
