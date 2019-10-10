@@ -32,7 +32,7 @@ func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans []Intersection, inters
 	if discri < 0 {
 		return count, ans, false
 	} else if discri == 0 {
-		ans = append(ans, *NewIntersection((-b / 2 * a), *r, s), *NewIntersection((-b / 2 * a), *r, s))
+		ans = append(ans, *NewIntersection(-b/(2*a), *r, s), *NewIntersection(-b/(2*a), *r, s))
 		return 1, ans, true
 	} else {
 		ans = append(ans, *NewIntersection((-b-math.Sqrt(discri))/(2*a), *r, s), *NewIntersection((-b+math.Sqrt(discri))/(2*a), *r, s))

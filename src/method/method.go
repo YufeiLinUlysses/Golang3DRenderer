@@ -96,7 +96,7 @@ func ThirdImage(fileName string) {
 	canv.CanvasToPPM(fileName)
 }
 
-//ForthImage creates the third image
+//ForthImage creates the forth image
 func ForthImage(fileName string) {
 
 	//Floor instance
@@ -164,5 +164,45 @@ func ForthImage(fileName string) {
 
 	//Canv that draw the final product
 	canv := cam.Render(*w)
+	canv.CanvasToPPM(fileName)
+}
+
+//FifthImage creates the fifth image
+func FifthImage(fileName string) {
+	//Setup Variables
+	var x, y float64
+
+	//Canvas
+	canv := feature.NewCanvas(100, 100)
+
+	//Sphere
+	right := feature.NewSphere()
+	right.Transform, _ = feature.Translate(1.5, 0.5, -0.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	right.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+	right.Mat.Diffuse = 0.7
+	right.Mat.Specular = 0.3
+
+	//Light
+	l := feature.NewLight()
+	*l = l.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1))
+
+	for i, row := range canv.Canv {
+		y = float64(2) - float64(i)/float64(25)
+		for j := range row {
+			x = float64(-2) + float64(j)/float64(25)
+			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
+			_, ans, intersect := right.IntersectWithRay(ray)
+			if intersect {
+				inter, hit := feature.Hit(ans)
+				if hit {
+					comp := inter.PrepareComputation(ray)
+					color := right.Mat.Lighting(*l, comp)
+					canv.WritePixel(i, j, &color)
+				}
+			}
+		}
+	}
+
+	//Produce Image
 	canv.CanvasToPPM(fileName)
 }
