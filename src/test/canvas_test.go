@@ -67,24 +67,3 @@ func TestCanvas3(t *testing.T) {
 		t.Errorf("You are wrong")
 	}
 }
-
-//TestCanvas4 tests to see if we change everything
-//will CanvasToPPm still work for feature Canvas
-func TestCanvas4(t *testing.T) {
-	canv := feature.NewCanvas(10, 2)
-	for i := 0; i < canv.Height; i++ {
-		for j := 0; j < canv.Width; j++ {
-			canv.Canv[i][j] = *feature.NewColor(1, 0.8, 0.6)
-		}
-	}
-	canv.CanvasToPPM("testFiles/myFile/hhh")
-	dat, _ := os.Open("testFiles/originalFile/test2.ppm")
-	b, _ := ioutil.ReadAll(dat)
-	ans1 := string(b)
-	dat1, _ := os.Open("testFiles/myFile/hhh.ppm")
-	b1, _ := ioutil.ReadAll(dat1)
-	ans2 := string(b1)
-	if ans1 != ans2 {
-		t.Errorf("You are wrong")
-	}
-}

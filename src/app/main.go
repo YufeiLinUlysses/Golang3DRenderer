@@ -3,16 +3,18 @@ package main
 import (
 	"feature"
 	"fmt"
+	"math"
 	//"method"
 )
 
 func main() {
-	from := feature.Point(0, 0, 0)
-	to := feature.Point(0, 0, 1)
+	w := feature.DefaultWorld()
+	c := feature.NewCamera(11, 11, math.Pi/2)
+	from := feature.Point(0, 0, -5)
+	to := feature.Point(0, 0, 0)
 	up := feature.Vector(0, 1, 0)
-	fmt.Println(up.Normalize())
-	m := feature.ViewTransformation(*from, *to, *up)
-	fmt.Println(m)
-	fmt.Println(feature.Translate(0, 0, -8))
+	c.Transform = feature.ViewTransformation(*from, *to, *up)
+	image := c.Render(*w)
+	fmt.Println(image.PixelAt(5, 5))
 	//method.ThirdImage("../../output/test3")
 }
