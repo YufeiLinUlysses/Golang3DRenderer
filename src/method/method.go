@@ -147,7 +147,7 @@ func ForthImage(fileName string) {
 	left.Mat.Specular = 0.3
 
 	//Camera instance
-	cam := feature.NewCamera(100, 50, math.Pi/3)
+	cam := feature.NewCamera(1000, 500, math.Pi/2)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
 
 	//World instance
