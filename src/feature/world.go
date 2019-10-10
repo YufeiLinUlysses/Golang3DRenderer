@@ -1,6 +1,8 @@
 package feature
 
-import "sort"
+import (
+	"sort"
+)
 
 //World type
 type World struct {
@@ -75,10 +77,10 @@ func (w *World) shadeHit(comp Computations) (colors Color) {
 
 //ColorAt returns the color at a
 func (w *World) ColorAt(r *Ray) *Color {
-	color := NewColor(0,0,0)
+	color := NewColor(0, 0, 0)
 	_, inters := w.IntersectWorld(r)
 	hitPoint, hitted := Hit(inters)
-    if hitted == true {
+	if hitted == true {
 		comp := hitPoint.PrepareComputation(r)
 		*color = w.shadeHit(comp)
 	}

@@ -15,5 +15,5 @@ func main() {
 	// c.Transform = feature.ViewTransformation(*from, *to, *up)
 	// image := c.Render(*w)
 	// fmt.Println(image.PixelAt(5, 5))
-	method.ForthImage("../../output/test5")
+	method.ThirdImage("../../output/test7")
 }

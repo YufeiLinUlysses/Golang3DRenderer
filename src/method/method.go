@@ -66,8 +66,11 @@ func ThirdImage(fileName string) {
 	var x, y float64
 
 	canv := feature.NewCanvas(100, 100)
+
+	//Sphere
 	s := feature.NewSphere()
 	s.Mat.Col = *feature.NewColor(1, 0.2, 1)
+
 	//Add Light in here
 	l := feature.NewLight()
 	*l = l.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1))
@@ -95,6 +98,7 @@ func ThirdImage(fileName string) {
 
 //ForthImage creates the third image
 func ForthImage(fileName string) {
+
 	//Floor instance
 	floor := feature.NewSphere()
 	floor.Transform = feature.Scale(10, 0.01, 10)
@@ -107,9 +111,9 @@ func ForthImage(fileName string) {
 	rotY := feature.RotationY(-math.Pi / 4)
 	rotX := feature.RotationX(math.Pi / 2)
 	scal := feature.Scale(10, 0.01, 10)
-	m, _ := trans.Multiply(rotY)
-	m, _ = m.Multiply(rotX)
-	m, _ = m.Multiply(scal)
+	m, _ := rotX.Multiply(scal)
+	m, _ = rotY.Multiply(m)
+	m, _ = trans.Multiply(m)
 	leftWall.Transform = m
 	leftWall.Mat = floor.Mat
 
@@ -119,9 +123,9 @@ func ForthImage(fileName string) {
 	rotY = feature.RotationY(math.Pi / 4)
 	rotX = feature.RotationX(math.Pi / 2)
 	scal = feature.Scale(10, 0.01, 10)
-	m, _ = trans.Multiply(rotY)
-	m, _ = m.Multiply(rotX)
-	m, _ = m.Multiply(scal)
+	m, _ = rotX.Multiply(scal)
+	m, _ = rotY.Multiply(m)
+	m, _ = trans.Multiply(m)
 	rightWall.Transform = m
 	rightWall.Mat = floor.Mat
 
@@ -147,7 +151,7 @@ func ForthImage(fileName string) {
 	left.Mat.Specular = 0.3
 
 	//Camera instance
-	cam := feature.NewCamera(1000, 500, math.Pi/2)
+	cam := feature.NewCamera(100, 50, math.Pi/3)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
 
 	//World instance
@@ -155,9 +159,10 @@ func ForthImage(fileName string) {
 	var objects []interface{}
 	var light feature.Light
 	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
-	objects = append(objects, floor, leftWall, rightWall, middle, right, left)
+	objects = append(objects, left)
 	w := feature.NewWorld(lights, objects)
-	canv := cam.Render(*w)
 
+	//Canv that draw the final product
+	canv := cam.Render(*w)
 	canv.CanvasToPPM(fileName)
 }
