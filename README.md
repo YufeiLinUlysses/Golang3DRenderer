@@ -2,7 +2,7 @@
 
 Current Work:
 
-![Current Work](/CoverPictures/CoverPic1.png)
+![Current Work](/CoverPictures/CoverPic1.PNG)
 
 For Running and Testing do go run *.go and go test *.go
 
