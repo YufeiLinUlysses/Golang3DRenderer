@@ -2,7 +2,7 @@
 
 Current Work:
 
-![Current Work](/output/test4.ppm)
+![Current Work](/CoverPictures/CoverPic1.png)
 
 For Running and Testing do go run *.go and go test *.go
 
