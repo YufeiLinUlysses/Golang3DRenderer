@@ -43,6 +43,8 @@ func (i *Intersection) PrepareComputation(r *Ray) Computations {
 	switch v := comp.Shape.(type) {
 	case *Sphere:
 		comp.Normal = v.NormalAt(&comp.Point)
+	case *Plane:
+		comp.Normal = v.NormalAt(&comp.Point)
 	}
 	if product, _ := comp.Normal.DotProduct(&comp.Eye); product < 0 {
 		comp.Inside = true

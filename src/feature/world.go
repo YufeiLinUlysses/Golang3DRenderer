@@ -52,6 +52,8 @@ func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
 		switch v := obj[i].(type) {
 		case *Sphere:
 			tempCount, ans, _ = v.IntersectWithRay(r)
+		case *Plane:
+			tempCount, ans, _ = v.IntersectWithRay(r)
 		}
 		count += tempCount
 		if tempCount == 1 {
@@ -68,14 +70,18 @@ func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
 
 //ShadeHit gives back the color at the intersection in the world
 func (w *World) ShadeHit(comp Computations) (colors Color) {
+	var mat Material
 	switch v := comp.Shape.(type) {
 	case *Sphere:
-		for i := range w.Lights {
-			light := w.Lights[i]
-			inShadow := w.isShadowed(&light, &comp.OverPoint)
-			temp := v.Mat.Lighting(light, comp, inShadow)
-			colors = colors.Add(&temp)
-		}
+		mat = v.Mat
+	case *Plane:
+		mat = v.Mat
+	}
+	for i := range w.Lights {
+		light := w.Lights[i]
+		inShadow := w.isShadowed(&light, &comp.OverPoint)
+		temp := mat.Lighting(light, comp, inShadow)
+		colors = colors.Add(&temp)
 	}
 	return colors
 }
