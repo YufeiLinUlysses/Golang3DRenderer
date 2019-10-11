@@ -4,7 +4,7 @@ This is a practice based on Jamis Buck's "The Ray Tracer Challenge." It is a com
 
 Current Work:
 
-![Current Work](/CoverPictures/CoverPic1.PNG)
+![Current Work](/CoverPictures/CoverPic2.PNG)
 
 For Running and Testing do go run *.go and go test *.go
 
