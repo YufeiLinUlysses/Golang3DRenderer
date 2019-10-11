@@ -42,7 +42,12 @@ func (s *Sphere) IntersectWithRay(r *Ray) (count int, ans []Intersection, inters
 
 //NormalAt finds the normal at a certain point
 func (s *Sphere) NormalAt(point *Tuple) Tuple {
-	ans, _ := point.Subtract(Point(0, 0, 0))
-	ans, _ = ans.Normalize()
+	deter, _ := s.Transform.Determinant()
+	inv := s.Transform.GetInverse(deter)
+	obPoint, _ := inv.MultiplyTuple(point)
+	obNormal, _ := obPoint.Subtract(Point(0, 0, 0))
+	wNormal, _ := inv.Transpose().MultiplyTuple(&obNormal)
+	wNormal.W = 0
+	ans, _ := wNormal.Normalize()
 	return ans
 }
