@@ -1,10 +1,10 @@
 # Golang 3D Renderer
 
-This is a practice based on Jamis Buck's "The Ray Tracer Challenge." It is a command-line application right now, but will become a mobile application in the future.
+This is a practice based on Jamis Buck's "The Ray Tracer Challenge." It is a command-line application right now, but will become a mobile application in the future. Page 119-120 is important.
 
-Current Work:
+Current Work, with spheres and planes:
 
-![Current Work](/CoverPictures/CoverPic2.PNG)
+![Current Work 1](/CoverPictures/CoverPic2.PNG)
 
 For Running and Testing do go run *.go and go test *.go
 

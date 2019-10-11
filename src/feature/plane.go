@@ -19,7 +19,7 @@ func NewPlane() *Plane {
 func (p *Plane) NormalAt(point *Tuple) Tuple {
 	deter, _ := p.Transform.Determinant()
 	inv := p.Transform.GetInverse(deter)
-	localNormal := Point(0, 1, 0)
+	localNormal := Vector(0, 1, 0)
 	worldNormal, _ := inv.Transpose().MultiplyTuple(localNormal)
 	worldNormal.W = 0
 	norm, _ := worldNormal.Normalize()
@@ -28,6 +28,9 @@ func (p *Plane) NormalAt(point *Tuple) Tuple {
 
 //IntersectWithRay calculates the intersection between a plane and a ray
 func (p *Plane) IntersectWithRay(r *Ray) (count int, ans []Intersection, intersect bool) {
+	deter, _ := p.Transform.Determinant()
+	inv := p.Transform.GetInverse(deter)
+	r = r.Transform(inv)
 	if math.Abs(r.Direction.Y) < 0.00001 {
 		return 0, ans, false
 	}
