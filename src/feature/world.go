@@ -45,34 +45,53 @@ func DefaultWorld() *World {
 //IntersectWorld gives the intersection the ray has with the world
 func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
 	obj := w.Objects
+	var tempCount int
+	var ans []Intersection
+
 	for i := range obj {
 		switch v := obj[i].(type) {
 		case *Sphere:
-			tempCount, ans, _ := v.IntersectWithRay(r)
-			count += tempCount
-			if tempCount == 1 {
-				points = append(points, ans[0])
-			} else if tempCount == 2 {
-				points = append(points, ans[0], ans[1])
-			} else {
-				continue
-			}
+			tempCount, ans, _ = v.IntersectWithRay(r)
+		}
+		count += tempCount
+		if tempCount == 1 {
+			points = append(points, ans[0])
+		} else if tempCount == 2 {
+			points = append(points, ans[0], ans[1])
+		} else {
+			continue
 		}
 	}
 	sort.Slice(points, func(i, j int) bool { return points[i].T < points[j].T })
 	return count, points
 }
 
-//shadeHit gives back the color at the intersection in the world
-func (w *World) shadeHit(comp Computations) (colors Color) {
+//ShadeHit gives back the color at the intersection in the world
+func (w *World) ShadeHit(comp Computations) (colors Color) {
 	switch v := comp.Shape.(type) {
 	case *Sphere:
 		for i := range w.Lights {
-			temp := v.Mat.Lighting(w.Lights[i], comp)
+			light := w.Lights[i]
+			inShadow := w.isShadowed(&light, &comp.OverPoint)
+			temp := v.Mat.Lighting(light, comp, inShadow)
 			colors = colors.Add(&temp)
 		}
 	}
 	return colors
+}
+
+//IsShadowed gives whether an object is in shadow or not
+func (w *World) isShadowed(l *Light, point *Tuple) bool {
+	v, _ := l.Position.Subtract(point)
+	distance, _ := v.Magnitude()
+	dir, _ := v.Normalize()
+	r := NewRay(*point, dir)
+	_, inter := w.IntersectWorld(r)
+	hit, hitted := Hit(inter)
+	if hitted && hit.T < distance {
+		return true
+	}
+	return false
 }
 
 //ColorAt returns the color at a
@@ -82,7 +101,7 @@ func (w *World) ColorAt(r *Ray) *Color {
 	hitPoint, hitted := Hit(inters)
 	if hitted == true {
 		comp := hitPoint.PrepareComputation(r)
-		*color = w.shadeHit(comp)
+		*color = w.ShadeHit(comp)
 	}
 	return color
 }

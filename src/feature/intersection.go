@@ -50,5 +50,7 @@ func (i *Intersection) PrepareComputation(r *Ray) Computations {
 	} else {
 		comp.Inside = false
 	}
+	multi := comp.Normal.Multiply(0.00001)
+	comp.OverPoint = comp.Point.Add(&multi)
 	return comp
 }

@@ -29,13 +29,16 @@ func (m *Material) GetMaterial() (col Color, amb, dif, spe, shi float64) {
 }
 
 //Lighting gets the lighting of the object and decides the color of a pixel
-func (m *Material) Lighting(l Light, comp Computations) (col Color) {
+func (m *Material) Lighting(l Light, comp Computations, isShadow bool) (col Color) {
 	var diffuse, specular, ans Color
 	black := NewColor(0, 0, 0)
 	effectiveCol := m.Col.ColorMultiply(&l.Intensity)
 	sub, _ := l.Position.Subtract(&comp.Point)
 	light, _ := sub.Normalize()
 	ambient := effectiveCol.Multiply(m.Ambient)
+	if isShadow{
+		return ambient
+	}
 	lightDotNormal, _ := light.DotProduct(&comp.Normal)
 	if lightDotNormal < 0 {
 		diffuse = *black

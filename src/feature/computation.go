@@ -5,6 +5,7 @@ type Computations struct{
 	T float64
 	Shape interface{}
 	Point Tuple
+	OverPoint Tuple
 	Eye Tuple
 	Normal Tuple
 	Inside bool
