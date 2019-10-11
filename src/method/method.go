@@ -88,7 +88,7 @@ func ThirdImage(fileName string) {
 				comp.Eye = eye
 				comp.Normal = normal
 				comp.Point = hitPoint
-				color := s.Mat.Lighting(*l, comp)
+				color := s.Mat.Lighting(*l, comp, false)
 				canv.WritePixel(i, j, &color)
 			}
 		}
