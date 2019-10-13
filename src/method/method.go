@@ -179,10 +179,9 @@ func FifthImage(fileName string) {
 	//Left wall instance
 	leftWall := feature.NewPlane()
 	trans := feature.Translate(0, 0, 5)
-	rotY := feature.RotationY(-math.Pi / 4)
 	rotX := feature.RotationX(math.Pi / 2)
-	scal := feature.Scale(10, 0.01, 10)
-	m, _ := rotX.Multiply(scal)
+	rotY := feature.RotationY(-math.Pi / 8)
+	m := rotX
 	m, _ = rotY.Multiply(m)
 	m, _ = trans.Multiply(m)
 	leftWall.Transform = m
@@ -198,12 +197,11 @@ func FifthImage(fileName string) {
 	rightWall.Transform = m
 	rightWall.Mat = floor.Mat
 
-	//Middle instance
-	middle := feature.NewSphere()
-	middle.Transform = feature.Translate(-0.5, 1, 0.5)
-	middle.Mat.Col = *feature.NewColor(0.1, 1, 0.5)
-	middle.Mat.Diffuse = 0.7
-	middle.Mat.Specular = 0.3
+	//Ceiling instance
+	ceiling := feature.NewPlane()
+	trans = feature.Translate(0, 5, 0)
+	m, _ = rightWall.Transform.Multiply(trans)
+	ceiling.Transform = m
 
 	//Right instance
 	right := feature.NewSphere()
@@ -232,7 +230,7 @@ func FifthImage(fileName string) {
 	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
 
 	//Add all objects in
-	objects = append(objects, leftWall, rightWall, middle, left, right, floor)
+	objects = append(objects, leftWall, rightWall, ceiling, left, right, floor)
 	w := feature.NewWorld(lights, objects)
 
 	//Canv that draw the final product

@@ -12,5 +12,5 @@ func main() {
 	// fmt.Println(interred)
 	//n1 := p.NormalAt(feature.Point(10, 0, -10))
 	//fmt.Println(n1)
-	method.FifthImage("../../output/test6")
+	method.FifthImage("../../output/PhysicsFinal")
 }
