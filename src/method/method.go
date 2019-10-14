@@ -173,14 +173,14 @@ func FifthImage(fileName string) {
 	//Floor instance
 	floor := feature.NewPlane()
 	//floor.Transform = feature.Scale(10, 0.01, 10)
-	//floor.Mat.Col = *feature.NewColor(1, 0.9, 0.9)
+	floor.Mat.Col = *feature.NewColor(1, 0.9, 0.9)
 	floor.Mat.Specular = 0
 
 	//Left wall instance
 	leftWall := feature.NewPlane()
-	trans := feature.Translate(0, 0, 5)
+	trans := feature.Translate(0, 0, 2.5)
 	rotX := feature.RotationX(math.Pi / 2)
-	rotY := feature.RotationY(-math.Pi / 8)
+	rotY := feature.RotationY(-math.Pi / 3)
 	m := rotX
 	m, _ = rotY.Multiply(m)
 	m, _ = trans.Multiply(m)
@@ -189,36 +189,39 @@ func FifthImage(fileName string) {
 
 	//Right wall instance
 	rightWall := feature.NewPlane()
-	trans = feature.Translate(0, 0, 5)
-	rotY = feature.RotationY(math.Pi / 4)
+	transR := feature.Translate(0, 0, 4.7)
+	rotYR := feature.RotationY(math.Pi/3 )
 	rotX = feature.RotationX(math.Pi / 2)
-	m, _ = rotY.Multiply(rotX)
-	m, _ = trans.Multiply(m)
-	rightWall.Transform = m
+	mR, _ := rotYR.Multiply(rotX)
+	mR, _ = transR.Multiply(mR)
+	rightWall.Transform = mR
 	rightWall.Mat = floor.Mat
 
-	//Ceiling instance
-	ceiling := feature.NewPlane()
-	trans = feature.Translate(0, 5, 0)
-	m, _ = rightWall.Transform.Multiply(trans)
-	ceiling.Transform = m
+	//Middle wall instance
+	middleWall := feature.NewPlane()
+	transMid := feature.Translate(0, 0, 0.4)
+	rotXMid := feature.RotationX(math.Pi / 2)
+	mMid := rotXMid
+	mMid, _ = transMid.Multiply(mMid)
+	middleWall.Transform = mMid
+	middleWall.Mat = floor.Mat
 
 	//Right instance
 	right := feature.NewSphere()
-	right.Transform, _ = feature.Translate(1.5, 0.5, -0.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
-	right.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+	right.Transform, _ = feature.Translate(1.8, 0.4, -0.8).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	right.Mat.Col = *feature.NewColor(1, 0.2, 1)
 	right.Mat.Diffuse = 0.7
 	right.Mat.Specular = 0.3
 
 	//Left instance
 	left := feature.NewSphere()
-	left.Transform, _ = feature.Translate(-1.5, 0.33, -0.75).Multiply(feature.Scale(0.33, 0.33, 0.33))
-	left.Mat.Col = *feature.NewColor(1, 0.8, 0.1)
+	left.Transform, _ = feature.Translate(-0.5, 0.45,0.2).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	left.Mat.Col = *feature.NewColor(1, 0, 0)
 	left.Mat.Diffuse = 0.7
 	left.Mat.Specular = 0.3
 
 	//Camera instance
-	cam := feature.NewCamera(100, 50, math.Pi/3)
+	cam := feature.NewCamera(1000, 650, math.Pi/3)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
 
 	//World instance
@@ -227,10 +230,10 @@ func FifthImage(fileName string) {
 	var objects []interface{}
 
 	//Add light source
-	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
+	lights = append(lights, light.PointLight(*feature.Point(5.5, 20, -5), *feature.NewColor(1, 1, 1)))
 
 	//Add all objects in
-	objects = append(objects, leftWall, rightWall, ceiling, left, right, floor)
+	objects = append(objects, middleWall, rightWall, leftWall, left, right, floor)
 	w := feature.NewWorld(lights, objects)
 
 	//Canv that draw the final product
