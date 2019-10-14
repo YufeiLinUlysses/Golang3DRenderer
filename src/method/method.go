@@ -208,14 +208,14 @@ func FifthImage(fileName string) {
 
 	//Right instance
 	right := feature.NewSphere()
-	right.Transform, _ = feature.Translate(1.8, 0.4, -0.8).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	right.Transform, _ = feature.Translate(1.5, 0.4, -1.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
 	right.Mat.Col = *feature.NewColor(1, 0.2, 1)
 	right.Mat.Diffuse = 0.7
 	right.Mat.Specular = 0.3
 
 	//Left instance
 	left := feature.NewSphere()
-	left.Transform, _ = feature.Translate(-0.5, 0.45,0.2).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	left.Transform, _ = feature.Translate(-0.8, 0.45,0.2).Multiply(feature.Scale(0.5, 0.5, 0.5))
 	left.Mat.Col = *feature.NewColor(1, 0, 0)
 	left.Mat.Diffuse = 0.7
 	left.Mat.Specular = 0.3
