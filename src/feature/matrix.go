@@ -8,6 +8,10 @@ import (
 type Matrix struct {
 	Width, Height int
 	Matrix        [][]float64
+	determinant   float64
+	inverse       *Matrix
+	hasInv        bool
+	hasDeter      bool
 }
 
 //NewMatrix sets up a new matrix instance
@@ -21,6 +25,7 @@ func NewMatrix(w, h int) *Matrix {
 		Width:  w,
 		Height: h,
 		Matrix: m,
+		hasInv: false,
 	}
 	return matrix
 }
@@ -138,6 +143,9 @@ func (m *Matrix) SubMatrix(cl, rw int) *Matrix {
 //Determinant gets the determinant of a 2x2 square matrix
 func (m *Matrix) Determinant() (ans float64, invertible bool) {
 	var cl int
+	if m.hasDeter {
+		return m.determinant, true
+	}
 	if m.Width == 2 {
 		ans = m.Matrix[0][0]*m.Matrix[1][1] - m.Matrix[0][1]*m.Matrix[1][0]
 		return ans, true
@@ -154,6 +162,8 @@ func (m *Matrix) Determinant() (ans float64, invertible bool) {
 
 	}
 	if ans != 0 {
+		m.determinant = ans
+		m.hasDeter = true
 		return ans, true
 	}
 	return ans, false
@@ -186,6 +196,12 @@ func (m *Matrix) Adjacent() (adj *Matrix) {
 
 //GetInverse get the inverse of the matrix
 func (m *Matrix) GetInverse(determinant float64) *Matrix {
+	if m.hasInv {
+		return m.inverse
+	}
 	adj := m.Adjacent()
-	return adj.MultiplyScalar(float64(1 / determinant))
+	ans := adj.MultiplyScalar(float64(1 / determinant))
+	m.hasInv = true
+	m.inverse = ans
+	return ans
 }

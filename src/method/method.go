@@ -221,7 +221,7 @@ func FifthImage(fileName string) {
 	left.Mat.Specular = 0.3
 
 	//Camera instance
-	cam := feature.NewCamera(1000, 650, math.Pi/3)
+	cam := feature.NewCamera(100, 65, math.Pi/3)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
 
 	//World instance

@@ -1,24 +1,29 @@
 package feature
 
-import "math"
+import (
+	"math"
+)
 
 //Material type
 type Material struct {
-	Col       Color
-	Ambient   float64
-	Diffuse   float64
-	Specular  float64
-	Shininess float64
+	Pat        Pattern
+	Col        Color
+	Ambient    float64
+	Diffuse    float64
+	Specular   float64
+	Shininess  float64
+	HasPattern bool
 }
 
 //NewMaterial establishes a new instance for material feature
 func NewMaterial() *Material {
 	m := &Material{
-		Col:       *NewColor(1, 1, 1),
-		Ambient:   0.1,
-		Diffuse:   0.9,
-		Specular:  0.9,
-		Shininess: 200,
+		Col:        *NewColor(1, 1, 1),
+		Ambient:    0.1,
+		Diffuse:    0.9,
+		Specular:   0.9,
+		Shininess:  200,
+		HasPattern: false,
 	}
 	return m
 }
@@ -30,13 +35,27 @@ func (m *Material) GetMaterial() (col Color, amb, dif, spe, shi float64) {
 
 //Lighting gets the lighting of the object and decides the color of a pixel
 func (m *Material) Lighting(l Light, comp Computations, isShadow bool) (col Color) {
-	var diffuse, specular, ans Color
+	var matCol, diffuse, specular, ans Color
+	trans := NewMatrix(4, 4)
+
+	switch v := comp.Shape.(type) {
+	case *Sphere:
+		trans = v.Transform
+	case *Plane:
+		trans = v.Transform
+	}
+
+	if m.HasPattern {
+		matCol = *m.Pat.StripeAt(comp.Point, *trans)
+	} else {
+		matCol = m.Col
+	}
 	black := NewColor(0, 0, 0)
-	effectiveCol := m.Col.ColorMultiply(&l.Intensity)
+	effectiveCol := matCol.ColorMultiply(&l.Intensity)
 	sub, _ := l.Position.Subtract(&comp.Point)
 	light, _ := sub.Normalize()
 	ambient := effectiveCol.Multiply(m.Ambient)
-	if isShadow{
+	if isShadow {
 		return ambient
 	}
 	lightDotNormal, _ := light.DotProduct(&comp.Normal)
