@@ -3,7 +3,7 @@ package feature
 //Intersection type
 type Intersection struct {
 	T     float64
-	ray    Ray
+	ray   Ray
 	Shape interface{}
 }
 
@@ -11,7 +11,7 @@ type Intersection struct {
 func NewIntersection(t float64, r Ray, s interface{}) *Intersection {
 	i := &Intersection{
 		T:     t,
-		ray:     r,
+		ray:   r,
 		Shape: s,
 	}
 	return i
@@ -54,5 +54,6 @@ func (i *Intersection) PrepareComputation(r *Ray) Computations {
 	}
 	multi := comp.Normal.Multiply(0.00001)
 	comp.OverPoint = comp.Point.Add(&multi)
+	comp.Reflect, _ = r.Direction.Reflect(&comp.Normal)
 	return comp
 }

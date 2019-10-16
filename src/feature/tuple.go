@@ -143,14 +143,13 @@ func (t *Tuple) CrossProduct(t2 *Tuple) (ans Tuple, crossed bool) {
 		ans.Y = t.Z*t2.X - t.X*t2.Z
 		ans.Z = t.X*t2.Y - t.Y*t2.X
 		return ans, true
-	} else {
-		return ans, false
 	}
+	return ans, false
 }
 
 //Reflect takes in an incident vector and finds out the reflected vector
-func (t *Tuple) Reflect(normal *Tuple) (ans Tuple, reflected bool){
-	dotted,_ := t.DotProduct(normal)
-	processed := normal.Multiply(dotted*2)
+func (t *Tuple) Reflect(normal *Tuple) (ans Tuple, reflected bool) {
+	dotted, _ := t.DotProduct(normal)
+	processed := normal.Multiply(dotted * 2)
 	return t.Subtract(&processed)
 }

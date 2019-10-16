@@ -12,6 +12,7 @@ type Material struct {
 	Diffuse     float64
 	Specular    float64
 	Shininess   float64
+	Reflective  float64
 	HasPattern  bool
 	PatternType string
 }
@@ -24,6 +25,7 @@ func NewMaterial() *Material {
 		Diffuse:    0.9,
 		Specular:   0.9,
 		Shininess:  200,
+		Reflective: float64(0),
 		HasPattern: false,
 	}
 	return m
