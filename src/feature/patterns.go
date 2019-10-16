@@ -7,7 +7,7 @@ import (
 //Pattern Type
 type Pattern struct {
 	Transform *Matrix
-	A, B      Color
+	ColorA, ColorB      Color
 }
 
 //NewPattern establishes a new pattern instance
@@ -15,8 +15,8 @@ func NewPattern(a, b Color) *Pattern {
 	matrix := NewMatrix(4, 4)
 	m, _ := matrix.GetIdentity()
 	p := &Pattern{
-		A:         a,
-		B:         b,
+		ColorA:         a,
+		ColorB:         b,
 		Transform: m,
 	}
 	return p
@@ -45,17 +45,17 @@ func (p *Pattern) PatternAt(point Tuple, m Matrix, typ string) *Color {
 //stripPattern creates a stripe pattern for material
 func (p *Pattern) stripePattern(point Tuple) *Color {
 	if math.Mod(math.Floor(point.X), 2) != 0 {
-		return &p.B
+		return &p.ColorB
 	}
-	return &p.A
+	return &p.ColorA
 }
 
 //gradientPattern creates a gradient pattern for material
 func (p *Pattern) gradientPattern(point Tuple) *Color {
-	distance := p.B.Subtract(&p.A)
+	distance := p.ColorB.Subtract(&p.ColorA)
 	fraction := point.X - math.Floor(point.X)
 	ans := distance.Multiply(fraction)
-	ans = p.A.Add(&ans)
+	ans = p.ColorA.Add(&ans)
 	return &ans
 }
 
@@ -63,16 +63,16 @@ func (p *Pattern) gradientPattern(point Tuple) *Color {
 func (p *Pattern) ringPattern(point Tuple) *Color {
 	sum := point.X*point.X + point.Z*point.Z
 	if math.Mod(math.Floor(math.Sqrt(sum)), 2) == 0 {
-		return &p.A
+		return &p.ColorA
 	}
-	return &p.B
+	return &p.ColorB
 }
 
 //checkerPattern creates a 3D checker pattern for material
 func (p *Pattern) checkerPattern(point Tuple) *Color {
 	sum := math.Floor(point.X) + math.Floor(point.Y) + math.Floor(point.Z)
 	if math.Mod(sum, 2) == 0 {
-		return &p.A
+		return &p.ColorA
 	}
-	return &p.B
+	return &p.ColorB
 }

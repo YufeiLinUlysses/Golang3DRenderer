@@ -3,29 +3,29 @@ package feature
 //Intersection type
 type Intersection struct {
 	T     float64
-	r     Ray
+	ray    Ray
 	Shape interface{}
 }
 
 //NewIntersection establishes a new intersection instance
-func NewIntersection(t float64, r Ray, o interface{}) *Intersection {
+func NewIntersection(t float64, r Ray, s interface{}) *Intersection {
 	i := &Intersection{
 		T:     t,
-		r:     r,
-		Shape: o,
+		ray:     r,
+		Shape: s,
 	}
 	return i
 }
 
 //Hit generates the hit point
-func Hit(i []Intersection) (hitPoint *Intersection, hitted bool) {
+func Hit(inters []Intersection) (hitPoint *Intersection, hitted bool) {
 	hitted = false
 	smallest := float64(999999)
-	for j := range i {
-		if i[j].T >= 0 && i[j].T <= smallest {
+	for i := range inters {
+		if inters[i].T >= 0 && inters[i].T <= smallest {
 			hitted = true
-			smallest = i[j].T
-			hitPoint = &i[j]
+			smallest = inters[i].T
+			hitPoint = &inters[i]
 		} else {
 			continue
 		}
