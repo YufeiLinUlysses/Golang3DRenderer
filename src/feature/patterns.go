@@ -24,22 +24,26 @@ func NewPattern(a, b Color) *Pattern {
 
 //PatternAt returns the color at a certain point
 func (p *Pattern) PatternAt(point Tuple, m Matrix, typ string) *Color {
+	var col Color
 	deterM, _ := m.Determinant()
 	invM := m.GetInverse(deterM)
 	objectPoint, _ := invM.MultiplyTuple(&point)
 	deterP, _ := p.Transform.Determinant()
 	invP := p.Transform.GetInverse(deterP)
 	patternPoint, _ := invP.MultiplyTuple(objectPoint)
-	if typ == "stripe" {
-		return p.stripePattern(*patternPoint)
-	} else if typ == "gradient" {
-		return p.gradientPattern(*patternPoint)
-	} else if typ == "ring" {
-		return p.ringPattern(*patternPoint)
-	} else if typ == "checker" {
-		return p.checkerPattern(*patternPoint)
+	switch typ{
+	case "stripe":
+		col = *p.stripePattern(*patternPoint)
+	case "gradient":
+		col = *p.gradientPattern(*patternPoint)
+	case "ring":
+		col = *p.ringPattern(*patternPoint)
+	case "checker":
+		col = *p.checkerPattern(*patternPoint)
+	default:
+		col = *NewColor(patternPoint.X, patternPoint.Y, patternPoint.Z)
 	}
-	return NewColor(patternPoint.X, patternPoint.Y, patternPoint.Z)
+	return &col
 }
 
 //stripPattern creates a stripe pattern for material
