@@ -9,7 +9,7 @@ type Matrix struct {
 	Width, Height int
 	Matrix        [][]float64
 	determinant   float64
-	inverse       *Matrix
+	inverse       [][]float64
 	hasInv        bool
 	hasDeter      bool
 }
@@ -197,11 +197,17 @@ func (m *Matrix) Adjacent() (adj *Matrix) {
 //GetInverse get the inverse of the matrix
 func (m *Matrix) GetInverse(determinant float64) *Matrix {
 	if m.hasInv {
-		return m.inverse
+		ans := NewMatrix(4, 4)
+		for i, row := range ans.Matrix {
+			for j := range row {
+				ans.Assign(j, i, m.inverse[i][j])
+			}
+		}
+		return ans
 	}
 	adj := m.Adjacent()
 	ans := adj.MultiplyScalar(float64(1 / determinant))
 	m.hasInv = true
-	m.inverse = ans
+	m.inverse = ans.Matrix
 	return ans
 }
