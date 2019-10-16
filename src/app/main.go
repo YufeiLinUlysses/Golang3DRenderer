@@ -9,7 +9,8 @@ import (
 func main() {
 	var light feature.Light
 	s := feature.NewSphere()
-	s.Transform = feature.Scale(2, 2, 2)
+	s.Transform = feature.Scale(1, 1, 1)
+	fmt.Println(s.Transform)
 	light = light.PointLight(*feature.Point(0, 0, -10), *feature.NewColor(1, 1, 1))
 	white := feature.NewColor(1, 1, 1)
 	black := feature.NewColor(0, 0, 0)
@@ -19,15 +20,15 @@ func main() {
 	m.Ambient = 1
 	m.Diffuse = 0
 	m.Specular = 0
-	m.Pat.Transform = feature.Translate(0.5, 0, 0)
+	m.PatternType = "ring"
+	m.Pat.Transform = feature.Translate(0.5, 1, 1.5)
 	comp := &feature.Computations{
-		Point:  *feature.Point(0.9, 0, 0),
+		Point:  *feature.Point(2.5, 3, 3.5),
 		Eye:    *feature.Vector(0, 0, -1),
 		Normal: *feature.Vector(0, 0, -1),
-		Shape:  *s,
+		Shape:  s,
 	}
-	fmt.Println(comp.Shape.(feature.Sphere).Transform)
 	fmt.Println(m.Lighting(light, *comp, false))
-	fmt.Println(m.Pat.StripeAt(*feature.Point(2.5, 0, 0), *s.Transform))
+	fmt.Println(m.Pat.PatternAt(*feature.Point(0, 0, 0), *s.Transform, m.PatternType))
 	//method.FifthImage("../../output/PhysicsFinal1")
 }

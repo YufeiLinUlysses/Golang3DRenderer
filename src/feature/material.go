@@ -6,13 +6,14 @@ import (
 
 //Material type
 type Material struct {
-	Pat        Pattern
-	Col        Color
-	Ambient    float64
-	Diffuse    float64
-	Specular   float64
-	Shininess  float64
-	HasPattern bool
+	Pat         Pattern
+	Col         Color
+	Ambient     float64
+	Diffuse     float64
+	Specular    float64
+	Shininess   float64
+	HasPattern  bool
+	PatternType string
 }
 
 //NewMaterial establishes a new instance for material feature
@@ -37,20 +38,25 @@ func (m *Material) GetMaterial() (col Color, amb, dif, spe, shi float64) {
 func (m *Material) Lighting(l Light, comp Computations, isShadow bool) (col Color) {
 	var matCol, diffuse, specular, ans Color
 	trans := NewMatrix(4, 4)
+	black := NewColor(0, 0, 0)
 
 	switch v := comp.Shape.(type) {
 	case *Sphere:
 		trans = v.Transform
+	case Sphere:
+		trans = v.Transform
 	case *Plane:
+		trans = v.Transform
+	case Plane:
 		trans = v.Transform
 	}
 
 	if m.HasPattern {
-		matCol = *m.Pat.StripeAt(comp.Point, *trans)
+		matCol = *m.Pat.PatternAt(comp.Point, *trans, m.PatternType)
 	} else {
 		matCol = m.Col
 	}
-	black := NewColor(0, 0, 0)
+
 	effectiveCol := matCol.ColorMultiply(&l.Intensity)
 	sub, _ := l.Position.Subtract(&comp.Point)
 	light, _ := sub.Normalize()
