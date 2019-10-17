@@ -68,24 +68,6 @@ func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
 	return count, points
 }
 
-//ShadeHit gives back the color at the intersection in the world
-func (w *World) ShadeHit(comp Computations) (colors Color) {
-	var mat Material
-	switch v := comp.Shape.(type) {
-	case *Sphere:
-		mat = v.Mat
-	case *Plane:
-		mat = v.Mat
-	}
-	for i := range w.Lights {
-		light := w.Lights[i]
-		inShadow := w.isShadowed(&light, &comp.OverPoint)
-		temp := mat.Lighting(light, comp, inShadow)
-		colors = colors.Add(&temp)
-	}
-	return colors
-}
-
 //IsShadowed gives whether an object is in shadow or not
 func (w *World) isShadowed(l *Light, point *Tuple) bool {
 	v, _ := l.Position.Subtract(point)
@@ -101,13 +83,57 @@ func (w *World) isShadowed(l *Light, point *Tuple) bool {
 }
 
 //ColorAt returns the color at a
-func (w *World) ColorAt(r *Ray) *Color {
+func (w *World) ColorAt(r *Ray, remaining int) *Color {
 	color := NewColor(0, 0, 0)
 	_, inters := w.IntersectWorld(r)
 	hitPoint, hitted := Hit(inters)
 	if hitted == true {
 		comp := hitPoint.PrepareComputation(r)
-		*color = w.ShadeHit(comp)
+		*color = w.ShadeHit(comp, remaining)
 	}
+	return color
+}
+
+//ShadeHit gives back the color at the intersection in the world
+func (w *World) ShadeHit(comp Computations, remaining int) (colors Color) {
+	var mat Material
+	switch v := comp.Shape.(type) {
+	case *Sphere:
+		mat = v.Mat
+	case *Plane:
+		mat = v.Mat
+	}
+	for i := range w.Lights {
+		light := w.Lights[i]
+		inShadow := w.isShadowed(&light, &comp.OverPoint)
+		surface := mat.Lighting(light, comp, inShadow)
+		reflected := w.reflectedColor(comp, remaining)
+		temp := surface.Add(reflected)
+		colors = colors.Add(&temp)
+	}
+	return colors
+}
+
+//ReflectedColor returns a color reflected from the object
+func (w *World) reflectedColor(comps Computations, remaining int) *Color {
+	var ref float64
+
+	switch v := comps.Shape.(type) {
+	case *Sphere:
+		ref = v.Mat.Reflective
+	case Sphere:
+		ref = v.Mat.Reflective
+	case *Plane:
+		ref = v.Mat.Reflective
+	case Plane:
+		ref = v.Mat.Reflective
+	}
+
+	if ref == 0 || remaining == 0 {
+		return NewColor(0, 0, 0)
+	}
+	reflectRay := NewRay(comps.OverPoint, comps.Reflect)
+	color := w.ColorAt(reflectRay, remaining-1)
+	*color = color.Multiply(ref)
 	return color
 }
