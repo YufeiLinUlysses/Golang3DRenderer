@@ -107,7 +107,7 @@ func (w *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 		light := w.Lights[i]
 		inShadow := w.isShadowed(&light, &comp.OverPoint)
 		surface := mat.Lighting(light, comp, inShadow)
-		reflected := w.reflectedColor(comp, remaining)
+		reflected := w.ReflectedColor(comp, remaining)
 		temp := surface.Add(reflected)
 		colors = colors.Add(&temp)
 	}
@@ -115,18 +115,18 @@ func (w *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 }
 
 //ReflectedColor returns a color reflected from the object
-func (w *World) reflectedColor(comps Computations, remaining int) *Color {
+func (w *World) ReflectedColor(comps Computations, remaining int) *Color {
 	var ref float64
 
 	switch v := comps.Shape.(type) {
 	case *Sphere:
-		ref = v.Mat.Reflective
+		ref = v.Mat.Reflectivity
 	case Sphere:
-		ref = v.Mat.Reflective
+		ref = v.Mat.Reflectivity
 	case *Plane:
-		ref = v.Mat.Reflective
+		ref = v.Mat.Reflectivity
 	case Plane:
-		ref = v.Mat.Reflective
+		ref = v.Mat.Reflectivity
 	}
 
 	if ref == 0 || remaining == 0 {

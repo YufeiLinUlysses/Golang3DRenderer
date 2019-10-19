@@ -6,27 +6,31 @@ import (
 
 //Material type
 type Material struct {
-	Pat         Pattern
-	Col         Color
-	Ambient     float64
-	Diffuse     float64
-	Specular    float64
-	Shininess   float64
-	Reflective  float64
-	HasPattern  bool
-	PatternType string
+	Pat          Pattern
+	Col          Color
+	Ambient      float64
+	Diffuse      float64
+	Specular     float64
+	Shininess    float64
+	Reflectivity float64
+	Transparency float64
+	Refractivity float64
+	HasPattern   bool
+	PatternType  string
 }
 
 //NewMaterial establishes a new instance for material feature
 func NewMaterial() *Material {
 	m := &Material{
-		Col:        *NewColor(1, 1, 1),
-		Ambient:    0.1,
-		Diffuse:    0.9,
-		Specular:   0.9,
-		Shininess:  200,
-		Reflective: float64(0),
-		HasPattern: false,
+		Col:          *NewColor(1, 1, 1),
+		Ambient:      0.1,
+		Diffuse:      0.9,
+		Specular:     0.9,
+		Shininess:    200,
+		Reflectivity: float64(0),
+		Transparency: 0,
+		Refractivity: 1,
+		HasPattern:   false,
 	}
 	return m
 }
