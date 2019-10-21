@@ -88,7 +88,7 @@ func (w *World) ColorAt(r *Ray, remaining int) *Color {
 	_, inters := w.IntersectWorld(r)
 	hitPoint, hitted := Hit(inters)
 	if hitted == true {
-		comp := hitPoint.PrepareComputation(r)
+		comp := hitPoint.PrepareComputation(r,inters)
 		*color = w.ShadeHit(comp, remaining)
 	}
 	return color

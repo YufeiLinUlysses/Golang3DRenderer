@@ -24,9 +24,9 @@ func NewObject() *Object {
 }
 
 //SetTransform sets the transform matrix
-func (o *Object) SetTransform(matrix *Matrix) *Object {
-	o.Transform = matrix
-	return o
+func (obj *Object) SetTransform(matrix *Matrix) *Object {
+	obj.Transform = matrix
+	return obj
 }
 
 //Translate returns translation matrix

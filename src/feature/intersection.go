@@ -1,5 +1,9 @@
 package feature
 
+import (
+	"reflect"
+)
+
 //Intersection type
 type Intersection struct {
 	T     float64
@@ -34,10 +38,10 @@ func Hit(inters []Intersection) (hitPoint *Intersection, hitted bool) {
 }
 
 //PrepareComputation returns a computations instance
-func (i *Intersection) PrepareComputation(r *Ray) Computations {
+func (intsec *Intersection) PrepareComputation(r *Ray, inters []Intersection) Computations {
 	var comp Computations
-	comp.T = i.T
-	comp.Shape = i.Shape
+	comp.T = intsec.T
+	comp.Shape = intsec.Shape
 	comp.Point = r.Position(comp.T)
 	comp.Eye = r.Direction.Multiply(-1)
 	switch v := comp.Shape.(type) {
@@ -55,5 +59,89 @@ func (i *Intersection) PrepareComputation(r *Ray) Computations {
 	multi := comp.Normal.Multiply(0.00001)
 	comp.OverPoint = comp.Point.Add(&multi)
 	comp.Reflect, _ = r.Direction.Reflect(&comp.Normal)
+
+	//Get Refraction Index
+	var container []interface{}
+	for i := range inters {
+		if reflect.DeepEqual(inters[i], *intsec) {
+			if len(container) == 0 {
+				comp.Refract1 = 1
+			} else {
+				switch v := container[len(container)-1].(type) {
+				case *Sphere:
+					comp.Refract1 = v.Mat.Refractivity
+				case *Plane:
+					comp.Refract1 = v.Mat.Refractivity
+				}
+			}
+		}
+
+		if len(container) != 0 {
+			temp := inters[i].Shape
+			if remove, in := ShapeInSlice(temp, container); in {
+				copy(container[remove:], container[remove+1:])
+				container[len(container)-1] = ""
+				container = container[:len(container)-1]
+			} else {
+				container = append(container, temp)
+			}
+		} else {
+			container = append(container, inters[i].Shape)
+		}
+
+		if reflect.DeepEqual(inters[i], *intsec) {
+			if len(container) == 0 {
+				comp.Refract2 = 1
+			} else {
+				switch v := container[len(container)-1].(type) {
+				case *Sphere:
+					comp.Refract2 = v.Mat.Refractivity
+				case *Plane:
+					comp.Refract2 = v.Mat.Refractivity
+				}
+			}
+		}
+	}
+
 	return comp
+}
+
+//ShapeInSlice shows whether an object is in an slice or not
+func ShapeInSlice(shape interface{}, mapofshapes []interface{}) (int, bool) {
+	var temp1 interface{}
+	switch v := shape.(type) {
+	case *Sphere:
+		temp1 = v
+	case Sphere:
+		temp1 = v
+	case *Plane:
+		temp1 = v
+	case Plane:
+		temp1 = v
+	}
+	for k := range mapofshapes {
+		switch temp2 := mapofshapes[k].(type) {
+		case *Sphere:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Sphere:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case *Plane:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Plane:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		}
+	}
+	return 0, false
 }
