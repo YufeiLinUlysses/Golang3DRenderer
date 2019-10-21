@@ -45,7 +45,7 @@ func TestMaterial2(t *testing.T) {
 		comp.Point = *position
 		comp.Normal = *table.normal
 		comp.Eye = *table.eye
-		ansc := m.Lighting(*light, comp)
+		ansc := m.Lighting(*light, comp, false)
 		if ansc != table.ansc {
 			t.Errorf("You are wrong %v", table.ansc)
 		}

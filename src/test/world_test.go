@@ -17,7 +17,7 @@ func TestWorld1(t *testing.T) {
 	}
 	for _, table := range tables {
 		w := feature.DefaultWorld()
-		c := w.ColorAt(table.r)
+		c := w.ColorAt(table.r,5)
 		errorAllowance := 0.00001
 		if math.Abs(c.R-table.ansC.R) > errorAllowance || math.Abs(c.G-table.ansC.G) > errorAllowance || math.Abs(c.B-table.ansC.B) > errorAllowance {
 			t.Errorf("Error Input %v, %v", c,table.ansC)

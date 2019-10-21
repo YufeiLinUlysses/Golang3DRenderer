@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-//TestPlane1 tests to see if the GetColor  function works for feature Color
+//TestPlane1 tests to see if the IntersectWithRay function works for feature Color
 func TestPlane1(t *testing.T) {
 	tables := []struct {
 		r     *feature.Ray
@@ -21,7 +21,7 @@ func TestPlane1(t *testing.T) {
 		p := feature.NewPlane()
 		_, ans, ansED := p.IntersectWithRay(table.r)
 		if ansED {
-			if ans.T != table.ans {
+			if ans[0].T != table.ans {
 				t.Errorf("Error Input")
 			}
 		} else {
