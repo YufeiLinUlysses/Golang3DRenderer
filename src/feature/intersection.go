@@ -58,6 +58,8 @@ func (intsec *Intersection) PrepareComputation(r *Ray, inters []Intersection) Co
 	}
 	multi := comp.Normal.Multiply(0.00001)
 	comp.OverPoint = comp.Point.Add(&multi)
+	comp.UnderPoint,_ = comp.Point.Subtract(&multi)
+	//Get Reflection Index
 	comp.Reflect, _ = r.Direction.Reflect(&comp.Normal)
 
 	//Get Refraction Index
