@@ -1,6 +1,7 @@
 package feature
 
 import (
+	"math"
 	"sort"
 )
 
@@ -88,30 +89,10 @@ func (w *World) ColorAt(r *Ray, remaining int) *Color {
 	_, inters := w.IntersectWorld(r)
 	hitPoint, hitted := Hit(inters)
 	if hitted == true {
-		comp := hitPoint.PrepareComputation(r,inters)
+		comp := hitPoint.PrepareComputation(r, inters)
 		*color = w.ShadeHit(comp, remaining)
 	}
 	return color
-}
-
-//ShadeHit gives back the color at the intersection in the world
-func (w *World) ShadeHit(comp Computations, remaining int) (colors Color) {
-	var mat Material
-	switch v := comp.Shape.(type) {
-	case *Sphere:
-		mat = v.Mat
-	case *Plane:
-		mat = v.Mat
-	}
-	for i := range w.Lights {
-		light := w.Lights[i]
-		inShadow := w.isShadowed(&light, &comp.OverPoint)
-		surface := mat.Lighting(light, comp, inShadow)
-		reflected := w.ReflectedColor(comp, remaining)
-		temp := surface.Add(reflected)
-		colors = colors.Add(&temp)
-	}
-	return colors
 }
 
 //ReflectedColor returns a color reflected from the object
@@ -136,4 +117,71 @@ func (w *World) ReflectedColor(comps Computations, remaining int) *Color {
 	color := w.ColorAt(reflectRay, remaining-1)
 	*color = color.Multiply(ref)
 	return color
+}
+
+//RefractedColor returns a color refracted from the object
+func (w *World) RefractedColor(comps Computations, remaining int) *Color {
+	var transp float64
+	var color Color
+	switch v := comps.Shape.(type) {
+	case *Sphere:
+		transp = v.Mat.Transparency
+	case Sphere:
+		transp = v.Mat.Transparency
+	case *Plane:
+		transp = v.Mat.Transparency
+	case Plane:
+		transp = v.Mat.Transparency
+	}
+
+	nratio := comps.Refract1 / comps.Refract2
+	cosi, _ := comps.Eye.DotProduct(&comps.Normal)
+	sin2t := math.Pow(nratio, 2) * (1 - math.Pow(cosi, 2))
+	if sin2t > 1 {
+		return NewColor(0, 0, 0)
+	}
+	if transp == 0 {
+		return NewColor(0, 0, 0)
+	}
+	if remaining == 0 {
+		return NewColor(0, 0, 0)
+	}
+	cost := math.Sqrt(1 - sin2t)
+	calculate := comps.Eye.Multiply(nratio)
+	direct := comps.Normal.Multiply(nratio*cosi - cost)
+	direct, _ = direct.Subtract(&calculate)
+	refractray := NewRay(comps.UnderPoint, direct)
+	color = w.ColorAt(refractray, remaining-1).Multiply(transp)
+	return &color
+}
+
+//ShadeHit gives back the color at the intersection in the world
+func (w *World) ShadeHit(comp Computations, remaining int) (colors Color) {
+	var mat Material
+	var surface, reflected, refracted Color
+	switch v := comp.Shape.(type) {
+	case *Sphere:
+		mat = v.Mat
+	case *Plane:
+		mat = v.Mat
+	}
+	for i := range w.Lights {
+		light := w.Lights[i]
+		inShadow := w.isShadowed(&light, &comp.OverPoint)
+		surface = mat.Lighting(light, comp, inShadow)
+		reflected = *w.ReflectedColor(comp, remaining)
+		refracted = *w.RefractedColor(comp, remaining)
+		temp := surface.Add(&reflected)
+		temp = temp.Add(&refracted)
+		colors = colors.Add(&temp)
+	}
+	if mat.Reflectivity > 0 && mat.Transparency > 0 {
+		reflectance := comp.Schlick()
+		temp := reflected.Multiply(reflectance)
+		temp = surface.Add(&temp)
+		temp1 := refracted.Multiply(1 - reflectance)
+		temp = temp.Add(&temp1)
+		return temp
+	}
+	return colors
 }
