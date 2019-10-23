@@ -4,79 +4,97 @@ import (
 	"math"
 )
 
-//Pattern Type
+/*Pattern Type contains all necessary component of a pattern
+ *Pattern contains matrix and color*/
 type Pattern struct {
 	Transform *Matrix
 	ColorA, ColorB      Color
 }
 
-//NewPattern establishes a new pattern instance
-func NewPattern(a, b Color) *Pattern {
+/*NewPattern establishes a new pattern instance
+ *NewPattern takes in two color
+ *NewPattern returns a Pattern*/
+func NewPattern(cola, colb Color) *Pattern {
 	matrix := NewMatrix(4, 4)
-	m, _ := matrix.GetIdentity()
-	p := &Pattern{
-		ColorA:         a,
-		ColorB:         b,
-		Transform: m,
+	matrix, _ = matrix.GetIdentity()
+	pat := &Pattern{
+		ColorA:         cola,
+		ColorB:         colb,
+		Transform: matrix,
 	}
-	return p
+	return pat
 }
 
-//PatternAt returns the color at a certain point
-func (p *Pattern) PatternAt(point Tuple, m Matrix, typ string) *Color {
+/*PatternAt returns the color at a certain point
+ *PatternAt can only be called by a pattern
+ *PatternAt takes in a tuple, a matrix and a string
+ *PatternAt returns a color*/
+func (pat *Pattern) PatternAt(point Tuple, m Matrix, typ string) *Color {
 	var col Color
 	deterM, _ := m.Determinant()
 	invM := m.GetInverse(deterM)
 	objectPoint, _ := invM.MultiplyTuple(&point)
-	deterP, _ := p.Transform.Determinant()
-	invP := p.Transform.GetInverse(deterP)
+	deterP, _ := pat.Transform.Determinant()
+	invP := pat.Transform.GetInverse(deterP)
 	patternPoint, _ := invP.MultiplyTuple(objectPoint)
 	switch typ{
 	case "stripe":
-		col = *p.stripePattern(*patternPoint)
+		col = *pat.stripePattern(*patternPoint)
 	case "gradient":
-		col = *p.gradientPattern(*patternPoint)
+		col = *pat.gradientPattern(*patternPoint)
 	case "ring":
-		col = *p.ringPattern(*patternPoint)
+		col = *pat.ringPattern(*patternPoint)
 	case "checker":
-		col = *p.checkerPattern(*patternPoint)
+		col = *pat.checkerPattern(*patternPoint)
 	default:
 		col = *NewColor(patternPoint.X, patternPoint.Y, patternPoint.Z)
 	}
 	return &col
 }
 
-//stripPattern creates a stripe pattern for material
-func (p *Pattern) stripePattern(point Tuple) *Color {
+/*stripPattern creates a stripe pattern for material
+ *stripPattern can only be called by a pattern
+ *stripPattern takes in a tuple
+ *stripPattern returns a color*/
+func (pat *Pattern) stripePattern(point Tuple) *Color {
 	if math.Mod(math.Floor(point.X), 2) != 0 {
-		return &p.ColorB
+		return &pat.ColorB
 	}
-	return &p.ColorA
+	return &pat.ColorA
 }
 
-//gradientPattern creates a gradient pattern for material
-func (p *Pattern) gradientPattern(point Tuple) *Color {
-	distance := p.ColorB.Subtract(&p.ColorA)
+/*gradientPattern creates a gradient pattern for material
+ *gradientPattern can only be called by a pattern
+ *gradientPattern takes in a tuple
+ *gradientPattern returns a color*/
+func (pat *Pattern) gradientPattern(point Tuple) *Color {
+	distance := pat.ColorB.Subtract(&pat.ColorA)
 	fraction := point.X - math.Floor(point.X)
 	ans := distance.Multiply(fraction)
-	ans = p.ColorA.Add(&ans)
+	ans = pat.ColorA.Add(&ans)
 	return &ans
 }
 
-//ringPattern creates a ring pattern for material
-func (p *Pattern) ringPattern(point Tuple) *Color {
+/*ringPattern creates a ring pattern for material
+ *ringPattern can only be called by a pattern
+ *ringPattern takes in a tuple
+ *ringPattern returns a color*/
+func (pat *Pattern) ringPattern(point Tuple) *Color {
 	sum := point.X*point.X + point.Z*point.Z
 	if math.Mod(math.Floor(math.Sqrt(sum)), 2) == 0 {
-		return &p.ColorA
+		return &pat.ColorA
 	}
-	return &p.ColorB
+	return &pat.ColorB
 }
 
-//checkerPattern creates a 3D checker pattern for material
-func (p *Pattern) checkerPattern(point Tuple) *Color {
+/*checkerPattern creates a 3D checker pattern for material
+ *checkerPattern can only be called by a pattern
+ *checkerPattern takes in a tuple
+ *checkerPattern returns a color*/
+func (pat *Pattern) checkerPattern(point Tuple) *Color {
 	sum := math.Floor(point.X) + math.Floor(point.Y) + math.Floor(point.Z)
 	if math.Mod(sum, 2) == 0 {
-		return &p.ColorA
+		return &pat.ColorA
 	}
-	return &p.ColorB
+	return &pat.ColorB
 }

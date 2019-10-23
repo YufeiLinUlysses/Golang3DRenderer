@@ -8,13 +8,16 @@ import (
 	"time"
 )
 
-//Canvas type
+/*Canvas type contains necessary component of a canvas
+ *Canvas contains a 2D slice of color*/
 type Canvas struct {
 	Width, Height int
 	Canv          [][]Color
 }
 
-//WriteErrorFile writes a file for all captured errors in the process
+/*WriteErrorFile writes a file for all captured errors in the process
+ *WriteErrorFile takes in a string and an error to form a error text file
+ *WriteErrorFile outputs a text file to the computer*/
 func WriteErrorFile(errorStr string, err error) {
 	errorStr += "Have Error: " + err.Error() + "\n"
 	errorFile, _ := os.Create("Error.txt")
@@ -22,17 +25,23 @@ func WriteErrorFile(errorStr string, err error) {
 	errorFile.Close()
 }
 
-//FloatToString converts float to string
+/*FloatToString converts float to string
+ *FloatToString takes in a float
+ *FloatToString returns the string conversion of the input number*/
 func FloatToString(num float64) string {
 	return strconv.FormatFloat(num, 'f', 6, 64)
 }
 
-//IntToString converts int to string
+/*IntToString converts int to string
+ *IntToString takes in a int
+ *IntToString returns the string conversion of the input number*/
 func IntToString(num int) string {
 	return strconv.FormatInt(int64(num), 10)
 }
 
-//ConvertToNum converts pixel number to float between 0 and 255
+/*ConvertToNum converts pixel number to float between 0 and 255
+ *ConvertToNum takes in a float representing the color
+ *ConvertToNum returns a int representing the color that machines can read*/
 func ConvertToNum(num float64) int {
 	if num >= 255 {
 		num = 255
@@ -42,52 +51,64 @@ func ConvertToNum(num float64) int {
 	return int(math.Round(num))
 }
 
-//NewCanvas establishes a new Canvas instance
-func NewCanvas(w, h int) *Canvas {
+/*NewCanvas establishes a new Canvas instance
+ *NewCanvas takes in two int representing the width and height of the canvas
+ *NewCanvas returns a new canvas*/
+func NewCanvas(width, height int) *Canvas {
 	//Initialize the canvas as a 2D slice
-	matrix := make([][]Color, h)
-	for i := 0; i < h; i++ {
-		matrix[i] = make([]Color, w)
+	matrix := make([][]Color, height)
+	for i := 0; i < height; i++ {
+		matrix[i] = make([]Color, width)
 	}
 
-	c := &Canvas{
-		Width:  w,
-		Height: h,
+	canv := &Canvas{
+		Width:  width,
+		Height: height,
 		Canv:   matrix,
 	}
-	return c
+	return canv
 }
 
-//GetCanvas gets the element from Canvas instance
-func (c *Canvas) GetCanvas() (w, h int, can [][]Color) {
-	return c.Width, c.Height, c.Canv
+/*GetCanvas gets the element from Canvas instance
+ *GetCanvas can only be called by a canvas instance
+ *GetCanvas returns the width, height and the canvas itself*/
+func (canv *Canvas) GetCanvas() (w, h int, can [][]Color) {
+	return canv.Width, canv.Height, canv.Canv
 }
 
-//WritePixel writes the color pixel on a specific location
-func (c *Canvas) WritePixel(cl, rw int, col *Color) *Canvas {
-	c.Canv[rw][cl] = *col
-	return c
+/*WritePixel writes the color pixel on a specific location
+ *WritePixel can only be called by a canvas instance,
+ *WritePixel takes in the two int representing the column and rows of the pixel point and a color
+ *WritePixel returns a new canvas*/
+func (canv *Canvas) WritePixel(cl, rw int, col *Color) *Canvas {
+	canv.Canv[rw][cl] = *col
+	return canv
 }
 
-//PixelAt returns the color pixel at a certain location
-func (c *Canvas) PixelAt(cl, rw int) Color {
-	return c.Canv[rw][cl]
+/*PixelAt returns the color pixel at a certain location
+ *PixelAt could only be called by a canvas instance
+ *PixelAt takes in two int representing the column and rows of the pixel point
+ *PixelAt returns a color instance*/
+func (canv *Canvas) PixelAt(cl, rw int) Color {
+	return canv.Canv[rw][cl]
 }
 
-//CanvasToString writes to PPM file
-func (c *Canvas) CanvasToString() string {
+/*CanvasToString converts canvas to string for writing to PPM file
+ *CanvasToString could only be called by a canvas instance
+ *CanvasToString returns a string*/
+func (canv *Canvas) CanvasToString() string {
 	var ans string
-	PPMHeader := "P3\n" + IntToString(c.Width) + " " + IntToString(c.Height) + "\n" + "255\n"
+	PPMHeader := "P3\n" + IntToString(canv.Width) + " " + IntToString(canv.Height) + "\n" + "255\n"
 	ans += PPMHeader
 
-	for i := 0; i < c.Height; i++ {
+	for i := 0; i < canv.Height; i++ {
 		var temp string
-		for j := 0; j < c.Width; j++ {
+		for j := 0; j < canv.Width; j++ {
 			var blue string
-			red := IntToString(ConvertToNum(c.Canv[i][j].R*255)) + " "
-			green := IntToString(ConvertToNum(c.Canv[i][j].G*255)) + " "
-			blue = IntToString(ConvertToNum(c.Canv[i][j].B * 255))
-			if j == (c.Width - 1) {
+			red := IntToString(ConvertToNum(canv.Canv[i][j].R*255)) + " "
+			green := IntToString(ConvertToNum(canv.Canv[i][j].G*255)) + " "
+			blue = IntToString(ConvertToNum(canv.Canv[i][j].B * 255))
+			if j == (canv.Width - 1) {
 				blue = blue + "\n"
 			} else {
 				blue = blue + " "
@@ -117,9 +138,12 @@ func (c *Canvas) CanvasToString() string {
 	return ans
 }
 
-//CanvasToPPM saves the canvas string to ppm file
-func (c *Canvas) CanvasToPPM(title string) {
-	ppm := c.CanvasToString()
+/*CanvasToPPM saves the canvas string to ppm file
+ *CanvasToPPM could only be called by a canvas instance
+ *CanvasToPPM takes in a string representing the title of the output file
+ *CanvasToPPM outputs the file as a PPM file*/
+func (canv *Canvas) CanvasToPPM(title string) {
+	ppm := canv.CanvasToString()
 	fileTitle := title + ".ppm"
 	errorStr := "Writing File:" + fileTitle + time.Now().String() + "\n"
 	f, err := os.Create(fileTitle)

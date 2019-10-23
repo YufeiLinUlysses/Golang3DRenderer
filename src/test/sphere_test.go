@@ -35,7 +35,7 @@ func TestSphere1(t *testing.T) {
 		}
 		count, ans, intersect := table.s.IntersectWithRay(&table.r)
 		if intersect {
-			if intersect != table.intersect || (count != table.count || ans[0].T != table.ans1 || ans[1].T != table.ans2) {
+			if intersect != table.intersect || (count != table.count || ans[0].Position != table.ans1 || ans[1].Position != table.ans2) {
 				t.Errorf("Error Input")
 			}
 		} else {

@@ -1,12 +1,15 @@
 package feature
 
-//Ray type
+/*Ray type contains all necessary component of a ray
+ *Ray contains tuple*/
 type Ray struct {
 	Origin    Tuple
 	Direction Tuple
 }
 
-//NewRay establishes a new Ray instance, overload for inputting two tuples
+/*NewRay establishes a new Ray instance, overload for inputting two tuples
+ *NewRay takes in two tuple
+ *NewRay returns a ray*/
 func NewRay(origin Tuple, direction Tuple) *Ray {
 	inputDir, _ := direction.Normalize()
 	r := &Ray{
@@ -16,27 +19,35 @@ func NewRay(origin Tuple, direction Tuple) *Ray {
 	return r
 }
 
-//GetRay gets the orign and direction of a ray
-func (r *Ray) GetRay() (ori, dir Tuple) {
-	return r.Origin, r.Direction
+/*GetRay gets the orign and direction of a ray
+ *GetRay can only be called by a ray
+ *GetRay returns two tuple*/
+func (ray *Ray) GetRay() (ori, dir Tuple) {
+	return ray.Origin, ray.Direction
 }
 
-//Position computes a point from a distance
-func (r *Ray) Position(dist float64) Tuple {
+/*Position computes a point from a distance
+ *Position can only be called by a ray
+ *Position takes in a float
+ *Poistion returns a tuple*/
+func (ray *Ray) Position(dist float64) Tuple {
 	var ans Tuple
-	ans.X = r.Origin.X + dist*r.Direction.X
-	ans.Y = r.Origin.Y + dist*r.Direction.Y
-	ans.Z = r.Origin.Z + dist*r.Direction.Z
+	ans.X = ray.Origin.X + dist*ray.Direction.X
+	ans.Y = ray.Origin.Y + dist*ray.Direction.Y
+	ans.Z = ray.Origin.Z + dist*ray.Direction.Z
 	ans.W = 1
 	return ans
 }
 
-//Transform transforms the matrix with a given command
-func (r *Ray) Transform(matrix *Matrix) *Ray {
+/*Transform transforms the matrix with a given command
+ *Transform can only be called by a ray
+ *Transform takes in a matrix
+ *Transform returns a ray*/
+func (ray *Ray) Transform(matrix *Matrix) *Ray {
 	newR := NewRay(*Point(0, 0, 0), *Vector(0, 0, 0))
-	ori, _ := matrix.MultiplyTuple(&r.Origin)
+	ori, _ := matrix.MultiplyTuple(&ray.Origin)
 	newR.Origin = *ori
-	dir, _ := matrix.MultiplyTuple(&r.Direction)
+	dir, _ := matrix.MultiplyTuple(&ray.Direction)
 	newR.Direction = *dir
 	return newR
 }

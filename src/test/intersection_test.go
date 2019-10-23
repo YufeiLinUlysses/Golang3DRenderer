@@ -27,7 +27,7 @@ func TestIntersection1(t *testing.T) {
 		}
 		ans, ansB := feature.Hit(inter)
 		if ansB {
-			if ans.T != table.ans || ansB != table.ansB {
+			if ans.Position != table.ans || ansB != table.ansB {
 				t.Errorf("Error Input %v, %v", ans, ansB)
 			}
 		} else {

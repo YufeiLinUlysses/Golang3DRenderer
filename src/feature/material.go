@@ -4,7 +4,8 @@ import (
 	"math"
 )
 
-//Material type
+/*Material type contains all necessary components of a material
+ *Material contains pattern and color*/
 type Material struct {
 	Pat          Pattern
 	Col          Color
@@ -19,7 +20,8 @@ type Material struct {
 	PatternType  string
 }
 
-//NewMaterial establishes a new instance for material feature
+/*NewMaterial establishes a default instance for material class
+ *NewMaterial returns a material*/
 func NewMaterial() *Material {
 	m := &Material{
 		Col:          *NewColor(1, 1, 1),
@@ -35,13 +37,11 @@ func NewMaterial() *Material {
 	return m
 }
 
-//GetMaterial gets the information of a material instance
-func (m *Material) GetMaterial() (col Color, amb, dif, spe, shi float64) {
-	return m.Col, m.Ambient, m.Diffuse, m.Specular, m.Shininess
-}
-
-//Lighting gets the lighting of the object and decides the color of a pixel
-func (m *Material) Lighting(l Light, comp Computations, isShadow bool) (col Color) {
+/*Lighting gets the lighting of the object and decides the color of a pixel using the Phong Model 
+ *Lighting can only be called by a material
+ *Lighting takes in a light, a computaions, a bool
+ *Lighting returns a color*/
+func (mat *Material) Lighting(lig Light, comp Computations, isShadow bool) (col Color) {
 	var matCol, diffuse, specular, ans Color
 	trans := NewMatrix(4, 4)
 	black := NewColor(0, 0, 0)
@@ -57,16 +57,16 @@ func (m *Material) Lighting(l Light, comp Computations, isShadow bool) (col Colo
 		trans = v.Transform
 	}
 
-	if m.HasPattern {
-		matCol = *m.Pat.PatternAt(comp.Point, *trans, m.PatternType)
+	if mat.HasPattern {
+		matCol = *mat.Pat.PatternAt(comp.Point, *trans, mat.PatternType)
 	} else {
-		matCol = m.Col
+		matCol = mat.Col
 	}
 
-	effectiveCol := matCol.ColorMultiply(&l.Intensity)
-	sub, _ := l.Position.Subtract(&comp.Point)
+	effectiveCol := matCol.ColorMultiply(&lig.Intensity)
+	sub, _ := lig.Position.Subtract(&comp.Point)
 	light, _ := sub.Normalize()
-	ambient := effectiveCol.Multiply(m.Ambient)
+	ambient := effectiveCol.Multiply(mat.Ambient)
 	if isShadow {
 		return ambient
 	}
@@ -75,15 +75,15 @@ func (m *Material) Lighting(l Light, comp Computations, isShadow bool) (col Colo
 		diffuse = *black
 		specular = *black
 	} else {
-		diffuse = effectiveCol.Multiply(m.Diffuse * lightDotNormal)
+		diffuse = effectiveCol.Multiply(mat.Diffuse * lightDotNormal)
 		negLight := light.Multiply(-1)
 		reflect, _ := negLight.Reflect(&comp.Normal)
 		reflectDotEye, _ := reflect.DotProduct(&comp.Eye)
 		if reflectDotEye <= 0 {
 			specular = *black
 		} else {
-			factor := math.Pow(reflectDotEye, m.Shininess)
-			specular = l.Intensity.Multiply(m.Specular * factor)
+			factor := math.Pow(reflectDotEye, mat.Shininess)
+			specular = lig.Intensity.Multiply(mat.Specular * factor)
 		}
 	}
 	ans = ambient.Add(&diffuse)

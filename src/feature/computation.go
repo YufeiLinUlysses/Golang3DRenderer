@@ -4,9 +4,11 @@ import (
 	"math"
 )
 
-//Computations type
+/*Computations type contains all necessary component for a computations instance
+ *Computations could only be initialzied by a intersection instance
+ *Computation contains serveral tuples*/
 type Computations struct {
-	T          float64
+	Position   float64
 	Refract1   float64
 	Refract2   float64
 	Shape      interface{}
@@ -19,7 +21,9 @@ type Computations struct {
 	Inside     bool
 }
 
-//Schlick returns the reflectance that is between 0 and 1 and represents what fraction of the light is reflected
+/*Schlick returns the reflectance that is between 0 and 1 and represents what fraction of the light is reflected
+ *Schlick could be only called by a computations instance
+ *Schlick returns a float*/
 func (comp *Computations) Schlick() float64 {
 	cos, _ := comp.Eye.DotProduct(&comp.Normal)
 	if comp.Refract1 > comp.Refract2 {

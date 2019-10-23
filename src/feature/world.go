@@ -5,22 +5,26 @@ import (
 	"sort"
 )
 
-//World type
+/*World type contains all necessary components of a world
+ *World contains a slice of light and a slice of objects*/
 type World struct {
 	Lights  []Light
 	Objects []interface{}
 }
 
-//NewWorld establishes a new world instance, if nothing is given, it returns nothing
-func NewWorld(l []Light, o []interface{}) *World {
+/*NewWorld establishes a new world instance, if nothing is given, it returns nothing
+ *NewWorld takes in a slice of light and a slice of shapes
+ *NewWorld returns an empty world*/
+func NewWorld(ligs []Light, objs []interface{}) *World {
 	w := &World{
-		Lights:  l,
-		Objects: o,
+		Lights:  ligs,
+		Objects: objs,
 	}
 	return w
 }
 
-//DefaultWorld establishes the default world in the book
+/*DefaultWorld establishes the default world in the book
+ *DefaultWorld returns a default world*/
 func DefaultWorld() *World {
 	var lights []Light
 	var objects []interface{}
@@ -43,18 +47,21 @@ func DefaultWorld() *World {
 	return w
 }
 
-//IntersectWorld gives the intersection the ray has with the world
-func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
-	obj := w.Objects
+/*IntersectWorld gives the intersection the ray has with the world
+ *IntersectWorld can only be called by a world
+ *IntersectWorld takes in a ray
+ *IntersectWorld returns a int and a slice of intersection*/
+func (world *World) IntersectWorld(ray *Ray) (count int, points []Intersection) {
+	obj := world.Objects
 	var tempCount int
 	var ans []Intersection
 
 	for i := range obj {
 		switch v := obj[i].(type) {
 		case *Sphere:
-			tempCount, ans, _ = v.IntersectWithRay(r)
+			tempCount, ans, _ = v.IntersectWithRay(ray)
 		case *Plane:
-			tempCount, ans, _ = v.IntersectWithRay(r)
+			tempCount, ans, _ = v.IntersectWithRay(ray)
 		}
 		count += tempCount
 		if tempCount == 1 {
@@ -65,38 +72,47 @@ func (w *World) IntersectWorld(r *Ray) (count int, points []Intersection) {
 			continue
 		}
 	}
-	sort.Slice(points, func(i, j int) bool { return points[i].T < points[j].T })
+	sort.Slice(points, func(i, j int) bool { return points[i].Position < points[j].Position })
 	return count, points
 }
 
-//IsShadowed gives whether an object is in shadow or not
-func (w *World) isShadowed(l *Light, point *Tuple) bool {
-	v, _ := l.Position.Subtract(point)
+/*isShadowed gives whether an object is in shadow or not
+ *isShadowed can only be called by a world
+ *isShadowed takes in a light and a tuple
+ *isShadowed returns a bool*/
+func (world *World) isShadowed(lig *Light, point *Tuple) bool {
+	v, _ := lig.Position.Subtract(point)
 	distance, _ := v.Magnitude()
 	dir, _ := v.Normalize()
 	r := NewRay(*point, dir)
-	_, inter := w.IntersectWorld(r)
+	_, inter := world.IntersectWorld(r)
 	hit, hitted := Hit(inter)
-	if hitted && hit.T < distance {
+	if hitted && hit.Position < distance {
 		return true
 	}
 	return false
 }
 
-//ColorAt returns the color at a
-func (w *World) ColorAt(r *Ray, remaining int) *Color {
+/*ColorAt returns the color at a
+ *ColorAt can only be called by a world
+ *ColorAt takes in a ray and a int
+ *ColorAt returns a color*/
+func (world *World) ColorAt(ray *Ray, remaining int) *Color {
 	color := NewColor(0, 0, 0)
-	_, inters := w.IntersectWorld(r)
+	_, inters := world.IntersectWorld(ray)
 	hitPoint, hitted := Hit(inters)
 	if hitted == true {
-		comp := hitPoint.PrepareComputation(r, inters)
-		*color = w.ShadeHit(comp, remaining)
+		comp := hitPoint.PrepareComputation(ray, inters)
+		*color = world.ShadeHit(comp, remaining)
 	}
 	return color
 }
 
-//ReflectedColor returns a color reflected from the object
-func (w *World) ReflectedColor(comps Computations, remaining int) *Color {
+/*ReflectedColor returns a color reflected from the object
+ *ReflectedColor can only be called by a world
+ *ReflectedColor takes in a computations and a int
+ *ReflectedColor returns a color*/
+func (world *World) ReflectedColor(comps Computations, remaining int) *Color {
 	var ref float64
 
 	switch v := comps.Shape.(type) {
@@ -114,13 +130,15 @@ func (w *World) ReflectedColor(comps Computations, remaining int) *Color {
 		return NewColor(0, 0, 0)
 	}
 	reflectRay := NewRay(comps.OverPoint, comps.Reflect)
-	color := w.ColorAt(reflectRay, remaining-1)
+	color := world.ColorAt(reflectRay, remaining-1)
 	*color = color.Multiply(ref)
 	return color
 }
 
-//RefractedColor returns a color refracted from the object
-func (w *World) RefractedColor(comps Computations, remaining int) *Color {
+/*RefractedColor returns a color refracted from the object
+ *RefractedColor can only be called by a world
+ *RefreactedColor takes in a computations and a int*/
+func (world *World) RefractedColor(comps Computations, remaining int) *Color {
 	var transp float64
 	var color Color
 	switch v := comps.Shape.(type) {
@@ -151,12 +169,15 @@ func (w *World) RefractedColor(comps Computations, remaining int) *Color {
 	direct := comps.Normal.Multiply(nratio*cosi - cost)
 	direct, _ = direct.Subtract(&calculate)
 	refractray := NewRay(comps.UnderPoint, direct)
-	color = w.ColorAt(refractray, remaining-1).Multiply(transp)
+	color = world.ColorAt(refractray, remaining-1).Multiply(transp)
 	return &color
 }
 
-//ShadeHit gives back the color at the intersection in the world
-func (w *World) ShadeHit(comp Computations, remaining int) (colors Color) {
+/*ShadeHit gives back the color at the intersection in the world
+ *ShadeHit can only be called by a world
+ *ShadeHit takes in a computations and a int
+ *ShadeHit returns a color*/
+func (world *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 	var mat Material
 	var surface, reflected, refracted Color
 	switch v := comp.Shape.(type) {
@@ -165,12 +186,12 @@ func (w *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 	case *Plane:
 		mat = v.Mat
 	}
-	for i := range w.Lights {
-		light := w.Lights[i]
-		inShadow := w.isShadowed(&light, &comp.OverPoint)
+	for i := range world.Lights {
+		light := world.Lights[i]
+		inShadow := world.isShadowed(&light, &comp.OverPoint)
 		surface = mat.Lighting(light, comp, inShadow)
-		reflected = *w.ReflectedColor(comp, remaining)
-		refracted = *w.RefractedColor(comp, remaining)
+		reflected = *world.ReflectedColor(comp, remaining)
+		refracted = *world.RefractedColor(comp, remaining)
 		temp := surface.Add(&reflected)
 		temp = temp.Add(&refracted)
 		colors = colors.Add(&temp)

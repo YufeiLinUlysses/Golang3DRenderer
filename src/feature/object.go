@@ -4,32 +4,40 @@ import (
 	"math"
 )
 
-//Object type
+/*Object type contains all necessary component of an object
+ *Object contains material, tuple and matrix*/
 type Object struct {
 	Mat       Material
 	Center    Tuple
 	Transform *Matrix
 }
 
-//NewObject sets a new instance for Object class
+/*NewObject gives a default object with default material
+ *NewObject returns an object*/
 func NewObject() *Object {
 	matrix := NewMatrix(4, 4)
-	m, _ := matrix.GetIdentity()
+	matrix, _ = matrix.GetIdentity()
 	o := &Object{
 		Mat:       *NewMaterial(),
 		Center:    *Point(0, 0, 0),
-		Transform: m,
+		Transform: matrix,
 	}
 	return o
 }
 
-//SetTransform sets the transform matrix
+/*SetTransform sets the transform matrix
+ *SetTransform can only be called by an object
+ *SetTransform takes in a matrix
+ *SetTransform returns an object*/
 func (obj *Object) SetTransform(matrix *Matrix) *Object {
 	obj.Transform = matrix
 	return obj
 }
 
-//Translate returns translation matrix
+/*Translate translate the ray with a matrix
+ *Translate is a public function
+ *Translate takes in three float
+ *Translate returns a matrix*/
 func Translate(xInc, yInc, zInc float64) *Matrix {
 	m := NewMatrix(4, 4)
 	m, _ = m.GetIdentity()
@@ -39,7 +47,10 @@ func Translate(xInc, yInc, zInc float64) *Matrix {
 	return m
 }
 
-//Scale scales the ray
+/*Scale scales the ray
+ *Scale is a public function
+ *Scale takes in three float
+ *Scale returns a matrix*/
 func Scale(xInc, yInc, zInc float64) *Matrix {
 	m := NewMatrix(4, 4)
 	m, _ = m.GetIdentity()
@@ -49,40 +60,52 @@ func Scale(xInc, yInc, zInc float64) *Matrix {
 	return m
 }
 
-//RotationX rotates the ray around x axis
-func RotationX(r float64) *Matrix {
+/*RotationX rotates the ray around x axis
+ *RotationX is a public function
+ *RotationX takes in one float
+ *RotationX returns a matrix*/
+func RotationX(rot float64) *Matrix {
 	m := NewMatrix(4, 4)
 	m, _ = m.GetIdentity()
-	m = m.Assign(1, 1, math.Cos(r)+3-3)
-	m = m.Assign(2, 1, -math.Sin(r)+3-3)
-	m = m.Assign(1, 2, math.Sin(r)+3-3)
-	m = m.Assign(2, 2, math.Cos(r)+3-3)
+	m = m.Assign(1, 1, math.Cos(rot)+3-3)
+	m = m.Assign(2, 1, -math.Sin(rot)+3-3)
+	m = m.Assign(1, 2, math.Sin(rot)+3-3)
+	m = m.Assign(2, 2, math.Cos(rot)+3-3)
 	return m
 }
 
-//RotationY rotates the ray around y axis
-func RotationY(r float64) *Matrix {
+/*RotationY rotates the ray around y axis
+ *RotationY is a public function
+ *RotationY takes in one float
+ *RotationY returns a matrix*/
+func RotationY(rot float64) *Matrix {
 	m := NewMatrix(4, 4)
 	m, _ = m.GetIdentity()
-	m = m.Assign(0, 0, math.Cos(r)+3-3)
-	m = m.Assign(2, 0, math.Sin(r)+3-3)
-	m = m.Assign(0, 2, -math.Sin(r)+3-3)
-	m = m.Assign(2, 2, math.Cos(r)+3-3)
+	m = m.Assign(0, 0, math.Cos(rot)+3-3)
+	m = m.Assign(2, 0, math.Sin(rot)+3-3)
+	m = m.Assign(0, 2, -math.Sin(rot)+3-3)
+	m = m.Assign(2, 2, math.Cos(rot)+3-3)
 	return m
 }
 
-//RotationZ rotates the ray around z axis
-func RotationZ(r float64) *Matrix {
+/*RotationZ rotates the ray around z axis
+ *RotationZ is a public function
+ *RotationZ takes in one float
+ *RotationZ returns a matrix*/
+func RotationZ(rot float64) *Matrix {
 	m := NewMatrix(4, 4)
 	m, _ = m.GetIdentity()
-	m = m.Assign(0, 0, math.Cos(r)+3-3)
-	m = m.Assign(1, 0, -math.Sin(r)+3-3)
-	m = m.Assign(0, 1, math.Sin(r)+3-3)
-	m = m.Assign(1, 1, math.Cos(r)+3-3)
+	m = m.Assign(0, 0, math.Cos(rot)+3-3)
+	m = m.Assign(1, 0, -math.Sin(rot)+3-3)
+	m = m.Assign(0, 1, math.Sin(rot)+3-3)
+	m = m.Assign(1, 1, math.Cos(rot)+3-3)
 	return m
 }
 
-//Shearing makes the straight line slanted
+/*Shearing makes the straight line slanted
+ *Shearing is a public function
+ *Shearing takes in six float
+ *Shearing returns a matrix*/
 func Shearing(xy, xz, yx, yz, zx, zy float64) *Matrix {
 	m := NewMatrix(4, 4)
 	m, _ = m.GetIdentity()
@@ -95,7 +118,10 @@ func Shearing(xy, xz, yx, yz, zx, zy float64) *Matrix {
 	return m
 }
 
-//ViewTransformation changes the view orientation
+/*ViewTransformation changes the view orientation
+ *ViewTransformation is a public function
+ *ViewTransformation takes in three tuple
+ *ViewTransformation returns a matrix*/
 func ViewTransformation(from, to, up Tuple) *Matrix {
 	m := NewMatrix(4, 4)
 	m, _ = m.GetIdentity()

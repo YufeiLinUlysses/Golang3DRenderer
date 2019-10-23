@@ -6,24 +6,7 @@ import (
 	"testing"
 )
 
-//TestMaterial1 tests to see if the GetMaterial function works for feature Material
-func TestMaterial1(t *testing.T) {
-	tables := []struct {
-		m                       feature.Material
-		ansc                    feature.Color
-		ansa, ansd, anss, anssh float64
-	}{
-		{*feature.NewMaterial(), *feature.NewColor(1, 1, 1), 0.1, 0.9, 0.9, 200},
-	}
-	for _, table := range tables {
-		ansc, ansa, ansd, anss, anssh := table.m.GetMaterial()
-		if ansc != table.ansc || ansa != table.ansa || ansd != table.ansd || anss != table.anss || anssh != table.anssh {
-			t.Errorf("You are wrong")
-		}
-	}
-}
-
-//TestMaterial2 tests to see if the Lighting function works for feature Material
+//TestMaterial1 tests to see if the Lighting function works for feature Material
 func TestMaterial2(t *testing.T) {
 	tables := []struct {
 		eye, normal, position *feature.Tuple

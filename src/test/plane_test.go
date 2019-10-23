@@ -21,7 +21,7 @@ func TestPlane1(t *testing.T) {
 		p := feature.NewPlane()
 		_, ans, ansED := p.IntersectWithRay(table.r)
 		if ansED {
-			if ans[0].T != table.ans {
+			if ans[0].Position != table.ans {
 				t.Errorf("Error Input")
 			}
 		} else {

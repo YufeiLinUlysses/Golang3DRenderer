@@ -127,7 +127,7 @@ func TestTuple7(t *testing.T) {
 		{feature.Tuple{4.3, -4.2, 3.1, 0}, 0, feature.Tuple{0, 0, 0, 0}},
 	}
 	for _, table := range tables {
-		ans := table.tone.Divide(table.num)
+		ans, _ := table.tone.Divide(table.num)
 		if ans != table.ans {
 			t.Errorf("You are wrong, need %f,  %f, %f, %f, but get %f, %f, %f, %f", table.ans.X, table.ans.Y, table.ans.Z, table.ans.W, ans.X, ans.Y, ans.Z, ans.W)
 		}
