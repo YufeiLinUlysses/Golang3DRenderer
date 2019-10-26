@@ -1,5 +1,9 @@
 package feature
 
+import (
+	"math"
+)
+
 /*Ray type contains all necessary component of a ray
  *Ray contains tuple*/
 type Ray struct {
@@ -50,4 +54,26 @@ func (ray *Ray) Transform(matrix *Matrix) *Ray {
 	dir, _ := matrix.MultiplyTuple(&ray.Direction)
 	newR.Direction = *dir
 	return newR
+}
+
+/*CheckAxis helps to check the maximum and minimum intersection
+ *CheckAxis is a public function
+ *CheckAxis takes in two float
+ *CheckAxis returns two float*/
+func CheckAxis(oricor, dircor float64) (tmin, tmax float64) {
+	tminnum := (-1 - oricor)
+	tmaxnum := (1 - oricor)
+	if math.Abs(dircor) >= 0.00001 {
+		tmin = tminnum / dircor
+		tmax = tmaxnum / dircor
+	} else {
+		tmin = tminnum * math.Pow10(10)
+		tmax = tmaxnum * math.Pow10(10)
+	}
+	if tmin > tmax {
+		temp := tmax
+		tmax = tmin
+		tmin = temp
+	}
+	return tmin, tmax
 }

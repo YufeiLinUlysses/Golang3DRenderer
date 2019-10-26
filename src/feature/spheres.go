@@ -12,11 +12,11 @@ type Sphere struct {
 /*NewSphere creates an instance of Type Sphere
  *NewSphere returns a sphere with default object*/
 func NewSphere() *Sphere {
-	s := &Sphere{
+	sph := &Sphere{
 		Object: *NewObject(),
 		Radius: 1,
 	}
-	return s
+	return sph
 }
 
 /*IntersectWithRay calculates the intersections between a sphere and a ray
