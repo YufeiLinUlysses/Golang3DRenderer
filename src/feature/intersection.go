@@ -50,6 +50,18 @@ func Hit(inters []Intersection) (hitPoint *Intersection, hitted bool) {
 func ShapeInSlice(shape interface{}, mapofshapes []interface{}) (int, bool) {
 	var temp1 interface{}
 	switch v := shape.(type) {
+	case *Cube:
+		temp1 = v
+	case Cube:
+		temp1 = v
+	case *Cylinder:
+		temp1 = v
+	case Cylinder:
+		temp1 = v
+	case *Cone:
+		temp1 = v
+	case Cone:
+		temp1 = v
 	case *Sphere:
 		temp1 = v
 	case Sphere:
@@ -61,6 +73,36 @@ func ShapeInSlice(shape interface{}, mapofshapes []interface{}) (int, bool) {
 	}
 	for k := range mapofshapes {
 		switch temp2 := mapofshapes[k].(type) {
+		case *Cube:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Cube:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case *Cylinder:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Cylinder:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case *Cone:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Cone:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
 		case *Sphere:
 			if reflect.DeepEqual(temp1, temp2) {
 				return k, true
@@ -97,6 +139,12 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 	comp.Point = ray.Position(comp.Position)
 	comp.Eye = ray.Direction.Multiply(-1)
 	switch v := comp.Shape.(type) {
+	case *Cube:
+		comp.Normal = v.NormalAt(&comp.Point)
+	case *Cylinder:
+		comp.Normal = v.NormalAt(&comp.Point)
+	case *Cone:
+		comp.Normal = v.NormalAt(&comp.Point)
 	case *Sphere:
 		comp.Normal = v.NormalAt(&comp.Point)
 	case *Plane:
@@ -123,6 +171,12 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 				comp.Refract1 = 1
 			} else {
 				switch v := container[len(container)-1].(type) {
+				case *Cube:
+					comp.Refract1 = v.Mat.Refractivity
+				case *Cylinder:
+					comp.Refract1 = v.Mat.Refractivity
+				case *Cone:
+					comp.Refract1 = v.Mat.Refractivity
 				case *Sphere:
 					comp.Refract1 = v.Mat.Refractivity
 				case *Plane:
@@ -149,6 +203,12 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 				comp.Refract2 = 1
 			} else {
 				switch v := container[len(container)-1].(type) {
+				case *Cube:
+					comp.Refract2 = v.Mat.Refractivity
+				case *Cylinder:
+					comp.Refract2 = v.Mat.Refractivity
+				case *Cone:
+					comp.Refract2 = v.Mat.Refractivity
 				case *Sphere:
 					comp.Refract2 = v.Mat.Refractivity
 				case *Plane:

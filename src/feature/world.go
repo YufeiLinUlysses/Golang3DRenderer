@@ -58,6 +58,12 @@ func (world *World) IntersectWorld(ray *Ray) (count int, points []Intersection) 
 
 	for i := range obj {
 		switch v := obj[i].(type) {
+		case *Cube:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case *Cylinder:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case *Cone:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
 		case *Sphere:
 			tempCount, ans, _ = v.IntersectWithRay(ray)
 		case *Plane:
@@ -116,6 +122,18 @@ func (world *World) ReflectedColor(comps Computations, remaining int) *Color {
 	var ref float64
 
 	switch v := comps.Shape.(type) {
+	case *Cube:
+		ref = v.Mat.Reflectivity
+	case Cube:
+		ref = v.Mat.Reflectivity
+	case *Cylinder:
+		ref = v.Mat.Reflectivity
+	case Cylinder:
+		ref = v.Mat.Reflectivity
+	case *Cone:
+		ref = v.Mat.Reflectivity
+	case Cone:
+		ref = v.Mat.Reflectivity
 	case *Sphere:
 		ref = v.Mat.Reflectivity
 	case Sphere:
@@ -142,6 +160,18 @@ func (world *World) RefractedColor(comps Computations, remaining int) *Color {
 	var transp float64
 	var color Color
 	switch v := comps.Shape.(type) {
+	case *Cube:
+		transp = v.Mat.Transparency
+	case Cube:
+		transp = v.Mat.Transparency
+	case *Cylinder:
+		transp = v.Mat.Transparency
+	case Cylinder:
+		transp = v.Mat.Transparency
+	case *Cone:
+		transp = v.Mat.Transparency
+	case Cone:
+		transp = v.Mat.Transparency
 	case *Sphere:
 		transp = v.Mat.Transparency
 	case Sphere:
@@ -181,6 +211,12 @@ func (world *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 	var mat Material
 	var surface, reflected, refracted Color
 	switch v := comp.Shape.(type) {
+	case *Cube:
+		mat = v.Mat
+	case *Cylinder:
+		mat = v.Mat
+	case *Cone:
+		mat = v.Mat
 	case *Sphere:
 		mat = v.Mat
 	case *Plane:

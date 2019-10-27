@@ -47,6 +47,18 @@ func (mat *Material) Lighting(lig Light, comp Computations, isShadow bool) (col 
 	black := NewColor(0, 0, 0)
 
 	switch v := comp.Shape.(type) {
+	case *Cube:
+		trans = v.Transform
+	case Cube:
+		trans = v.Transform
+	case *Cylinder:
+		trans = v.Transform
+	case Cylinder:
+		trans = v.Transform
+	case *Cone:
+		trans = v.Transform
+	case Cone:
+		trans = v.Transform
 	case *Sphere:
 		trans = v.Transform
 	case Sphere:
