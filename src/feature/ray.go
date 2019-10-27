@@ -71,9 +71,17 @@ func CheckAxis(oricor, dircor float64) (tmin, tmax float64) {
 		tmax = tmaxnum * math.Pow10(10)
 	}
 	if tmin > tmax {
-		temp := tmax
-		tmax = tmin
-		tmin = temp
+		tmax, tmin = tmin, tmax
 	}
 	return tmin, tmax
+}
+
+/*CheckCap checks whether the intersection at t is within a radius of 1
+ *CheckCap can only be called by a ray
+ *CheckCap takes in a float
+ *CheckCap returns a bool*/
+func (ray *Ray) CheckCap(t, radi float64) bool {
+	x := ray.Origin.X + t*ray.Direction.X
+	z := ray.Origin.Z + t*ray.Direction.Z
+	return (math.Pow(x, 2) + math.Pow(z, 2)) <= radi
 }

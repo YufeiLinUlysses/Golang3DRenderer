@@ -41,7 +41,7 @@ func SecondImage(fileName string) {
 			ray := feature.NewRay(*feature.Point(x, y, -5), *feature.Vector(0, 0, 1))
 			_, ans, intersect := s.IntersectWithRay(ray)
 			if intersect {
-				color := DiffuseLight(ans[0].T, l, ray, red, *s)
+				color := DiffuseLight(ans[0].Position, l, ray, red, *s)
 				canv.WritePixel(i, j, color)
 			}
 		}
@@ -82,7 +82,7 @@ func ThirdImage(fileName string) {
 			_, ans, intersect := s.IntersectWithRay(ray)
 			eye := ray.Direction.Multiply(-1)
 			if intersect {
-				hitPoint := ray.Position(ans[0].T)
+				hitPoint := ray.Position(ans[0].Position)
 				normal := s.NormalAt(&hitPoint)
 				var comp feature.Computations
 				comp.Eye = eye
@@ -190,7 +190,7 @@ func FifthImage(fileName string) {
 	//Right wall instance
 	rightWall := feature.NewPlane()
 	transR := feature.Translate(0, 0, 4.7)
-	rotYR := feature.RotationY(math.Pi/3 )
+	rotYR := feature.RotationY(math.Pi / 3)
 	rotX = feature.RotationX(math.Pi / 2)
 	mR, _ := rotYR.Multiply(rotX)
 	mR, _ = transR.Multiply(mR)
@@ -215,7 +215,7 @@ func FifthImage(fileName string) {
 
 	//Left instance
 	left := feature.NewSphere()
-	left.Transform, _ = feature.Translate(-0.8, 0.45,0.2).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	left.Transform, _ = feature.Translate(-0.8, 0.45, 0.2).Multiply(feature.Scale(0.5, 0.5, 0.5))
 	left.Mat.Col = *feature.NewColor(1, 0, 0)
 	left.Mat.Diffuse = 0.7
 	left.Mat.Specular = 0.3
@@ -234,6 +234,35 @@ func FifthImage(fileName string) {
 
 	//Add all objects in
 	objects = append(objects, middleWall, rightWall, leftWall, left, right, floor)
+	w := feature.NewWorld(lights, objects)
+
+	//Canv that draw the final product
+	canv := cam.Render(*w)
+	canv.CanvasToPPM(fileName)
+}
+
+//SixthImage creates the sixth image
+func SixthImage(fileName string) {
+	cube := feature.NewCube()
+	cube.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+	// right := feature.NewSphere()
+	// right.Transform, _ = feature.Translate(1.5, 0.5, -0.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	// right.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+	// right.Mat.Diffuse = 0.7
+	// right.Mat.Specular = 0.3
+
+	cam := feature.NewCamera(100, 100, math.Pi/3)
+	//cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
+
+	var light feature.Light
+	var lights []feature.Light
+	var objects []interface{}
+
+	//Add light source
+	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
+
+	//Add all objects in
+	objects = append(objects, cube)
 	w := feature.NewWorld(lights, objects)
 
 	//Canv that draw the final product
