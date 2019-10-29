@@ -12,5 +12,5 @@ func main() {
 	// c.Min = -0.5
 	// c.Closed = true
 	// fmt.Println(c.IntersectWithRay(r))
-	method.SixthImage("../../output/test8")
+	method.SixthImage("../../output/test9")
 }

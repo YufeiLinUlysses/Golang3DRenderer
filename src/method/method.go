@@ -263,6 +263,7 @@ func SixthImage(fileName string) {
 	right.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
 	right.Mat.Diffuse = 0.7
 	right.Mat.Specular = 0.3
+	right.Mat.Transparency = 9
 
 	cam := feature.NewCamera(100, 100, math.Pi/3)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
