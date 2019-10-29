@@ -1,0 +1,1 @@
+Consider different shading method like Flat, Phong, Blinn-Phong and Goraud
