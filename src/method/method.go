@@ -243,8 +243,20 @@ func FifthImage(fileName string) {
 
 //SixthImage creates the sixth image
 func SixthImage(fileName string) {
+	cone := feature.NewCone()
+	cone.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+	trans := feature.Translate(-2.5, 0, 0.5)
+	cone.Transform = trans
+	cone.Max = 2
+	cone.Min = -1
+
 	cube := feature.NewCube()
 	cube.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+
+	cylinder := feature.NewCylinder()
+	cylinder.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+	cylinder.Max = 2
+	cylinder.Min = 1
 
 	right := feature.NewSphere()
 	right.Transform, _ = feature.Translate(1.5, 0.5, -0.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
@@ -263,7 +275,7 @@ func SixthImage(fileName string) {
 	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
 
 	//Add all objects in
-	objects = append(objects, cube, right)
+	objects = append(objects, cone, cube, cylinder, right)
 	w := feature.NewWorld(lights, objects)
 
 	//Canv that draw the final product

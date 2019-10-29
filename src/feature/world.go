@@ -60,6 +60,8 @@ func (world *World) IntersectWorld(ray *Ray) (count int, points []Intersection) 
 		switch v := obj[i].(type) {
 		case *Cube:
 			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case Cube:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
 		case *Cylinder:
 			tempCount, ans, _ = v.IntersectWithRay(ray)
 		case *Cone:
@@ -212,6 +214,8 @@ func (world *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 	var surface, reflected, refracted Color
 	switch v := comp.Shape.(type) {
 	case *Cube:
+		mat = v.Mat
+	case Cube:
 		mat = v.Mat
 	case *Cylinder:
 		mat = v.Mat
