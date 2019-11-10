@@ -20,7 +20,7 @@ func NewCone() *Cone {
 }
 
 /*IntersectWithRay calculates the intersections between a cone and a ray
- *IntersectWithRay can only be called by a cylinder
+ *IntersectWithRay can only be called by a cone
  *IntersectWithRay takes in a ray
  *IntersectWithRay returns a int, a slice of intersection and a bool */
 func (con *Cone) IntersectWithRay(ray *Ray) (count int, ans []Intersection, intersect bool) {
@@ -64,9 +64,7 @@ func (con *Cone) IntersectWithRay(ray *Ray) (count int, ans []Intersection, inte
  *NormalAt returns a tuple*/
 func (con *Cone) NormalAt(point *Tuple) Tuple {
 	var obNormal Tuple
-	deter, _ := con.Transform.Determinant()
-	inv := con.Transform.GetInverse(deter)
-	obPoint, _ := inv.MultiplyTuple(point)
+	obPoint := con.WorldToObject(point)
 	dist := math.Pow(obPoint.X, 2) + math.Pow(obPoint.Z, 2)
 	if dist < 1 && obPoint.Y >= con.Max-0.00001 {
 		return *Vector(0, 1, 0)
@@ -78,8 +76,6 @@ func (con *Cone) NormalAt(point *Tuple) Tuple {
 		y = -y
 	}
 	obNormal = *Vector(obPoint.X, y, obPoint.Z)
-	wNormal, _ := inv.Transpose().MultiplyTuple(&obNormal)
-	wNormal.W = 0
-	ans, _ := wNormal.Normalize()
-	return ans
+	wNormal := con.NormalToWorld(&obNormal)
+	return *wNormal
 }

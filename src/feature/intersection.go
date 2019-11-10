@@ -141,8 +141,6 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 	switch v := comp.Shape.(type) {
 	case *Cube:
 		comp.Normal = v.NormalAt(&comp.Point)
-	case Cube:
-		comp.Normal = v.NormalAt(&comp.Point)
 	case *Cylinder:
 		comp.Normal = v.NormalAt(&comp.Point)
 	case *Cone:
@@ -175,8 +173,6 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 				switch v := container[len(container)-1].(type) {
 				case *Cube:
 					comp.Refract1 = v.Mat.Refractivity
-				case Cube:
-					comp.Refract1 = v.Mat.Refractivity
 				case *Cylinder:
 					comp.Refract1 = v.Mat.Refractivity
 				case *Cone:
@@ -208,8 +204,6 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 			} else {
 				switch v := container[len(container)-1].(type) {
 				case *Cube:
-					comp.Refract2 = v.Mat.Refractivity
-				case Cube:
 					comp.Refract2 = v.Mat.Refractivity
 				case *Cylinder:
 					comp.Refract2 = v.Mat.Refractivity

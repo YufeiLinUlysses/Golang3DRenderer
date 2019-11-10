@@ -47,9 +47,7 @@ func (cub *Cube) IntersectWithRay(ray *Ray) (count int, ans []Intersection, inte
  *NormalAt returns a tuple*/
 func (cub *Cube) NormalAt(point *Tuple) Tuple {
 	var obNormal Tuple
-	deter, _ := cub.Transform.Determinant()
-	inv := cub.Transform.GetInverse(deter)
-	obPoint, _ := inv.MultiplyTuple(point)
+	obPoint := cub.WorldToObject(point)
 	maxc := math.Max(math.Abs(obPoint.X), math.Abs(obPoint.Y))
 	maxc = math.Max(maxc, math.Abs(obPoint.Z))
 	if maxc == math.Abs(obPoint.X) {
@@ -59,8 +57,6 @@ func (cub *Cube) NormalAt(point *Tuple) Tuple {
 	} else {
 		obNormal = *Vector(0, 0, obPoint.Z)
 	}
-	wNormal, _ := inv.Transpose().MultiplyTuple(&obNormal)
-	wNormal.W = 0
-	ans, _ := wNormal.Normalize()
-	return ans
+	wNormal := cub.NormalToWorld(&obNormal)	
+	return *wNormal
 }

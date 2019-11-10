@@ -5,8 +5,9 @@ import (
 )
 
 /*Object type contains all necessary component of an object
- *Object contains material, tuple and matrix*/
+ *Object contains group, material, tuple and matrix*/
 type Object struct {
+	Parent    *Group
 	Mat       Material
 	Center    Tuple
 	Transform *Matrix
@@ -32,6 +33,38 @@ func NewObject() *Object {
 func (obj *Object) SetTransform(matrix *Matrix) *Object {
 	obj.Transform = matrix
 	return obj
+}
+
+/*WorldToObject converts world point to object point
+ *WorldToObject can only be called by an object
+ *WorldToObject takes in a tuple
+ *WorldToObject returns a tuple*/
+func (obj *Object) WorldToObject(point *Tuple) *Tuple {
+	if obj.Parent != nil {
+		point = obj.Parent.WorldToObject(point)
+	}
+	deter, _ := obj.Transform.Determinant()
+	iT := obj.Transform.GetInverse(deter)
+	ansPoint, _ := iT.MultiplyTuple(point)
+	point = ansPoint
+	return point
+}
+
+/*NormalToWorld converts normal to world normal
+ *NormalToWorld can only be called by an object
+ *NormalToWorld takes in a tuple
+ *NormalToWorld returns a tuple*/
+func (obj *Object) NormalToWorld(normal *Tuple) *Tuple {
+	deter, _ := obj.Transform.Determinant()
+	iT := obj.Transform.GetInverse(deter)
+	normal, _ = iT.Transpose().MultiplyTuple(normal)
+	normal.W = 0
+	ansNorm, _ := normal.Normalize()
+	normal = &ansNorm
+	if obj.Parent != nil {
+		normal = obj.Parent.NormalToWorld(normal)
+	}
+	return normal
 }
 
 /*Translate translate the ray with a matrix

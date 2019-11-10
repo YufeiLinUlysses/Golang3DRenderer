@@ -243,27 +243,14 @@ func FifthImage(fileName string) {
 
 //SixthImage creates the sixth image
 func SixthImage(fileName string) {
-	cone := feature.NewCone()
-	cone.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
-	trans := feature.Translate(-2.5, 0, 0.5)
-	cone.Transform = trans
-	cone.Max = 2
-	cone.Min = -1
-
 	cube := feature.NewCube()
 	cube.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
-
-	cylinder := feature.NewCylinder()
-	cylinder.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
-	cylinder.Max = 2
-	cylinder.Min = 1
 
 	right := feature.NewSphere()
 	right.Transform, _ = feature.Translate(1.5, 0.5, -0.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
 	right.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
 	right.Mat.Diffuse = 0.7
 	right.Mat.Specular = 0.3
-	right.Mat.Transparency = 9
 
 	cam := feature.NewCamera(100, 100, math.Pi/3)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
@@ -273,10 +260,10 @@ func SixthImage(fileName string) {
 	var objects []interface{}
 
 	//Add light source
-	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
+	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))            
 
 	//Add all objects in
-	objects = append(objects, cone, cube, cylinder, right)
+	objects = append(objects, cube, right)
 	w := feature.NewWorld(lights, objects)
 
 	//Canv that draw the final product

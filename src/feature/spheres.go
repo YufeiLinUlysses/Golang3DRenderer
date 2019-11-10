@@ -50,12 +50,8 @@ func (sph *Sphere) IntersectWithRay(ray *Ray) (count int, ans []Intersection, in
  *NormalAt takes in a tuple
  *NormalAt returns a tuple*/
 func (sph *Sphere) NormalAt(point *Tuple) Tuple {
-	deter, _ := sph.Transform.Determinant()
-	inv := sph.Transform.GetInverse(deter)
-	obPoint, _ := inv.MultiplyTuple(point)
+	obPoint := sph.WorldToObject(point)
 	obNormal, _ := obPoint.Subtract(Point(0, 0, 0))
-	wNormal, _ := inv.Transpose().MultiplyTuple(&obNormal)
-	wNormal.W = 0
-	ans, _ := wNormal.Normalize()
-	return ans
+	wNormal := sph.NormalToWorld(&obNormal)
+	return *wNormal
 }

@@ -66,9 +66,7 @@ func (cyl *Cylinder) IntersectWithRay(ray *Ray) (count int, ans []Intersection, 
  *NormalAt returns a tuple*/
 func (cyl *Cylinder) NormalAt(point *Tuple) Tuple {
 	var obNormal Tuple
-	deter, _ := cyl.Transform.Determinant()
-	inv := cyl.Transform.GetInverse(deter)
-	obPoint, _ := inv.MultiplyTuple(point)
+	obPoint := cyl.WorldToObject(point)
 	dist := math.Pow(obPoint.X, 2) + math.Pow(obPoint.Z, 2)
 	if dist < 1 && obPoint.Y >= cyl.Max-0.00001 {
 		return *Vector(0, 1, 0)
@@ -76,10 +74,8 @@ func (cyl *Cylinder) NormalAt(point *Tuple) Tuple {
 		return *Vector(0, -1, 0)
 	}
 	obNormal = *Vector(obPoint.X, 0, obPoint.Z)
-	wNormal, _ := inv.Transpose().MultiplyTuple(&obNormal)
-	wNormal.W = 0
-	ans, _ := wNormal.Normalize()
-	return ans
+	wNormal := cyl.NormalToWorld(&obNormal)
+	return *wNormal
 }
 
 /*intersectCap finds the intersection of the ray and the cap of the cylinder and cone
