@@ -1,5 +1,7 @@
 # Golang 3D Renderer
 
+Need to update switches
+
 This is a practice based on Jamis Buck's "The Ray Tracer Challenge." It is a command-line application right now, but will become a mobile application in the future. Page 119-120 is important.
 
 Look at SDL2
