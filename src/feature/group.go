@@ -31,29 +31,48 @@ func (gr *Group) AddChild(shape interface{}) *Group {
 	switch v := shape.(type) {
 	case *Cube:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case Cube:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case *Cylinder:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case Cylinder:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case *Cone:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case Cone:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case *Sphere:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case Sphere:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case *Plane:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case Plane:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case *Group:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	case Group:
 		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
+	case *Triangle:
+		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
+	case Triangle:
+		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
 	}
+	
 	return gr
 }
 
