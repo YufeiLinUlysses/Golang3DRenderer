@@ -2,12 +2,12 @@ package main
 
 import (
 	"feature"
-	//"fmt"
+	"fmt"
 	//"method"
 )
 
 func main() {
 	op := feature.NewOBJParser("../test/testFiles/originalFile/test.obj")
-	op.ReadObj()
-	//method.SixthImage("../../output/test7")
+	op = op.ReadObj()
+	fmt.Println(len(op.OBJToGroup().Objects[1].(*feature.Group).Objects))
 }
