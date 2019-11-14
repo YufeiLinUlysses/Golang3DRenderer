@@ -10,6 +10,9 @@ type Intersection struct {
 	Position float64
 	ray      Ray
 	Shape    interface{}
+	//Triangles only, represents  a location on the surface of a triangle,
+	//related to its corners
+	U, V float64
 }
 
 /*NewIntersection establishes a new intersection instance
@@ -149,6 +152,8 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 		comp.Normal = v.NormalAt(&comp.Point)
 	case *Plane:
 		comp.Normal = v.NormalAt(&comp.Point)
+	case *SmoothTriangle:
+		comp.Normal = v.NormalAt(&comp.Point, inters[0])
 	}
 	if product, _ := comp.Normal.DotProduct(&comp.Eye); product < 0 {
 		comp.Inside = true
