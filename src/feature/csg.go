@@ -119,3 +119,17 @@ func (csg *CSG)IntersectionAllowed(op string, lhit, inl, inr bool) bool{
 	}
 	return false
 }
+
+/*FilterIntersection creates*/
+func (csg *CSG)FilterIntersection(inters []*Intersection){
+	inl := false
+	inr := false
+	result := make([]*Intersection, 0)
+	// for i := range inters{
+	// 	lhit := 
+	// }
+}
+
+func (shapeA interface{})includes(shapeB interface{}){
+	
+}
