@@ -7,10 +7,11 @@ import (
 /*Object type contains all necessary component of an object
  *Object contains group, material, tuple and matrix*/
 type Object struct {
-	Parent    *Group
-	Mat       Material
-	Center    Tuple
-	Transform *Matrix
+	ParentType string
+	Parent     interface{}
+	Mat        Material
+	Center     Tuple
+	Transform  *Matrix
 }
 
 /*NewObject gives a default object with default material
@@ -40,8 +41,35 @@ func (obj *Object) SetTransform(matrix *Matrix) *Object {
  *WorldToObject takes in a tuple
  *WorldToObject returns a tuple*/
 func (obj *Object) WorldToObject(point *Tuple) *Tuple {
-	if obj.Parent != nil {
-		point = obj.Parent.WorldToObject(point)
+	switch v := obj.Parent.(type) {
+	case *Cube:
+		point = v.WorldToObject(point)
+	case Cube:
+		point = v.WorldToObject(point)
+	case *Cylinder:
+		point = v.WorldToObject(point)
+	case Cylinder:
+		point = v.WorldToObject(point)
+	case *Cone:
+		point = v.WorldToObject(point)
+	case Cone:
+		point = v.WorldToObject(point)
+	case *Sphere:
+		point = v.WorldToObject(point)
+	case Sphere:
+		point = v.WorldToObject(point)
+	case *Plane:
+		point = v.WorldToObject(point)
+	case Plane:
+		point = v.WorldToObject(point)
+	case *Group:
+		point = v.WorldToObject(point)
+	case Group:
+		point = v.WorldToObject(point)
+	case *Triangle:
+		point = v.WorldToObject(point)
+	case Triangle:
+		point = v.WorldToObject(point)
 	}
 	deter, _ := obj.Transform.Determinant()
 	iT := obj.Transform.GetInverse(deter)
@@ -61,8 +89,38 @@ func (obj *Object) NormalToWorld(normal *Tuple) *Tuple {
 	normal.W = 0
 	ansNorm, _ := normal.Normalize()
 	normal = &ansNorm
+	switch v := obj.Parent.(type) {
+	case *Cube:
+		normal = v.NormalToWorld(normal)
+	case Cube:
+		normal = v.NormalToWorld(normal)
+	case *Cylinder:
+		normal = v.NormalToWorld(normal)
+	case Cylinder:
+		normal = v.NormalToWorld(normal)
+	case *Cone:
+		normal = v.NormalToWorld(normal)
+	case Cone:
+		normal = v.NormalToWorld(normal)
+	case *Sphere:
+		normal = v.NormalToWorld(normal)
+	case Sphere:
+		normal = v.NormalToWorld(normal)
+	case *Plane:
+		normal = v.NormalToWorld(normal)
+	case Plane:
+		normal = v.NormalToWorld(normal)
+	case *Group:
+		normal = v.NormalToWorld(normal)
+	case Group:
+		normal = v.NormalToWorld(normal)
+	case *Triangle:
+		normal = v.NormalToWorld(normal)
+	case Triangle:
+		normal = v.NormalToWorld(normal)
+	}
 	if obj.Parent != nil {
-		normal = obj.Parent.NormalToWorld(normal)
+
 	}
 	return normal
 }

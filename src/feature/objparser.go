@@ -19,6 +19,7 @@ type OBJParser struct {
 	Groups   map[string]*Group
 }
 
+/*decide type contains all necessary component of a decide*/
 type decide struct {
 	converted                       bool
 	ispoint, isgroup, isnormal, isf bool
