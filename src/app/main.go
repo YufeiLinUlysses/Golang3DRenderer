@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	s := feature.NewSphere()
-	c := feature.NewCube()
-	csg := feature.NewCSG("union",s,c)
-	fmt.Println(s.Parent)
-	fmt.Println(c.Parent)
-	fmt.Println(csg.Left)
+	r := feature.NewRay(*feature.Point(0, 0, -5), *feature.Vector(0, 0, 1))
+	s1 := feature.NewSphere()
+	s2 := feature.NewSphere()
+	s2.Transform = feature.Translate(0, 0, 0.5)
+	csg1 := feature.NewCSG("union", s1, s2)
+	fmt.Println(csg1.IntersectWithRay(r))
 }
