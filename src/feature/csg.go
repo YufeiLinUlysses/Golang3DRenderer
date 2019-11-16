@@ -2,14 +2,16 @@ package feature
 
 import "sort"
 
-/*CSG type*/
+/*CSG type contains all necessary compnent of a csg
+ *CSG inherits from Object and contains two shapes in interface{}*/
 type CSG struct {
 	Object
 	Operation   string
 	Left, Right interface{}
 }
 
-/*NewCSG creates a */
+/*NewCSG creates an instance of Type CSG
+ *NewCSG returns a csg with default object*/
 func NewCSG(oper string, left, right interface{}) *CSG {
 	csg := &CSG{
 		Object:    *NewObject(),
@@ -108,7 +110,10 @@ func NewCSG(oper string, left, right interface{}) *CSG {
 	return csg
 }
 
-/*IntersectionAllowed does*/
+/*IntersectionAllowed finds whether the intersection is allowed at an intersection
+ *IntersectionAllowed can only be called by a csg
+ *IntersectionAllowed takes in a string, three bool
+ *IntersectionAllowed returns a bool*/
 func (csg *CSG) IntersectionAllowed(op string, lhit, inl, inr bool) bool {
 	if op == "union" {
 		return (lhit && !inr) || (!lhit && !inl)
@@ -122,7 +127,10 @@ func (csg *CSG) IntersectionAllowed(op string, lhit, inl, inr bool) bool {
 	return false
 }
 
-/*FilterIntersection creates*/
+/*FilterIntersection finds the correct intersection of the two shapes in a csg
+ *FilterIntersection can only be called by a csg
+ *FilterIntersection takes in a []Intersection
+ *FilterIntersection returns a []Intersection*/
 func (csg *CSG) FilterIntersection(inters []Intersection) []Intersection {
 	inl := false
 	inr := false
@@ -141,21 +149,26 @@ func (csg *CSG) FilterIntersection(inters []Intersection) []Intersection {
 	return result
 }
 
-/*IntersectWithRay finds*/
-func (csg *CSG) IntersectWithRay(ray *Ray) []Intersection {
+/*IntersectWithRay calculates the intersections between a csg and a ray
+ *IntersectWithRay can only be called by a csg
+ *IntersectWithRay takes in a ray
+ *IntersectWithRay returns a int, a slice of intersection and a bool*/
+func (csg *CSG) IntersectWithRay(ray *Ray) (count int, ans []Intersection, intersect bool) {
 	result := make([]Intersection, 0)
 	deter, _ := csg.Transform.Determinant()
 	iT := csg.Transform.GetInverse(deter)
 	newR := ray.Transform(iT)
-	leftInter := getIntersections(csg.Left,newR)
-	rightInter := getIntersections(csg.Right,newR)
-	result = append(result,leftInter...)
-	result = append(result,rightInter...)
+	leftInter := getIntersections(csg.Left, newR)
+	rightInter := getIntersections(csg.Right, newR)
+	result = append(result, leftInter...)
+	result = append(result, rightInter...)
 	sort.Slice(result, func(i, j int) bool { return result[i].Position < result[j].Position })
-	return csg.FilterIntersection(result)
+	return len(csg.FilterIntersection(result)), csg.FilterIntersection(result), len(csg.FilterIntersection(result)) > 0
 }
 
-/*GetIntersections gets*/
+/*getIntersections gets the intersection from the shape and the ray
+ *getIntersection takes in a interface{} and a ray
+ *getIntersection returns a []Intersection*/
 func getIntersections(shape interface{}, ray *Ray) []Intersection {
 	result := make([]Intersection, 0)
 	switch v := shape.(type) {
@@ -191,7 +204,9 @@ func getIntersections(shape interface{}, ray *Ray) []Intersection {
 	return result
 }
 
-/*includes finds*/
+/*includes finds whether shapeA includes shapeB
+ *includes takes in two interface{}
+ *includes returns a bool*/
 func includes(shapeA, shapeB interface{}) bool {
 	switch v := shapeA.(type) {
 	case *CSG:

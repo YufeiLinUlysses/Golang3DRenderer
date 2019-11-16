@@ -9,8 +9,8 @@ type Cube struct {
 	Length float64
 }
 
-/*NewCube creates an instance of Type Sphere
- *NewCube returns a sphere with default object*/
+/*NewCube creates an instance of Type cube
+ *NewCube returns a cube with default object*/
 func NewCube() *Cube {
 	cub := &Cube{
 		Object: *NewObject(),
