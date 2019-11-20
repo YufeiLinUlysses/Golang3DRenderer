@@ -68,6 +68,14 @@ func (world *World) IntersectWorld(ray *Ray) (count int, points []Intersection) 
 			tempCount, ans, _ = v.IntersectWithRay(ray)
 		case *Plane:
 			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case *Group:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case *Triangle:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case *SmoothTriangle:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case *CSG:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
 		}
 		count += tempCount
 		if tempCount == 1 {
@@ -142,6 +150,22 @@ func (world *World) ReflectedColor(comps Computations, remaining int) *Color {
 		ref = v.Mat.Reflectivity
 	case Plane:
 		ref = v.Mat.Reflectivity
+	case *Group:
+		ref = v.Mat.Reflectivity
+	case Group:
+		ref = v.Mat.Reflectivity
+	case *Triangle:
+		ref = v.Mat.Reflectivity
+	case Triangle:
+		ref = v.Mat.Reflectivity
+	case *SmoothTriangle:
+		ref = v.Mat.Reflectivity
+	case SmoothTriangle:
+		ref = v.Mat.Reflectivity
+	case *CSG:
+		ref = v.Mat.Reflectivity
+	case CSG:
+		ref = v.Mat.Reflectivity
 	}
 
 	if ref == 0 || remaining == 0 {
@@ -179,6 +203,22 @@ func (world *World) RefractedColor(comps Computations, remaining int) *Color {
 	case *Plane:
 		transp = v.Mat.Transparency
 	case Plane:
+		transp = v.Mat.Transparency
+	case *Group:
+		transp = v.Mat.Transparency
+	case Group:
+		transp = v.Mat.Transparency
+	case *Triangle:
+		transp = v.Mat.Transparency
+	case Triangle:
+		transp = v.Mat.Transparency
+	case *SmoothTriangle:
+		transp = v.Mat.Transparency
+	case SmoothTriangle:
+		transp = v.Mat.Transparency
+	case *CSG:
+		transp = v.Mat.Transparency
+	case CSG:
 		transp = v.Mat.Transparency
 	}
 
@@ -220,6 +260,14 @@ func (world *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 	case *Sphere:
 		mat = v.Mat
 	case *Plane:
+		mat = v.Mat
+	case *Group:
+		mat = v.Mat
+	case *Triangle:
+		mat = v.Mat
+	case *SmoothTriangle:
+		mat = v.Mat
+	case *CSG:
 		mat = v.Mat
 	}
 	for i := range world.Lights {

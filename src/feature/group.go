@@ -71,8 +71,20 @@ func (gr *Group) AddChild(shape interface{}) *Group {
 	case Triangle:
 		v.Parent = gr
 		gr.Objects[len(gr.Objects)-1] = v
+	case *SmoothTriangle:
+		v.Parent = gr
+		gr.Objects[len(gr.Objects)-1] = v
+	case SmoothTriangle:
+		v.Parent =gr
+		gr.Objects[len(gr.Objects)-1] = v
+	case *CSG:
+		v.Parent =gr
+		gr.Objects[len(gr.Objects)-1] = v
+	case CSG:
+		v.Parent =gr
+		gr.Objects[len(gr.Objects)-1] = v
 	}
-	
+
 	return gr
 }
 
@@ -99,6 +111,18 @@ func (gr *Group) IntersectWithRay(ray *Ray) (count int, ans []Intersection, inte
 			_, shapeAns, _ := v.IntersectWithRay(newR)
 			ans = append(ans, shapeAns...)
 		case *Plane:
+			_, shapeAns, _ := v.IntersectWithRay(ray)
+			ans = append(ans, shapeAns...)
+		case *Group:
+			_, shapeAns, _ := v.IntersectWithRay(ray)
+			ans = append(ans, shapeAns...)
+		case *Triangle:
+			_, shapeAns, _ := v.IntersectWithRay(ray)
+			ans = append(ans, shapeAns...)
+		case *SmoothTriangle:
+			_, shapeAns, _ := v.IntersectWithRay(ray)
+			ans = append(ans, shapeAns...)
+		case *CSG:
 			_, shapeAns, _ := v.IntersectWithRay(ray)
 			ans = append(ans, shapeAns...)
 		}

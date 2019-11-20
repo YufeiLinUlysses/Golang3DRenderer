@@ -62,6 +62,18 @@ func NewCSG(oper string, left, right interface{}) *CSG {
 	case Triangle:
 		v.Parent = csg
 		v.ParentType = "CSG"
+	case *SmoothTriangle:
+		v.Parent = csg
+		v.ParentType = "CSG"
+	case SmoothTriangle:
+		v.Parent = csg
+		v.ParentType = "CSG"
+	case *CSG:
+		v.Parent = csg
+		v.ParentType = "CSG"
+	case CSG:
+		v.Parent = csg
+		v.ParentType = "CSG"
 	}
 	switch v := right.(type) {
 	case *Cube:
@@ -104,6 +116,18 @@ func NewCSG(oper string, left, right interface{}) *CSG {
 		v.Parent = csg
 		v.ParentType = "CSG"
 	case Triangle:
+		v.Parent = csg
+		v.ParentType = "CSG"
+	case *SmoothTriangle:
+		v.Parent = csg
+		v.ParentType = "CSG"
+	case SmoothTriangle:
+		v.Parent = csg
+		v.ParentType = "CSG"
+	case *CSG:
+		v.Parent = csg
+		v.ParentType = "CSG"
+	case CSG:
 		v.Parent = csg
 		v.ParentType = "CSG"
 	}
@@ -199,6 +223,14 @@ func getIntersections(shape interface{}, ray *Ray) []Intersection {
 	case *Triangle:
 		_, result, _ = v.IntersectWithRay(ray)
 	case Triangle:
+		_, result, _ = v.IntersectWithRay(ray)
+	case *SmoothTriangle:
+		_, result, _ = v.IntersectWithRay(ray)
+	case SmoothTriangle:
+		_, result, _ = v.IntersectWithRay(ray)
+	case *CSG:
+		_, result, _ = v.IntersectWithRay(ray)
+	case CSG:
 		_, result, _ = v.IntersectWithRay(ray)
 	}
 	return result

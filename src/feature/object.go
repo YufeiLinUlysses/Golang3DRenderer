@@ -70,6 +70,14 @@ func (obj *Object) WorldToObject(point *Tuple) *Tuple {
 		point = v.WorldToObject(point)
 	case Triangle:
 		point = v.WorldToObject(point)
+	case *SmoothTriangle:
+		point = v.WorldToObject(point)
+	case SmoothTriangle:
+		point = v.WorldToObject(point)
+	case *CSG:
+		point = v.WorldToObject(point)
+	case CSG:
+		point = v.WorldToObject(point)
 	}
 	deter, _ := obj.Transform.Determinant()
 	iT := obj.Transform.GetInverse(deter)
@@ -117,6 +125,14 @@ func (obj *Object) NormalToWorld(normal *Tuple) *Tuple {
 	case *Triangle:
 		normal = v.NormalToWorld(normal)
 	case Triangle:
+		normal = v.NormalToWorld(normal)
+	case *SmoothTriangle:
+		normal = v.NormalToWorld(normal)
+	case SmoothTriangle:
+		normal = v.NormalToWorld(normal)
+	case *CSG:
+		normal = v.NormalToWorld(normal)
+	case CSG:
 		normal = v.NormalToWorld(normal)
 	}
 	if obj.Parent != nil {

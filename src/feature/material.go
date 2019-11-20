@@ -67,6 +67,22 @@ func (mat *Material) Lighting(lig Light, comp Computations, isShadow bool) (col 
 		trans = v.Transform
 	case Plane:
 		trans = v.Transform
+	case *Group:
+		trans = v.Transform
+	case Group:
+		trans = v.Transform
+	case *Triangle:
+		trans = v.Transform
+	case Triangle:
+		trans = v.Transform
+	case *SmoothTriangle:
+		trans = v.Transform
+	case SmoothTriangle:
+		trans = v.Transform
+	case *CSG:
+		trans = v.Transform
+	case CSG:
+		trans = v.Transform
 	}
 
 	if mat.HasPattern {

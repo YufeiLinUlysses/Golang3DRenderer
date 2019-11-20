@@ -73,6 +73,22 @@ func ShapeInSlice(shape interface{}, mapofshapes []interface{}) (int, bool) {
 		temp1 = v
 	case Plane:
 		temp1 = v
+	case *Group:
+		temp1 = v
+	case Group:
+		temp1 = v
+	case *Triangle:
+		temp1 = v
+	case Triangle:
+		temp1 = v
+	case *SmoothTriangle:
+		temp1 = v
+	case SmoothTriangle:
+		temp1 = v 
+	case *CSG:
+		temp1 = v
+	case CSG:
+		temp1 = v
 	}
 	for k := range mapofshapes {
 		switch temp2 := mapofshapes[k].(type) {
@@ -126,7 +142,49 @@ func ShapeInSlice(shape interface{}, mapofshapes []interface{}) (int, bool) {
 				return k, true
 			}
 			continue
+		case *Group:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Group:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case *Triangle:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Triangle:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case *SmoothTriangle:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case SmoothTriangle:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case *CSG:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case CSG:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
 		}
+	
+
 	}
 	return 0, false
 }
@@ -151,6 +209,8 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 	case *Sphere:
 		comp.Normal = v.NormalAt(&comp.Point)
 	case *Plane:
+		comp.Normal = v.NormalAt(&comp.Point)
+	case *Triangle:
 		comp.Normal = v.NormalAt(&comp.Point)
 	case *SmoothTriangle:
 		comp.Normal = v.NormalAt(&comp.Point, inters[0])
@@ -186,6 +246,14 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 					comp.Refract1 = v.Mat.Refractivity
 				case *Plane:
 					comp.Refract1 = v.Mat.Refractivity
+				case *Group:
+					comp.Refract1 = v.Mat.Refractivity
+				case *Triangle:
+					comp.Refract1 = v.Mat.Refractivity
+				case *SmoothTriangle:
+					comp.Refract1 = v.Mat.Refractivity
+				case *CSG:
+					comp.Refract1 = v.Mat.Refractivity
 				}
 			}
 		}
@@ -217,6 +285,14 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 				case *Sphere:
 					comp.Refract2 = v.Mat.Refractivity
 				case *Plane:
+					comp.Refract2 = v.Mat.Refractivity
+				case *Group:
+					comp.Refract2 = v.Mat.Refractivity
+				case *Triangle:
+					comp.Refract2 = v.Mat.Refractivity
+				case *SmoothTriangle:
+					comp.Refract2 = v.Mat.Refractivity
+				case *CSG:
 					comp.Refract2 = v.Mat.Refractivity
 				}
 			}
