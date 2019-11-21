@@ -72,12 +72,40 @@ There are three circles in a torus $C_1, C_2, C_3$ as shown in the graph below. 
 \caption{Torus Top View}
 \end{figure}
 
-Then, we just need to obtain the torus from $x,y$ and $z$. Based on observation, we can see the cross section of a torus as the following graph, and could interpret that the size of the cube should be a function like the following: $(g(x,y))^2+z^2=r^2$. This means 
+Then, we just need to obtain the torus from $x,y$ and $z$. Based on observation, we can see the cross section of a torus as the following graph, and could interpret that the size of the tube should be a function like the following: $(g(x,y, R))^2+z^2=r^2$, where $g(x,y,R)$ defines where the center of a tube should lie on the middle circle.
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.4]{./Pic/Torus3.png}
-\caption{Torus Top View}
+\includegraphics[scale=0.75]{./Pic/Torus3.png}
+\caption{Torus Cross Section}
 \end{figure}
 
+From the previous equation we know that $x^2 +y^2 = R^2$, and we could just sample the point 
+$\begin{pmatrix}
+(R-r)sin\pi\\
+(R-r)cos\pi\\
+0
+\end{pmatrix}$. This means that we should have $g(x,y,R)=\sqrt{x^2+y^2}-R$ to achieve the length of the tube. Therefore, the equation of a torus is
+\begin{equation}
+(\sqrt{x^2+y^2}-R)^2+z^2=R^2
+\end{equation}
+
+\noindent
+\textbf{II. Finding the Intersection With a Ray}
+
+In the ray tracer, we see each light and our camera as ray. And we define them as the following:
+\begin{equation}
+\overrightarrow{v} = \begin{pmatrix}
+x_{origin}\\
+y_{origin}\\
+z_{origin}
+\end{pmatrix} + t \cdot{
+\begin{pmatrix}
+x_{direction}\\
+y_{direction}\\
+z_{direction}
+\end{pmatrix}}
+\end{equation}
+
+Therefore, when we define an intersection between the ray and the torus, we would have the following five situations:
 
 \end{document}
