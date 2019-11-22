@@ -86,7 +86,7 @@ $\begin{pmatrix}
 0
 \end{pmatrix}$. This means that we should have $g(x,y,R)=\sqrt{x^2+y^2}-R$ to achieve the length of the tube. Therefore, the equation of a torus is
 \begin{equation}
-(\sqrt{x^2+y^2}-R)^2+z^2=R^2
+(\sqrt{x^2+y^2}-R)^2+z^2=r^2
 \end{equation}
 
 \noindent
@@ -94,7 +94,10 @@ $\begin{pmatrix}
 
 In the ray tracer, we see each light and our camera as ray. And we define them as the following:
 \begin{equation}
-\overrightarrow{v} = \begin{pmatrix}
+\overrightarrow{v} = 
+\overrightarrow{o}+\overrightarrow{d}
+=
+\begin{pmatrix}
 x_{origin}\\
 y_{origin}\\
 z_{origin}
@@ -106,6 +109,59 @@ z_{direction}
 \end{pmatrix}}
 \end{equation}
 
-Therefore, when we define an intersection between the ray and the torus, we would have the following five situations:
+Thus, we have 
+\begin{equation}
+\begin{cases}
+x=x_{origin}+t\cdot{x_{direction}}\\
+y=y_{origin}+t\cdot{y_{direction}}\\
+z=z_{origin}+t\cdot{z_{direction}}
+\end{cases}
+\end{equation}
 
+\pagebreak
+Therefore, when we define an intersection between the ray and the torus, we would have the following five situations, with 0 to 4 intersections on the torus:
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.75]{./Pic/Torus4.png}
+\caption{Torus Intersections on the Top View}
+\end{figure}
+
+Thus, we first rewrite (1) as the following: 
+\begin{equation}
+(x^2+y^2+z^2+R^2-r^2)^2=4R^2(x^2+y^2)
+\end{equation}
+
+Then, we find the intersection by replacing $x,y$ and $z$ in (4) with the equations we have in (3). Thus we have:
+\begin{align*}
+&((x_{origin}+t\cdot{x_{direction}})^2\\
++&(y_{origin}+t\cdot{y_{direction}})^2\\
++&(z_{origin}+t\cdot{z_{direction}})^2+R^2-r^2)^2\\
+=&[(x_{direction}^2+y_{direction}^2+z_{direction}^2)t^2\\
++&2(x_{origin}x_{direction}+y_{origin}y_{direction}+z_{origin}z_{direction})t\\
++&(x_{origin}^2+y_{origin}^2+z_{origin}^2+R^2-r^2)]^2\\
+=&4R^2(((x_{origin}+t\cdot{x_{direction}})^2+(y_{origin}+t\cdot{y_{direction}})^2)\\
+=&4R^2((x_{direction}^2+y_{direction}^2)t^2\\
++&2(x_{origin}x_{direction}+y_{origin}y_{direction})t+(x_{origin}^2+y_{origin}^2))
+\end{align*}
+
+Since all the coefficient are constant and all of $x_{origin},y_{origin},z_{origin},x_{direction},y_{direction},z_{direction},R,r$ are constants, then we can replace all of them with certain letters for simplification. Also, we will have all these constant calculated at the beginning of our \textit{IntersectionWithRay} function. Thus, we have the following:
+
+\[\begin{cases}
+a=4R^2(x_{direction}^2+y_{direction}^2)\\
+b=8R^2(x_{origin}x_{direction}+y_{origin}y_{direction})\\
+c=4R^2(x_{origin}^2+y_{origin}^2)\\
+d=(x_{direction}^2+y_{direction}^2+z_{direction}^2)=|\overrightarrow{d}|^2\\
+e=2(x_{origin}x_{direction}+y_{origin}y_{direction}+z_{origin}z_{direction})=\overrightarrow{o}\cdot{\overrightarrow{d}}\\
+f=(x_{origin}^2+y_{origin}^2+z_{origin}^2+R^2-r^2)=|\overrightarrow{o}|^2+R^2-r^2\\
+\end{cases}\]
+
+Then by applying all these constants back, we have: 
+\begin{align*}
+&a\cdot{t^2}+b\cdot{t}+c\\
+=&(e\cdot{t^2}+f\cdot{t}+g)^2\\
+=&e^2t^4+2eft^3+(2ge+f^2)t^2+2gft+g^2
+\end{align*}
+
+Therefore, we have obtained the following quartic equation for $t$:
+\[e^2t^4+2eft^3+(2ge+f^2-a)t^2+(2gf-b)t+g^2-c=0\]
 \end{document}

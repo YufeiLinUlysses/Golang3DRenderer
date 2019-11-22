@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  21 NOV 2019 15:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  21 NOV 2019 20:30
 entering extended mode
 **"./Torus Primitive.tex"
 ("Torus Primitive.tex"
@@ -691,40 +691,47 @@ e 78.
  [1
 
 {C:/Users/huawe/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./Pic/Torus
-1.png> <./Pic/Torus2.png>]
-<./Pic/Torus4.png, id=24, 170.51202pt x 164.48953pt>
+1.png> <./Pic/Torus2.png>] [2 <./Pic/Torus3.png>]
+<./Pic/Torus4.png, id=35, 170.51202pt x 164.48953pt>
 File: ./Pic/Torus4.png Graphic file (type png)
 <use ./Pic/Torus4.png>
-Package pdftex.def Info: ./Pic/Torus4.png  used on input line 112. on input lin
-e 112.
+Package pdftex.def Info: ./Pic/Torus4.png  used on input line 125. on input lin
+e 125.
 Package pdftex.def Info: Requested size: 127.8837pt x 123.36684pt on input line
- 112.
- [2 <./Pic/Torus3.png> <./Pic/Torus4.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 115.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 115.
+ 125.
+
+Overfull \hbox (48.38773pt too wide) in paragraph at lines 147--148
+[]\OT1/cmr/m/n/12 Since all the co-ef-fi-cient are con-stant and all of $\OML/c
+mm/m/it/12 x[]; y[]; z[]; x[]; y[]; z[]; R; r$
+ []
+
+[3 <./Pic/Torus4.png>] [4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
  ("Torus Primitive.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 115.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 115.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 115.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 167.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
  ) 
 Here is how much of TeX's memory you used:
- 17361 strings out of 493312
- 322153 string characters out of 3138900
- 386922 words of memory out of 3000000
- 20594 multiletter control sequences out of 15000+200000
- 9165 words of font info for 39 fonts, out of 3000000 for 9000
+ 17367 strings out of 493312
+ 322214 string characters out of 3138900
+ 390922 words of memory out of 3000000
+ 20595 multiletter control sequences out of 15000+200000
+ 9512 words of font info for 40 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,13n,48p,423b,325s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,20n,48p,423b,333s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKT
 eX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fo
 nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
 /public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb>
-Output written on "Torus Primitive.pdf" (2 pages, 326646 bytes).
+sfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmti12.pfb>
+Output written on "Torus Primitive.pdf" (4 pages, 344386 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
- 9 named destinations out of 1000 (max. 500000)
+ 78 PDF objects out of 1000 (max. 8388607)
+ 13 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
