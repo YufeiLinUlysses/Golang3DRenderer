@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  21 NOV 2019 20:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.7)  30 NOV 2019 20:39
 entering extended mode
 **"./Torus Primitive.tex"
 ("Torus Primitive.tex"
@@ -585,29 +585,30 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 Package: esvect 
 \symesvector=\mathgroup7
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\alltt.sty"
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
 \c@theorem=\count136
-
-("Torus Primitive.aux")
+ ("Torus Primitive.aux")
 \openout1 = `"Torus Primitive.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
 \AtBeginShipoutBox=\box40
-Package hyperref Info: Link coloring OFF on input line 42.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package hyperref Info: Link coloring OFF on input line 43.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
@@ -615,9 +616,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count137
 )
-LaTeX Info: Redefining \ref on input line 42.
-LaTeX Info: Redefining \pageref on input line 42.
-LaTeX Info: Redefining \nameref on input line 42.
+LaTeX Info: Redefining \ref on input line 43.
+LaTeX Info: Redefining \pageref on input line 43.
+LaTeX Info: Redefining \nameref on input line 43.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\mkii\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -646,22 +647,22 @@ G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
 ABD: EveryShipout initializing macros
-LaTeX Font Info:    Try loading font information for U+msa on input line 50.
+LaTeX Font Info:    Try loading font information for U+msa on input line 51.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 50.
+LaTeX Font Info:    Try loading font information for U+msb on input line 51.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 50.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 51.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for U+esvect on input line 50.
+LaTeX Font Info:    Try loading font information for U+esvect on input line 51.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\esvect\uesvect.fd"
@@ -670,24 +671,24 @@ File: uesvect.fd
 <./Pic/Torus1.png, id=6, 181.42781pt x 130.98938pt>
 File: ./Pic/Torus1.png Graphic file (type png)
 <use ./Pic/Torus1.png>
-Package pdftex.def Info: ./Pic/Torus1.png  used on input line 60. on input line
- 60.
+Package pdftex.def Info: ./Pic/Torus1.png  used on input line 61. on input line
+ 61.
 Package pdftex.def Info: Requested size: 181.42737pt x 130.98904pt on input lin
-e 60.
+e 61.
 <./Pic/Torus2.png, id=8, 344.03531pt x 334.24875pt>
 File: ./Pic/Torus2.png Graphic file (type png)
 <use ./Pic/Torus2.png>
-Package pdftex.def Info: ./Pic/Torus2.png  used on input line 71. on input line
- 71.
+Package pdftex.def Info: ./Pic/Torus2.png  used on input line 72. on input line
+ 72.
 Package pdftex.def Info: Requested size: 137.61168pt x 133.69713pt on input lin
-e 71.
+e 72.
 <./Pic/Torus3.png, id=9, 413.29407pt x 153.95015pt>
 File: ./Pic/Torus3.png Graphic file (type png)
 <use ./Pic/Torus3.png>
-Package pdftex.def Info: ./Pic/Torus3.png  used on input line 78. on input line
- 78.
+Package pdftex.def Info: ./Pic/Torus3.png  used on input line 79. on input line
+ 79.
 Package pdftex.def Info: Requested size: 309.96977pt x 115.46233pt on input lin
-e 78.
+e 79.
  [1
 
 {C:/Users/huawe/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./Pic/Torus
@@ -695,43 +696,78 @@ e 78.
 <./Pic/Torus4.png, id=35, 170.51202pt x 164.48953pt>
 File: ./Pic/Torus4.png Graphic file (type png)
 <use ./Pic/Torus4.png>
-Package pdftex.def Info: ./Pic/Torus4.png  used on input line 125. on input lin
-e 125.
+Package pdftex.def Info: ./Pic/Torus4.png  used on input line 126. on input lin
+e 126.
 Package pdftex.def Info: Requested size: 127.8837pt x 123.36684pt on input line
- 125.
+ 126.
 
-Overfull \hbox (48.38773pt too wide) in paragraph at lines 147--148
+Overfull \hbox (48.38773pt too wide) in paragraph at lines 148--149
 []\OT1/cmr/m/n/12 Since all the co-ef-fi-cient are con-stant and all of $\OML/c
 mm/m/it/12 x[]; y[]; z[]; x[]; y[]; z[]; R; r$
  []
 
 [3 <./Pic/Torus4.png>] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
+LaTeX Font Info:    Try loading font information for OMS+cmtt on input line 195
+.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 195.
+
+
+LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbraceleft' on input line 195.
+
+
+Overfull \hbox (0.85524pt too wide) in paragraph at lines 209--209
+[]\OT1/cmtt/m/n/12 func (to Torus) IntersectWithRay(ray Ray)(count int, inters 
+[]Intersection,[] 
+ []
+
+[5] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 256--257
+
+ []
+
+<./Pic/Torus5.png, id=64, 413.29407pt x 153.95015pt>
+File: ./Pic/Torus5.png Graphic file (type png)
+<use ./Pic/Torus5.png>
+Package pdftex.def Info: ./Pic/Torus5.png  used on input line 263. on input lin
+e 263.
+Package pdftex.def Info: Requested size: 309.96977pt x 115.46233pt on input lin
+e 263.
+[8 <./Pic/Torus5.png>] [9]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 297.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 297.
  ("Torus Primitive.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 167.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 297.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 297.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 297.
  ) 
 Here is how much of TeX's memory you used:
- 17367 strings out of 493312
- 322214 string characters out of 3138900
- 390922 words of memory out of 3000000
- 20595 multiletter control sequences out of 15000+200000
- 9512 words of font info for 40 fonts, out of 3000000 for 9000
+ 17403 strings out of 493312
+ 322708 string characters out of 3138900
+ 391131 words of memory out of 3000000
+ 20617 multiletter control sequences out of 15000+200000
+ 10017 words of font info for 43 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,20n,48p,423b,333s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,20n,48p,423b,459s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmti12.pfb>
-Output written on "Torus Primitive.pdf" (4 pages, 344386 bytes).
+eX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on "Torus Primitive.pdf" (9 pages, 428819 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 13 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 120 PDF objects out of 1000 (max. 8388607)
+ 19 named destinations out of 1000 (max. 500000)
+ 38 words of extra memory for PDF output out of 10000 (max. 10000000)
 

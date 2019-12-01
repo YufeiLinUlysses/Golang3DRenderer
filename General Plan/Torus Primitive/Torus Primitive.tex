@@ -12,6 +12,7 @@
 \usepackage{mathtools}
 \usepackage{graphicx}
 \usepackage{esvect}
+\usepackage{alltt}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}%
@@ -90,7 +91,7 @@ $\begin{pmatrix}
 \end{equation}
 
 \noindent
-\textbf{II. Finding the Intersection With a Ray}
+\textbf{II. Finding the Intersections With a Ray}
 
 In the ray tracer, we see each light and our camera as ray. And we define them as the following:
 \begin{equation}
@@ -164,4 +165,133 @@ Then by applying all these constants back, we have:
 
 Therefore, we have obtained the following quartic equation for $t$:
 \[e^2t^4+2eft^3+(2ge+f^2-a)t^2+(2gf-b)t+g^2-c=0\]
+
+In order to make it clearer for our definitions and calculations, we will redefine the coefficients as the following:
+
+\[\begin{cases}
+\alpha=e^2\\
+\beta=2ef\\
+\gamma=2ge+f^2-a\\
+\epsilon=2gf-b\\
+\omega=g^2-c\\
+\end{cases}\]
+
+Then, we rewrite the function as the following:
+\[\alpha t^4+\beta t^3 + \gamma t^2 + \epsilon t + \omega = 0\]
+
+For solving this quartic equation, we will be using a general solution, since it is not factor-able. Thus, we will need to create a few constants for solving this equation:
+\[\begin{cases}
+D=3\beta-8\alpha \gamma\\
+E=-\beta+4\alpha\beta\gamma-8\alpha\delta\\
+F=3\beta+16\alpha\gamma-16\alpha\beta\gamma+16\alpha\beta\epsilon-64\alpha\omega\\
+A=D-3F\\
+B=DF-9E\\
+C=F-3DE\\
+\Delta = B^2-4AC\\
+\end{cases}\]
+Also, we need to define another function sgn() for calculation process:
+
+\begin{alltt}
+func sgn(a float) float\{
+    if a>0\{
+       return float(1)
+    \}
+    if a == 0\{
+       return float(0)
+    \}
+    if a<0\{
+       return float(-1)    
+    \}
+\}
+\end{alltt}
+And then we would have the following cases:
+\begin{alltt}
+func (to Torus) IntersectWithRay(ray Ray)(count int, inters []Intersection, 
+intersected bool)\{
+    ...//All the above calculations
+    //Begin cases, in pseudo code
+    if D==E && D==F && D==0\{
+       return 1, \(-\frac{b}{4a}\), true
+    \}
+    if (D*E*F)!= 0 && A==B && B==C && A==0\{
+       return 2,[\(\frac{-bD+9E}{4aD},\frac{-bD-3E}{4aD}\)], true
+    \}
+    if E==0 && E==F && D!=0 && D>0\{
+       return 2,[\(\frac{-b+\sqrt{D}}{4a},\frac{-b-\sqrt{D}}{4a}\)], true
+    \}
+    if (A*B*C)!=0 && \(\Delta\)==0 && (A*B)>0\{
+       \[\text{ans1} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}+\sqrt{\frac{2B}{A}}}{4\alpha}\]
+       \[\text{ans2} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}-\sqrt{\frac{2B}{A}}}{4\alpha}\]
+       \[\text{ans3} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}}{4\alpha}\]
+	           return 3,[ans1,ans2,ans3],true
+    \}
+    if \(\Delta\) > 0 \{
+	   \[z1 = AD+ \frac{3(-B+\sqrt{\Delta})}{2}\]
+	   \[z2 = AD+ \frac{3(-B-\sqrt{\Delta})}{2}\]
+	   \[z=D^2-D(\sqrt[3]{z1}+\sqrt[3]{z2})+(\sqrt[3]{z1}+\sqrt[3]{z2})^2-3A\]
+	   \[\text{ans1}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}+\sqrt{2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}}{4\alpha}\]
+	    \[\text{ans2}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}-\sqrt{2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}}{4\alpha}\]  
+	    return 2,[ans1,ans2], true
+    \}
+    if \(\Delta\) < 0 && D > 0 && F > 0\{
+    	    \[\theta=arccos(\frac{3B-2AD}{2A\sqrt{A}})\]
+    	    \[y1=\frac{D-2\sqrt{A}cos(\frac{\theta}{3})}{3}\]
+    	    \[y2=\frac{D+\sqrt{A}(cos(\frac{\theta}{3})+\sqrt{3}sin(\frac{\theta}{3}))}{3}\]
+    	    \[y3=\frac{D+\sqrt{A}(cos(\frac{\theta}{3})-\sqrt{3}sin(\frac{\theta}{3}))}{3}\]
+    	    if E != 0\{
+           \[ans1=\frac{-\beta +sgn(E)\sqrt{y1}+\sqrt{y2}+\sqrt{y3}}{4\alpha}\]
+           \[ans2=\frac{-\beta +sgn(E)\sqrt{y1}-\sqrt{y2}-\sqrt{y3}}{4\alpha}\]     
+           \[ans3=\frac{-\beta -sgn(E)\sqrt{y1}+\sqrt{y2}-\sqrt{y3}}{4\alpha}\] 
+           \[ans4=\frac{-\beta -sgn(E)\sqrt{y1}-\sqrt{y2}+\sqrt{y3}}{4\alpha}\] 	    
+    	    \}else\{
+    	        \[ans1=\frac{\beta+\sqrt{D+2\sqrt{F}}}{4a}\]
+    	        \[ans2=\frac{\beta-\sqrt{D+2\sqrt{F}}}{4a}\]
+    	        \[ans3=\frac{\beta+\sqrt{D-2\sqrt{F}}}{4a}\]
+    	        \[ans4=\frac{\beta-\sqrt{D-2\sqrt{F}}}{4a}\]
+    	    \}
+    	    return 4,[ans1,ans2,ans3,ans4], true
+    \}
+\}
+\end{alltt}
+Then, we can build our intersection and computations class from these outputs and then obtain the intersections between the ray and the torus.\\
+
+\textbf{III. Finding the Normal of the Torus}
+
+The normal vector should be calculated from the point and the point's closest center on the xy-plane. From the graph we will see each small-circle section of the torus could be seen as a sphere that has its center sitting on the big circle on the xy-plane. 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.75]{./Pic/Torus5.png}
+\caption{Torus Cross Section}
+\end{figure}
+Therefore, we will be using the following process to find the normal of a torus:
+
+Since we are given a point $\overrightarrow{P}$ and finding the normal for the particular point. Then, we need to find center of the circle, $\overrightarrow{C}$ that is the closest to that point. Then we have  \[\overrightarrow{C}=\begin{pmatrix}
+C_x\\
+C_y\\
+0
+\end{pmatrix}\text{ and }\overrightarrow{P}=\begin{pmatrix}
+P_x\\
+P_y\\
+P_z
+\end{pmatrix}\]
+
+These two points are all on the line with the normal $\overrightarrow{n}$ as the direction and $\overrightarrow{P}$ as the origin. Thus, $\overrightarrow{n}=\overrightarrow{P}-\overrightarrow{C}$
+
+Then, we can project the point $\overrightarrow{P}$ on to the xy-plane. This means there should be a point $\begin{pmatrix}
+P_x\\
+P_y\\
+0
+\end{pmatrix}$ on the xy-plane that is as the same direction of $\overrightarrow{C}$ to the origin and right beneath $\overrightarrow{P}$. And we have ${C_x}^2+{C_y}^2=R^2$ which should be proportional to ${P_x}^2+{P_y}^2$. Then we can find the normal as the following:
+\[\overrightarrow{n}=\begin{pmatrix}
+(1-\frac{R}{\sqrt{{P_x}^2+{P_y}^2}})P_x\\
+(1-\frac{R}{\sqrt{{P_x}^2+{P_y}^2}})P_y\\
+P_z
+\end{pmatrix}\]
+
+And then we normalize it and convert it back to the world normal. 
+
+\textbf{IV. Final Product}
+
+\textbf{V. Future Development}
+
 \end{document}
