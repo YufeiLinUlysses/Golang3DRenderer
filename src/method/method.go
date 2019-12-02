@@ -167,7 +167,7 @@ func ForthImage(fileName string) {
 	canv.CanvasToPPM(fileName)
 }
 
-//FifthImage creates the forth image
+//FifthImage creates the fifth image
 func FifthImage(fileName string) {
 
 	//Floor instance
@@ -260,10 +260,35 @@ func SixthImage(fileName string) {
 	var objects []interface{}
 
 	//Add light source
-	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))            
+	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
 
 	//Add all objects in
 	objects = append(objects, cube, right)
+	w := feature.NewWorld(lights, objects)
+
+	//Canv that draw the final product
+	canv := cam.Render(*w)
+	canv.CanvasToPPM(fileName)
+}
+
+//SeventhImage creates the seventh image
+func SeventhImage(fileName string) {
+	torus := feature.NewTorus(1, 0.5)
+	torus.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
+	torus.Transform = feature.RotationX(math.Pi/2)
+
+	cam := feature.NewCamera(100, 100, math.Pi/3)
+	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
+
+	var light feature.Light
+	var lights []feature.Light
+	var objects []interface{}
+
+	//Add light source
+	lights = append(lights, light.PointLight(*feature.Point(-10, 10, -10), *feature.NewColor(1, 1, 1)))
+
+	//Add all objects in
+	objects = append(objects, torus)
 	w := feature.NewWorld(lights, objects)
 
 	//Canv that draw the final product

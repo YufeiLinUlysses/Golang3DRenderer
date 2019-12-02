@@ -83,6 +83,10 @@ func (mat *Material) Lighting(lig Light, comp Computations, isShadow bool) (col 
 		trans = v.Transform
 	case CSG:
 		trans = v.Transform
+	case *Torus:
+		trans = v.Transform
+	case Torus:
+		trans = v.Transform
 	}
 
 	if mat.HasPattern {

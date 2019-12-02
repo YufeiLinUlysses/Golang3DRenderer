@@ -84,10 +84,14 @@ func ShapeInSlice(shape interface{}, mapofshapes []interface{}) (int, bool) {
 	case *SmoothTriangle:
 		temp1 = v
 	case SmoothTriangle:
-		temp1 = v 
+		temp1 = v
 	case *CSG:
 		temp1 = v
 	case CSG:
+		temp1 = v
+	case *Torus:
+		temp1 = v
+	case Torus:
 		temp1 = v
 	}
 	for k := range mapofshapes {
@@ -182,8 +186,17 @@ func ShapeInSlice(shape interface{}, mapofshapes []interface{}) (int, bool) {
 				return k, true
 			}
 			continue
+		case *Torus:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
+		case Torus:
+			if reflect.DeepEqual(temp1, temp2) {
+				return k, true
+			}
+			continue
 		}
-	
 
 	}
 	return 0, false
@@ -214,6 +227,8 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 		comp.Normal = v.NormalAt(&comp.Point)
 	case *SmoothTriangle:
 		comp.Normal = v.NormalAt(&comp.Point, inters[0])
+	case *Torus:
+		comp.Normal = v.NormalAt(&comp.Point)
 	}
 	if product, _ := comp.Normal.DotProduct(&comp.Eye); product < 0 {
 		comp.Inside = true
@@ -254,6 +269,8 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 					comp.Refract1 = v.Mat.Refractivity
 				case *CSG:
 					comp.Refract1 = v.Mat.Refractivity
+				case *Torus:
+					comp.Refract1 = v.Mat.Refractivity
 				}
 			}
 		}
@@ -293,6 +310,8 @@ func (intsec *Intersection) PrepareComputation(ray *Ray, inters []Intersection) 
 				case *SmoothTriangle:
 					comp.Refract2 = v.Mat.Refractivity
 				case *CSG:
+					comp.Refract2 = v.Mat.Refractivity
+				case *Torus:
 					comp.Refract2 = v.Mat.Refractivity
 				}
 			}

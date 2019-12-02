@@ -76,6 +76,8 @@ func (world *World) IntersectWorld(ray *Ray) (count int, points []Intersection) 
 			tempCount, ans, _ = v.IntersectWithRay(ray)
 		case *CSG:
 			tempCount, ans, _ = v.IntersectWithRay(ray)
+		case *Torus:
+			tempCount, ans, _ = v.IntersectWithRay(ray)
 		}
 		count += tempCount
 		if tempCount == 1 {
@@ -166,6 +168,10 @@ func (world *World) ReflectedColor(comps Computations, remaining int) *Color {
 		ref = v.Mat.Reflectivity
 	case CSG:
 		ref = v.Mat.Reflectivity
+	case *Torus:
+		ref = v.Mat.Reflectivity
+	case Torus:
+		ref = v.Mat.Reflectivity
 	}
 
 	if ref == 0 || remaining == 0 {
@@ -220,6 +226,10 @@ func (world *World) RefractedColor(comps Computations, remaining int) *Color {
 		transp = v.Mat.Transparency
 	case CSG:
 		transp = v.Mat.Transparency
+	case *Torus:
+		transp = v.Mat.Transparency
+	case Torus:
+		transp = v.Mat.Transparency
 	}
 
 	nratio := comps.Refract1 / comps.Refract2
@@ -268,6 +278,8 @@ func (world *World) ShadeHit(comp Computations, remaining int) (colors Color) {
 	case *SmoothTriangle:
 		mat = v.Mat
 	case *CSG:
+		mat = v.Mat
+	case *Torus:
 		mat = v.Mat
 	}
 	for i := range world.Lights {

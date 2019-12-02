@@ -83,6 +83,12 @@ func (gr *Group) AddChild(shape interface{}) *Group {
 	case CSG:
 		v.Parent =gr
 		gr.Objects[len(gr.Objects)-1] = v
+	case *Torus:
+		v.Parent =gr
+		gr.Objects[len(gr.Objects)-1] = v
+	case Torus:
+		v.Parent =gr
+		gr.Objects[len(gr.Objects)-1] = v
 	}
 
 	return gr
@@ -123,6 +129,9 @@ func (gr *Group) IntersectWithRay(ray *Ray) (count int, ans []Intersection, inte
 			_, shapeAns, _ := v.IntersectWithRay(ray)
 			ans = append(ans, shapeAns...)
 		case *CSG:
+			_, shapeAns, _ := v.IntersectWithRay(ray)
+			ans = append(ans, shapeAns...)
+		case *Torus:
 			_, shapeAns, _ := v.IntersectWithRay(ray)
 			ans = append(ans, shapeAns...)
 		}
