@@ -152,28 +152,28 @@ a=4R^2(x_{direction}^2+y_{direction}^2)\\
 b=8R^2(x_{origin}x_{direction}+y_{origin}y_{direction})\\
 c=4R^2(x_{origin}^2+y_{origin}^2)\\
 d=(x_{direction}^2+y_{direction}^2+z_{direction}^2)=|\overrightarrow{d}|^2\\
-e=2(x_{origin}x_{direction}+y_{origin}y_{direction}+z_{origin}z_{direction})=\overrightarrow{o}\cdot{\overrightarrow{d}}\\
+e=2(x_{origin}x_{direction}+y_{origin}y_{direction}+z_{origin}z_{direction})=2(\overrightarrow{o}\cdot{\overrightarrow{d}})\\
 f=(x_{origin}^2+y_{origin}^2+z_{origin}^2+R^2-r^2)=|\overrightarrow{o}|^2+R^2-r^2\\
 \end{cases}\]
 
 Then by applying all these constants back, we have: 
 \begin{align*}
 &a\cdot{t^2}+b\cdot{t}+c\\
-=&(e\cdot{t^2}+f\cdot{t}+g)^2\\
-=&e^2t^4+2eft^3+(2ge+f^2)t^2+2gft+g^2
+=&(d\cdot{t^2}+e\cdot{t}+f)^2\\
+=&d^2t^4+2det^3+(2df+e^2)t^2+2eft+f^2
 \end{align*}
 
 Therefore, we have obtained the following quartic equation for $t$:
-\[e^2t^4+2eft^3+(2ge+f^2-a)t^2+(2gf-b)t+g^2-c=0\]
+\[d^2t^4+2dft^3+(2df+e^2-a)t^2+(2ef-b)t+f^2-c=0\]
 
 In order to make it clearer for our definitions and calculations, we will redefine the coefficients as the following:
 
 \[\begin{cases}
-\alpha=e^2\\
-\beta=2ef\\
-\gamma=2ge+f^2-a\\
-\epsilon=2gf-b\\
-\omega=g^2-c\\
+\alpha=d^2\\
+\beta=2df\\
+\gamma=2df+e^2-a\\
+\epsilon=2ef-b\\
+\omega=f^2-c\\
 \end{cases}\]
 
 Then, we rewrite the function as the following:
@@ -182,7 +182,7 @@ Then, we rewrite the function as the following:
 For solving this quartic equation, we will be using a general solution, since it is not factor-able. Thus, we will need to create a few constants for solving this equation:
 \[\begin{cases}
 D=3\beta-8\alpha \gamma\\
-E=-\beta+4\alpha\beta\gamma-8\alpha\delta\\
+E=-\beta+4\alpha\beta\gamma-8\alpha\epsilon\\
 F=3\beta+16\alpha\gamma-16\alpha\beta\gamma+16\alpha\beta\epsilon-64\alpha\omega\\
 A=D-3F\\
 B=DF-9E\\
@@ -208,28 +208,29 @@ And then we would have the following cases:
 \begin{alltt}
 func (to Torus) IntersectWithRay(ray Ray)(count int, inters []Intersection, 
 intersected bool)\{
-    ...//All the above calculations
+    ...
+    //All the above calculations
     //Begin cases, in pseudo code
     if D==E && D==F && D==0\{
-       return 1, \(-\frac{b}{4a}\), true
+       return 1, \(-\frac{\beta}{4\alpha}\), true
     \}
     if (D*E*F)!= 0 && A==B && B==C && A==0\{
-       return 2,[\(\frac{-bD+9E}{4aD},\frac{-bD-3E}{4aD}\)], true
+       return 2,[\(\frac{-\beta D+9E}{4\alpha D},\frac{-\beta D-3E}{4\alpha D}\)], true
     \}
-    if E==0 && E==F && D!=0 && D>0\{
-       return 2,[\(\frac{-b+\sqrt{D}}{4a},\frac{-b-\sqrt{D}}{4a}\)], true
+    if E==0 && E==F && D>0\{
+       return 2,[\(\frac{-\beta+\sqrt{D}}{4\alpha},\frac{-\beta -\sqrt{D}}{4\alpha}\)], true
     \}
     if (A*B*C)!=0 && \(\Delta\)==0 && (A*B)>0\{
        \[\text{ans1} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}+\sqrt{\frac{2B}{A}}}{4\alpha}\]
        \[\text{ans2} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}-\sqrt{\frac{2B}{A}}}{4\alpha}\]
-       \[\text{ans3} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}}{4\alpha}\]
+       \[\text{ans3} =\frac{-\beta-sgn(A*B*E)\sqrt{D-\frac{B}{A}}}{4\alpha}\]
 	           return 3,[ans1,ans2,ans3],true
     \}
     if \(\Delta\) > 0 \{
 	   \[z1 = AD+ \frac{3(-B+\sqrt{\Delta})}{2}\]
 	   \[z2 = AD+ \frac{3(-B-\sqrt{\Delta})}{2}\]
 	   \[z=D^2-D(\sqrt[3]{z1}+\sqrt[3]{z2})+(\sqrt[3]{z1}+\sqrt[3]{z2})^2-3A\]
-	   \[\text{ans1}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}+\sqrt{2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}}{4\alpha}\]
+	   \[\text{ans1}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}+\sqrt{\frac{•}{•}2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}}{4\alpha}\]
 	    \[\text{ans2}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}-\sqrt{2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}}{4\alpha}\]  
 	    return 2,[ans1,ans2], true
     \}

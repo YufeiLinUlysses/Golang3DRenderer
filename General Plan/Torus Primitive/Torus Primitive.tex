@@ -223,16 +223,16 @@ intersected bool)\{
     if (A*B*C)!=0 && \(\Delta\)==0 && (A*B)>0\{
        \[\text{ans1} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}+\sqrt{\frac{2B}{A}}}{4\alpha}\]
        \[\text{ans2} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}-\sqrt{\frac{2B}{A}}}{4\alpha}\]
-       \[\text{ans3} =\frac{-\beta+sgn(A*B*E)\sqrt{D-\frac{B}{A}}}{4\alpha}\]
+       \[\text{ans3} =\frac{-\beta-sgn(A*B*E)\sqrt{D-\frac{B}{A}}}{4\alpha}\]
 	           return 3,[ans1,ans2,ans3],true
     \}
     if \(\Delta\) > 0 \{
 	   \[z1 = AD+ \frac{3(-B+\sqrt{\Delta})}{2}\]
 	   \[z2 = AD+ \frac{3(-B-\sqrt{\Delta})}{2}\]
 	   \[z=D^2-D(\sqrt[3]{z1}+\sqrt[3]{z2})+(\sqrt[3]{z1}+\sqrt[3]{z2})^2-3A\]
-	   \[\text{ans1}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}+\sqrt{2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}}{4\alpha}\]
-	    \[\text{ans2}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}-\sqrt{2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}}{4\alpha}\]  
-	    return 2,[ans1,ans2], true
+	   \[\text{ans1}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}+\sqrt{\frac{2D-(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}{3}}}{4\alpha}\]
+	    \[\text{ans2}=\frac{-\beta +sgn(E)\sqrt{\frac{D+\sqrt[3]{z1}+\sqrt[3]{z2}}{3}}-\sqrt{\frac{-2D+(\sqrt[3]{z1}+\sqrt[3]{z2})+2\sqrt{z}}{3}}}{4\alpha}\]  
+	          return 2,[ans1,ans2], true
     \}
     if \(\Delta\) < 0 && D > 0 && F > 0\{
     	    \[\theta=arccos(\frac{3B-2AD}{2A\sqrt{A}})\]
@@ -245,10 +245,10 @@ intersected bool)\{
            \[ans3=\frac{-\beta -sgn(E)\sqrt{y1}+\sqrt{y2}-\sqrt{y3}}{4\alpha}\] 
            \[ans4=\frac{-\beta -sgn(E)\sqrt{y1}-\sqrt{y2}+\sqrt{y3}}{4\alpha}\] 	    
     	    \}else\{
-    	        \[ans1=\frac{\beta+\sqrt{D+2\sqrt{F}}}{4a}\]
-    	        \[ans2=\frac{\beta-\sqrt{D+2\sqrt{F}}}{4a}\]
-    	        \[ans3=\frac{\beta+\sqrt{D-2\sqrt{F}}}{4a}\]
-    	        \[ans4=\frac{\beta-\sqrt{D-2\sqrt{F}}}{4a}\]
+    	        \[ans1=\frac{-\beta+\sqrt{D+2\sqrt{F}}}{4a}\]
+    	        \[ans2=\frac{-\beta-\sqrt{D+2\sqrt{F}}}{4a}\]
+    	        \[ans3=\frac{-\beta+\sqrt{D-2\sqrt{F}}}{4a}\]
+    	        \[ans4=\frac{-\beta-\sqrt{D-2\sqrt{F}}}{4a}\]
     	    \}
     	    return 4,[ans1,ans2,ans3,ans4], true
     \}
