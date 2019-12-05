@@ -273,11 +273,10 @@ func SixthImage(fileName string) {
 
 //SeventhImage creates the seventh image
 func SeventhImage(fileName string) {
-	torus := feature.NewTorus(1, 0.5)
+	torus := feature.NewTorus(0.2, 10)
 	torus.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
-	torus.Transform = feature.RotationX(math.Pi/2)
-
-	cam := feature.NewCamera(100, 100, math.Pi/3)
+	torus.Transform = feature.RotationX(-math.Pi/2)
+	cam := feature.NewCamera(1000, 1000, math.Pi/3)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
 
 	var light feature.Light
