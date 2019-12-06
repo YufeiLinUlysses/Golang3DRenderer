@@ -18,5 +18,5 @@ func main() {
 	// coef[3] = 5
 	// coef[4] = 1
 	// fmt.Println(feature.SolveQuartic(coef))
-	method.SeventhImage("../../output/test12")
+	method.SeventhImage("../../output/test13")
 }

@@ -53,16 +53,17 @@ func (to *Torus) IntersectWithRay(ray *Ray) (count int, ans []Intersection, inte
 	//Defining the quartic equation in the following form:
 	coefs[0] = e*e - fourCRS*(tubeRadiusSquared-oy*oy)
 	coefs[1] = 4.0*f*e + 2.0*fourCRS*oy*dy
-	coefs[2] = 2.0*dirMag*e + 4.0*f*f +fourCRS*dy*dy
+	coefs[2] = 2.0*dirMag*e + 4.0*f*f + fourCRS*dy*dy
 	coefs[3] = 4 * dirMag * f
 	coefs[4] = dirMag * dirMag
 
 	root := SolveQuartic(coefs)
-	for i := 0; i < root.Count; i++ {
-		inter.Position = root.Ans[i]
-		ans = append(ans, inter)
+	if root.Count>0{
+		for i := 0; i < root.Count; i++ {
+			inter.Position = root.Ans[i]
+			ans = append(ans, inter)
+		}
 	}
-
 	return root.Count, ans, root.HasRoot
 }
 
