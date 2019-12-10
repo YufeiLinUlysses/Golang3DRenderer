@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	method.NinthImage("../../output/final3")
+	method.NinthImage("../../output/final4")
 }

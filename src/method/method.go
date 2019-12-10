@@ -512,7 +512,9 @@ func NinthImage(fileName string) {
 	var objects []interface{}
 
 	//Add light source
-	lights = append(lights, light.PointLight(*feature.Point(5.5, 20, -5), *feature.NewColor(1, 1, 1)))
+	light1 :=light.PointLight(*feature.Point(5.5, 20, -5), *feature.NewColor(1, 1, 0))
+	light2 := light.PointLight(*feature.Point(1.5, 34, -10), *feature.NewColor(0, 0, 0))
+	lights = append(lights, light1, light2)
 
 	//Add all objects in
 	objects = append(objects, middleWall, rightWall, leftWall, lcube, lcylinder, left, right, cone, rcube, floor, torus)
