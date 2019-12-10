@@ -277,7 +277,7 @@ func SeventhImage(fileName string) {
 	torus.Mat.Col = *feature.NewColor(0.5, 1, 0.1)
 	//torus.Transform = feature.RotationX(math.Pi / 5)
 	torus.Transform, _ = torus.Transform.Multiply(feature.RotationY(math.Pi / 3))
-	torus.Transform,_=torus.Transform.Multiply(feature.RotationZ(math.Pi/2))
+	torus.Transform, _ = torus.Transform.Multiply(feature.RotationZ(math.Pi / 2))
 	cam := feature.NewCamera(1000, 1000, math.Pi/3)
 	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0.55, 0.85, 5.5))
 
@@ -290,6 +290,232 @@ func SeventhImage(fileName string) {
 
 	//Add all objects in
 	objects = append(objects, torus)
+	w := feature.NewWorld(lights, objects)
+
+	//Canv that draw the final product
+	canv := cam.Render(*w)
+	canv.CanvasToPPM(fileName)
+}
+
+//EighthImage creates the eighth image
+func EighthImage(fileName string) {
+	//Floor instance
+	floor := feature.NewPlane()
+	floor.Mat.Col = *feature.NewColor(1, 0.9, 0.9)
+	floor.Mat.Specular = 0
+
+	//Left wall instance
+	leftWall := feature.NewPlane()
+	trans := feature.Translate(0, 0, 2.5)
+	rotX := feature.RotationX(math.Pi / 2)
+	rotY := feature.RotationY(-math.Pi / 3)
+	m := rotX
+	m, _ = rotY.Multiply(m)
+	m, _ = trans.Multiply(m)
+	leftWall.Transform = m
+	leftWall.Mat = floor.Mat
+	leftWall.Mat.Pat = *feature.NewPattern(*feature.NewColor(1, 0, 0), *feature.NewColor(0, 0.2, 0.78))
+	leftWall.Mat.HasPattern = true
+	leftWall.Mat.PatternType = "gradient"
+
+	//Right wall instance
+	rightWall := feature.NewPlane()
+	transR := feature.Translate(0, 0, 4.7)
+	rotYR := feature.RotationY(math.Pi / 3)
+	rotX = feature.RotationX(math.Pi / 2)
+	mR, _ := rotYR.Multiply(rotX)
+	mR, _ = transR.Multiply(mR)
+	rightWall.Transform = mR
+	rightWall.Mat = floor.Mat
+	rightWall.Mat.Pat = *feature.NewPattern(*feature.NewColor(1, 0.5, 0), *feature.NewColor(0, 0.747, 0.8))
+	rightWall.Mat.HasPattern = true
+	rightWall.Mat.PatternType = "ring"
+
+	//Middle wall instance
+	middleWall := feature.NewPlane()
+	transMid := feature.Translate(0, 0, 0.4)
+	rotXMid := feature.RotationX(math.Pi / 2)
+	mMid := rotXMid
+	mMid, _ = transMid.Multiply(mMid)
+	middleWall.Transform = mMid
+	middleWall.Mat = floor.Mat
+	middleWall.Transform = mR
+	middleWall.Mat = floor.Mat
+	middleWall.Mat.Pat = *feature.NewPattern(*feature.NewColor(0.4, 0.2, 0), *feature.NewColor(0, 0.3, 0.8))
+	middleWall.Mat.HasPattern = true
+	middleWall.Mat.PatternType = "stripe"
+
+	//Right instance
+	right := feature.NewSphere()
+	right.Transform, _ = feature.Translate(1.5, 0.4, -1.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	right.Mat.Col = *feature.NewColor(1, 0.2, 1)
+	right.Mat.Diffuse = 0.7
+	right.Mat.Specular = 0.3
+
+	//Left instance
+	left := feature.NewSphere()
+	left.Transform, _ = feature.Translate(-0.8, 0.45, 0.2).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	left.Mat.Col = *feature.NewColor(1, 0, 0)
+	left.Mat.Diffuse = 0.7
+	left.Mat.Specular = 0.3
+	left.Mat.Refractivity = 0.5
+	left.Mat.Reflectivity = 0.8
+
+	//Camera instance
+	cam := feature.NewCamera(1000, 650, math.Pi/3)
+	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 1, 0))
+
+	//World instance
+	var light feature.Light
+	var lights []feature.Light
+	var objects []interface{}
+
+	//Add light source
+	lights = append(lights, light.PointLight(*feature.Point(5.5, 20, -5), *feature.NewColor(0.01, 0.21, 0.334)))
+
+	//Add all objects in
+	objects = append(objects, middleWall, rightWall, leftWall, left, right, floor)
+	w := feature.NewWorld(lights, objects)
+
+	//Canv that draw the final product
+	canv := cam.Render(*w)
+	canv.CanvasToPPM(fileName)
+}
+
+//NinthImage creates the ninth image
+func NinthImage(fileName string) {
+	//Floor instance
+	floor := feature.NewPlane()
+	floor.Mat.Col = *feature.NewColor(1, 0.9, 0.9)
+	floor.Mat.Specular = 0
+
+	//Left wall instance
+	leftWall := feature.NewPlane()
+	trans := feature.Translate(0, 0, 2.5)
+	rotX := feature.RotationX(math.Pi / 2)
+	rotY := feature.RotationY(-math.Pi / 3)
+	m := rotX
+	m, _ = rotY.Multiply(m)
+	m, _ = trans.Multiply(m)
+	leftWall.Transform = m
+	leftWall.Mat = floor.Mat
+	leftWall.Mat.Pat = *feature.NewPattern(*feature.NewColor(1, 0, 0), *feature.NewColor(0, 0.2, 0.78))
+	leftWall.Mat.HasPattern = true
+	leftWall.Mat.PatternType = "gradient"
+
+	//Right wall instance
+	rightWall := feature.NewPlane()
+	transR := feature.Translate(0, 0, 4.7)
+	rotYR := feature.RotationY(math.Pi / 3)
+	rotX = feature.RotationX(math.Pi / 2)
+	mR, _ := rotYR.Multiply(rotX)
+	mR, _ = transR.Multiply(mR)
+	rightWall.Transform = mR
+	rightWall.Mat = floor.Mat
+	rightWall.Mat.Pat = *feature.NewPattern(*feature.NewColor(1, 0.5, 0), *feature.NewColor(0, 0.747, 0.8))
+	rightWall.Mat.HasPattern = true
+	rightWall.Mat.PatternType = "ring"
+
+	//Middle wall instance
+	middleWall := feature.NewPlane()
+	transMid := feature.Translate(0, 0, 0.4)
+	rotXMid := feature.RotationX(math.Pi / 2)
+	mMid := rotXMid
+	mMid, _ = transMid.Multiply(mMid)
+	middleWall.Transform = mMid
+	middleWall.Mat = floor.Mat
+	middleWall.Transform = mR
+	middleWall.Mat = floor.Mat
+	middleWall.Mat.Pat = *feature.NewPattern(*feature.NewColor(0.4, 0.2, 0), *feature.NewColor(0, 0.3, 0.8))
+	middleWall.Mat.HasPattern = true
+	middleWall.Mat.PatternType = "stripe"
+
+	//Right Sphere instance
+	right := feature.NewSphere()
+	right.Transform, _ = feature.Translate(1.5, 0.4, -1.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	right.Mat.Col = *feature.NewColor(1, 0.2, 1)
+	right.Mat.Diffuse = 0.7
+	right.Mat.Specular = 0.3
+
+	//Right Cube instance
+	rcube := feature.NewCube()
+	rcube.Transform, _ = feature.Translate(1.5, 0.4, -1.5).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	rcube.Transform, _ = feature.RotationX(math.Pi / 5).Multiply(rcube.Transform)
+	rcube.Mat.Col = *feature.NewColor(1, 0.2, 1)
+	rcube.Mat.Diffuse = 0.7
+	rcube.Mat.Specular = 0.3
+	rcube.Mat.Pat = *feature.NewPattern(*feature.NewColor(0.8, 0.2, 0), *feature.NewColor(0, 0.3, 0.8))
+	rcube.Mat.HasPattern = true
+	rcube.Mat.PatternType = "ring"
+	rcube.Mat.Transparency = 0.9
+
+	//Left instance
+	left := feature.NewSphere()
+	left.Transform, _ = feature.Translate(-0.8, 0.45, 0.2).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	left.Mat.Col = *feature.NewColor(1, 0, 0)
+	left.Mat.Diffuse = 0.7
+	left.Mat.Specular = 0.3
+	left.Mat.Refractivity = 0.5
+	left.Mat.Reflectivity = 0.8
+
+	//Left Cube instance
+	lcube := feature.NewCube()
+	lcube.Transform, _ = feature.Translate(-0.3, 0, 2).Multiply(feature.Scale(0.2, 0.2, 0.2))
+	lcube.Transform,_ = feature.RotationY(math.Pi/12).Multiply(lcube.Transform)
+	lcube.Mat.Col = *feature.NewColor(1, 0.2, 1)
+	lcube.Mat.Diffuse = 0.7
+	lcube.Mat.Specular = 0.56
+	lcube.Mat.Pat = *feature.NewPattern(*feature.NewColor(0, 0.2, 0), *feature.NewColor(0, 0.3, 0.8))
+	lcube.Mat.HasPattern = true
+	lcube.Mat.PatternType = "gradient"
+	lcube.Mat.Transparency = 0.3
+	lcube.Mat.Reflectivity = 1
+
+	//Left Cylinder instance
+	lcylinder := feature.NewCylinder()
+	lcylinder.Max = 3
+	lcylinder.Min = 1
+	lcylinder.Transform, _ = feature.Translate(0.2, -0.6, 1.5).Multiply(feature.Scale(0.8, 0.8, 0.8))
+	lcylinder.Mat.Col = *feature.NewColor(1, 0.2, 1)
+	lcylinder.Mat.Diffuse = 0.7
+	lcylinder.Mat.Specular = 0.56
+	lcylinder.Mat.Pat = *feature.NewPattern(*feature.NewColor(0, 1, 0), *feature.NewColor(1, 0.2, 0.8))
+	lcylinder.Mat.HasPattern = true
+	lcylinder.Mat.PatternType = "stripe"
+	lcylinder.Mat.Transparency = 0.9
+	lcylinder.Mat.Reflectivity = 0.5
+
+	//Cone instance
+	cone := feature.NewCone()
+	cone.Max =2
+	cone.Min =-1.5
+	cone.Transform,_ =  feature.Translate(1, 0.4, 1).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	cone.Mat.Col = *feature.NewColor(1, 0, 0)
+	cone.Mat.Diffuse = 0.7
+	cone.Mat.Specular = 0.3
+
+	//Torus instance
+	torus := feature.NewTorus(0.4,0.2)
+	torus.Transform, _ =  feature.Translate(3, 0, -1).Multiply(feature.Scale(0.5, 0.5, 0.5))
+	torus.Transform,_=feature.RotationY(math.Pi/3).Multiply(torus.Transform)
+	torus.Mat.Col = *feature.NewColor(0, 1, 1)
+	torus.Mat.Diffuse = 0.9
+	torus.Mat.Specular = 0.3
+	torus.Mat.Reflectivity = 0.2
+	//Camera instance
+	cam := feature.NewCamera(2000, 1300, math.Pi/3)
+	cam.Transform = feature.ViewTransformation(*feature.Point(0, 1.5, -5), *feature.Point(0, 1, 0), *feature.Vector(0, 2, 2))
+
+	//World instance
+	var light feature.Light
+	var lights []feature.Light
+	var objects []interface{}
+
+	//Add light source
+	lights = append(lights, light.PointLight(*feature.Point(5.5, 20, -5), *feature.NewColor(1, 1, 1)))
+
+	//Add all objects in
+	objects = append(objects, middleWall, rightWall, leftWall, lcube, lcylinder, left, right, cone, rcube, floor, torus)
 	w := feature.NewWorld(lights, objects)
 
 	//Canv that draw the final product
